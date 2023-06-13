@@ -59,14 +59,14 @@ $\begin{cases}
     \item Для $\overline{x}=x_i,\ i=1,\ldots,n$ верно:
           $$f(x_i)-L_n(x_i)=0=\frac{f^{(n)}(\xi(\overline{x}))}{n!}\underbrace{\prod_i(\overline{x}-x_i)}_{0}$$
     \item Для зафиксированного $\overline{x}\neq x_i,\ i=1,\ldots,n,\ \overline{x}\in[a,b]$ рассмотрим
-          \begin{multline*}
+          \begin{equation*}
             \phi(t)=f(t)-L_n(t)-k\omega_n(t),\\ \omega_n(t)=\prod_{i=1}^n(t-x_i),\ k=\frac{f(\overline{x})-L_n(\overline{x})}{\prod_i(\overline{x}-x_i)}=\const
-          \end{multline*}
+          \end{equation*}
           Заметим, что $\phi(x_i)=0,\ \forall i$ и $\phi(\overline{x})=0\Rightarrow\exists\ n+1$ нуль. Также $\phi(x)\in C^n[a,b]$, т.к. $f, L_n, \omega_n\in C^n[a,b]$.
           Значит $\phi'(x)$ имеет $n$ нулей, $\ldots$, $\phi^{(n)}$ имеет 1 нуль, то есть $\exists\ \xi=\xi(x):\ \phi^{(n)}(\xi)=0$:
-          \begin{multline*}
+          \begin{equation*}
             f^{(n)}(t)\Bigr|_{t=\xi}-\underbrace{L_n^{(n)}(t)\Bigr|_{t=\xi}}_{0,\ \deg L_n=n-1}-k\underbrace{\omega_n^{(n)}(t)\Bigr|_{t=\xi}}_{n!}=0\\\Rightarrow k=\frac{f^{(n)}(\xi(x))}{n!},\ x\in[a,b]
-          \end{multline*}
+          \end{equation*}
   \end{enumerate}
 \end{proof}
 \begin{corollary}
