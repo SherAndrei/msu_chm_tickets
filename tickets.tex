@@ -13,7 +13,6 @@
 %--------------------------------------
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{arydshln}
 
 %Format-specific packages
 %--------------------------------------
@@ -27,17 +26,16 @@
 % for theorems, lemmas and definitions
 %--------------------------------------
 \usepackage{amsthm}
-\usepackage{mdframed}
 
 \counterwithin*{equation}{section}
 
 \newtheorem{definition}{Опр.}
 \counterwithin*{definition}{section}
 
-\mdtheorem{theorem}{Теорема}
+\newtheorem{theorem}{Теорема}
 \counterwithin*{theorem}{section}
 
-\newmdtheoremenv{lemma}{Лемма}
+\newtheorem{lemma}{Лемма}
 \counterwithin*{lemma}{section}
 \newtheorem*{lemma*}{Лемма}
 
