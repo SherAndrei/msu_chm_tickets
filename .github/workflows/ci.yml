@@ -34,7 +34,7 @@ jobs:
         run: |
           mkdir -p build
           mv *.pdf build/
-          cp -r README.md build/
+          cp .github/pages.md build/README.md
 
       - name: Upload PDF
         uses: actions/upload-artifact@v3.1.0
