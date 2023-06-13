@@ -8,8 +8,6 @@ on:
 
   workflow_dispatch:
 
-permissions: read-all|write-all
-
 jobs:
   build_and_publish:
     runs-on: ubuntu-latest
