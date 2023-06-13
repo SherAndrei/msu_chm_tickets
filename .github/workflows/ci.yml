@@ -45,6 +45,8 @@ jobs:
           if-no-files-found: error
 
       - name: Publish to GitHub pages
+        permissions: 
+          contents: write
         if: success() && github.ref == 'refs/heads/master'
         uses: crazy-max/ghaction-github-pages@v3
         with:
