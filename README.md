@@ -9,8 +9,6 @@
 
 <!-- vim-markdown-toc -->
 
-
-
 ## Билеты по курсу "Численные методы", 2022-2023
 
 ### <a name="сборка">Сборка</a>
@@ -26,10 +24,10 @@ $ make dependencies
 
 ### <a name="результат">Результат</a>
 
-Итоговый `tickets.pdf` с какой-то периодичностью будет публиковаться в виде релиза, найти его можно будет [здесь](https://github.com/SherAndrei/msu_chm_tickets/releases).
+Актуальный файл с билетами можно найти [здесь](https://sherandrei.github.io/msu_chm_tickets/).
 
-В течение нескольких дней после обновления кода актуальную версию `pdf` файла
-можно будет посмотреть в артефактах `github` [здесь](https://github.com/SherAndrei/msu_chm_tickets/actions/) (перейти по последней зеленой галочке).
+В течение нескольких дней после обновления кода, а так же в Pull Requestах, актуальную версию `pdf` файла
+можно будет найти в артефактах `github` [здесь](https://github.com/SherAndrei/msu_chm_tickets/actions/).
 
 ### <a name="участие">Участие</a>
 
