@@ -29,25 +29,24 @@
 
 \counterwithin*{equation}{section}
 
-\newtheorem{definition}{Опр.}
-\counterwithin*{definition}{section}
-
 \newtheorem{theorem}{Теорема}
-\counterwithin*{theorem}{section}
-
-\newtheorem{lemma}{Лемма}
-\counterwithin*{lemma}{section}
+\newtheorem {lemma}{Лемма}
 \newtheorem*{lemma*}{Лемма}
-
-\newtheorem{remark}{Замечание}
-\counterwithin*{remark}{section}
-\newtheorem*{remark*}{Замечание}
-
-\newtheorem*{corollary}{Следствие}
 \newtheorem*{proposition}{Предложение}
-\newtheorem*{example}{Пример}
-\newtheorem*{examples}{Примеры}
-\newtheorem*{task}{Задача}
+
+\theoremstyle{definition}
+\newtheorem {definition}{Опр.}
+\newtheorem {example}{Пример}
+\newtheorem*{example*}{Пример}
+\newtheorem {task}{Задача}
+\newtheorem*{task*}{Задача}
+
+\theoremstyle{remark}
+\newtheorem {remark}{Замечание}
+\newtheorem*{remark*}{Замечание}
+\newtheorem {corollary}{Следствие}
+\newtheorem*{corollary*}{Следствие}
+
 %--------------------------------------
 
 % For hyperlinks
