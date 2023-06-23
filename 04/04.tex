@@ -1,1 +1,118 @@
-\section{Фундаментальное решение разностного уравнения. Теорема о представлении частного решения неоднородного уравнения первого порядка с постоянными коэффициентами.}
+\section{Фундаментальное решение разностного уравнения.
+  Теорема о представлении частного решения неоднородного
+  уравнения первого порядка с постоянными коэффициентами.}
+
+Рассматриваем неоднородное разностное уравнение $n$-го порядка
+$Ly=f$ с постоянными коэффициентами. Хотим
+построить частное решение для произвольной правой части.
+
+\begin{definition}
+  Фундаментальным решением $G_k$ называют решение
+  следующего разностного уравнения
+  \[a_0y_k+a_1y_{k+1}+\ldots+a_ny_{k+n}=\delta_k^0=\begin{cases}
+      1, k=0 \\
+      0, k\neq0
+    \end{cases}\]
+  Среди бесконечного количества решений нас будут интересовать
+  ограниченные, то есть $|G_k|\leq\const\ \forall\ k$.
+\end{definition}
+
+Основная идея: так как не умеем строить для произвольного
+$f_k$, хотим научиться строить фундаментальное решение.
+Тогда мы сможем разбить $f_k$ на бесконечное количество
+фундаментальных решений и воспользоваться тем, что
+$Ly_1=f_1,\ Ly_2=f_2\Rightarrow L(y_1+y_2)=f_1+f_2$.
+
+\begin{example}
+  Найдем ограниченное фундаментальное решение задачи
+  \[ay_k+by_{k+1}=\sigma_k^0,\ a,b\neq0\]
+  Так как задача неоднородная, то решение можно представить в виде
+  $y_k=y_k^o+y_k^1$.
+  Найдем общее решение задачи. Для этого решим $ay_k+by_{k+1}=0$
+  \[P(\mu)=a+b\mu=0\Rightarrow\mu=-\frac{a}{b}\Rightarrow y_k=C\left(-\frac{a}{b}\right)^k\]
+  Частное решение будем строить с помощью хитрого трюка. Запишем
+  нашу задачу в виде системы
+  \[\begin{cases}
+      ay_k+by_{k+1}=0,\ k\leq -1                           \\
+      ay_k+by_{k+1}=1,\ k =  0 \Leftrightarrow ay_0+by_1=1 \\
+      ay_k+by_{k+1}=0,\ k \geq 1                           \\
+    \end{cases}\]
+  Так как знаем решение однородной задачи, то сразу
+  же можем выписать решения для первого и третьего уравнения
+  $y_k=C^-\left(-\frac{a}{b}\right)^k,\ k\leq -1$,
+  $y_k=C^+\left(-\frac{a}{b}\right)^k,\ k\geq 1$.
+  Обратим внимание, что константы $C^-$ и $C^+$ разные,
+  так как это две разных части одного решения! Осталось их найти.
+
+  Так как мы ищем частное решение задачи (ищем любое),
+  то ради удобства возьмем $C^-=0\Rightarrow y_k\equiv 0\ \forall\ k\leq-1$.
+
+  Как найти $y_0$? Подставим в первое уравнение $k=-1$, тогда
+  $ay_{-1}+by_0=0$. Так как при $k\leq-1$ $y_k\equiv0$, то
+  $by_0=0\Rightarrow y_0=0$.
+
+  Теперь мы можем найти $y_1$: $ay_0+by_1=1\Rightarrow y_1=\frac{1}{b}$.
+
+  Для того чтобы найти $C^+$ подставим
+  в известное нам общее решение $y_1$:
+  \[y_1=C^+\left(-\frac{a}{b}\right)^1\Leftrightarrow\frac{1}{b}=C^+\left(-\frac{a}{b}\right)\Rightarrow C^+=-\frac{1}{a}\]
+
+  Таким образом искомое решение принимает вид
+  \[y_k=C\left(-\frac{a}{b}\right)^k + \begin{cases}
+      0,\ k\leq 0 \\
+      -\frac{1}{a}\left(-\frac{a}{b}\right)^k,\ k\geq1
+    \end{cases}= \begin{cases}
+      C\left(-\frac{a}{b}\right)^k,\ k\leq 0 \\
+      \left(C-\frac{1}{a}\right)\left(-\frac{a}{b}\right)^k,\ k\geq1
+    \end{cases}\]
+  Выделим из этого множества только ограниченные решения.
+  \begin{itemize}
+    \item Если $\left|\frac{a}{b}\right|>1$, то первое
+          уравнение системы будет ограничено при $k\rightarrow-\infty$.
+          Второе уравнение наоборот будет стремиться к бесконечности
+          поэтому $C$ нужно взять $\frac{1}{a}$.
+          $ G_k=\begin{cases}
+              \frac{1}{a}\left(-\frac{a}{b}\right)^k,\ k\leq 0 \\
+              0,\ k\geq1
+            \end{cases}$
+    \item Если $\left|\frac{a}{b}\right|=1$, то $\forall\ C$ решение будет ограниченным.
+          $G_k=\begin{cases}
+              C,\ k\leq 0 \\
+              C-\frac{1}{a},\ k\geq1
+            \end{cases}$
+    \item Если $\left|\frac{a}{b}\right|<1$, то второе уравнение системы
+          будет ограничено при $k\rightarrow+\infty$, тогда как
+          второе будет неограниченно. Возьмем $C=0$.
+          $G_k=\begin{cases}
+              0,\ k\leq 0 \\
+              -\frac{1}{a}\left(-\frac{a}{b}\right)^k,\ k\geq1
+            \end{cases}$
+  \end{itemize}
+\end{example}
+\begin{theorem}
+  Пусть $|G_k^n|\leq\const,\ |f_k|\leq F=\const,\ \left|\frac{a}{b}\right|\neq1$. Тогда ряд
+  \[y_k=\sum_{-\infty}^{+\infty}f_nG_k^n\]
+  Будет абсолютно сходиться и являться решением неоднородной
+  задачи $ay_k+by_{k+1}=f_k$.
+\end{theorem}
+\begin{proof}
+  \begin{itemize}
+    \item Пусть $\left|\frac{a}{b}\right|>1$, тогда $G_k^n=\begin{cases}
+              \frac{1}{a}\left(-\frac{a}{b}\right)^{k-n},\ k-n\leq 0 \\
+              0,\ k-n\geq1
+            \end{cases}$
+          \[\sum_{-\infty}^{+\infty}f_nG_k^n=\sum_{k-n\leq0}f_n\frac{1}{a}\left(-\frac{a}{b}\right)^{k-n}=\frac{1}{a}\sum_{n-k\geq0}f_n\left(-\frac{b}{a}\right)^{n-k}\leq\frac{|F|}{|a|}\sum_{n-k\geq0}\underset{<1}{\left|\frac{b}{a}\right|}^{n-k}=\frac{|F|}{|a|}\frac{1}{1-\left|\frac{b}{a}\right|}=\frac{|F|}{|b|-|a|}\]
+          Таким образом ряд сходится абсолютно, а значит возможна перестановка слагаемых.
+          Проверим, что $y_k$ действительно решение. Подставим в исходную задачу.
+          \[ay_k+by_{k+1}=a\left(\sum_{-\infty}^{+\infty}f_nG_k^n\right)+b\left(\sum_{-\infty}^{+\infty}f_nG_k^{n+1}\right)=\sum_{-\infty}^{+\infty}f_n\underset{\delta_k^n}{(aG_k^n+bG_k^{n+1})}=f_k\]
+    \item Пусть $\left|\frac{a}{b}\right|<1$, тогда $G_k^n=\begin{cases}
+              0,\ k\leq 0 \\
+              -\frac{1}{a}\left(-\frac{a}{b}\right)^{k-n},\ k-n\geq1
+            \end{cases}$
+          \[\sum_{-\infty}^{+\infty}f_nG_k^n=\sum_{k-n\geq1}f_n\frac{-1}{a}\left(-\frac{a}{b}\right)^{k-n}\leq\frac{|F|}{|a|}\sum_{k-n\geq1}\underset{<1}{\left|\frac{b}{a}\right|}^{k-n}\leq\frac{|F|}{|a|}\frac{1}{1-\left|\frac{a}{b}\right|}=|F|\frac{|b|}{|a|(|b|-|a|)}\]
+          Аналогично ряд сходится абсолютно.
+  \end{itemize}
+\end{proof}
+
+Отметим, что изложенная техника применима для построения фундаментального решения для уравнения
+$n$-го порядка
