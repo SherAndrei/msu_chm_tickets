@@ -16,19 +16,17 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v3
 
-      - name: Build PDF
-        uses: dante-ev/latex-action@latest
+      - name: Build PDF files
+        uses: xu-cheng/latex-action@v2
         with:
           compiler: pdflatex
-          root_file: tickets.tex
+          root_file: |
+            tickets.tex
+            tasks.tex
           args: |
             -shell-escape
             -synctex=1
             -interaction=nonstopmode
-          extra_system_packages: |
-            texlive-latex-base
-            texlive-lang-cyrillic
-            texlive-latex-recommended
 
       - name: Gather build artifacts
         run: |
@@ -40,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.0
         with:
           name: Tickets
-          path: build/tickets.pdf
+          path: build/*.pdf
           retention-days: 60
           if-no-files-found: error
 

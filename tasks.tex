@@ -1,0 +1,105 @@
+\documentclass[a4paper]{article}
+
+%Russian-specific packages
+%--------------------------------------
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+%for search in russian
+\usepackage{cmap}
+%--------------------------------------
+
+%Math-specific packages
+%--------------------------------------
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+%Format-specific packages
+%--------------------------------------
+\usepackage[left=1cm,
+            right=1cm,
+            top=1cm,
+            bottom=1cm,
+            bindingoffset=0cm]{geometry}
+%--------------------------------------
+
+% for theorems, lemmas and definitions
+%--------------------------------------
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem {task}{Задача}
+
+%--------------------------------------
+
+% My commands
+%--------------------------------------
+
+\DeclareMathOperator{\sgn}{sgn}
+
+\def\const{ \mathrm{const} }
+\def\eps{ \varepsilon }
+\def\Eps{ \mathcal{E} }
+
+\def\R{ \mathbb{R} }
+\def\Z{ \mathbb{Z} }
+\def\C{ \mathbb{C} }
+\def\E{ \mathrm{E} }
+\def\D{ \mathrm{D} }
+\def\P{ \mathrm{P} }
+
+\def\littleO{ \overline{\overline{o}} }
+\def\bigO{ \underline{\underline{\mathcal{O}}} }
+
+% suppress page count
+\pagestyle{empty}
+
+\includeonly{
+  task1.1/task,
+  task1.2/task,
+  task1.3/task,
+  task2.1/task,
+  task2.2/task,
+  task2.3/task,
+  task2.4/task,
+  task3.1/task,
+  task3.2/task,
+  task3.3/task,
+  task3.4/task,
+  task4.1/task,
+  task4.2/task,
+  task4.3/task,
+  task4.4/task,
+  task5.1/task,
+  task5.2/task,
+  task5.3/task,
+  task6.1/task,
+  task6.2/task,
+  task6.3/task,
+}
+
+\begin{document}
+
+\include{task1.1/task}
+\include{task1.2/task}
+\include{task1.3/task}
+\include{task2.1/task}
+\include{task2.2/task}
+\include{task2.3/task}
+\include{task2.4/task}
+\include{task3.1/task}
+\include{task3.2/task}
+\include{task3.3/task}
+\include{task3.4/task}
+\include{task4.1/task}
+\include{task4.2/task}
+\include{task4.3/task}
+\include{task4.4/task}
+\include{task5.1/task}
+\include{task5.2/task}
+\include{task5.3/task}
+\include{task6.1/task}
+\include{task6.2/task}
+\include{task6.3/task}
+
+\end{document}
