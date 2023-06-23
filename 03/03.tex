@@ -1,1 +1,146 @@
-\section{Линейные разностные уравнения n-го порядка с постоянными коэффициентами. Формулировка теорем о представлении общего решения однородного уравнения и частного решения неоднородного уравнения с квазимногочленом в правой части. Форма записи действительного решения.}
+\section{Линейные разностные уравнения n-го порядка
+  с постоянными коэффициентами. Формулировка теорем
+  о представлении общего решения однородного уравнения
+  и частного решения неоднородного уравнения с квазимногочленом
+  в правой части. Форма записи действительного решения.}
+
+\begin{definition}
+  Рассматриваем $a_i(k)\defeq a_i\equiv\const\ \forall i=0,\ldots,n$. $a_0\neq0$, $a_n\neq0$.
+  Для удобства обозначим $y(k)\defeq y_k$ и $f(k)\defeq f_k$.
+  Тогда линейным разностным уравнением с постоянными коэффициентами $n$-го порядка называют
+  \[a_0y_k+a_1y_{k+1}+\ldots+a_{n-1}y_{k+n-1}+a_{n}y_{k+n}=f_k\Leftrightarrow Ly=f\]
+\end{definition}
+
+Для однозначного определения решения требуется задать
+$n$ условий, например, $y_i = b_i,\ i=0,\ldots n-1$.
+
+Аналогично обычным дифференциальным уравнениям с постоянными
+коэффициентами будем искать решение однородного
+разностного уравнения в виде $y_k = \mu^k$.
+
+После подстановки этого выражения в разностное уравнение
+и сокращения на $\mu^k$ получим \textit{характеристический многочлен}.
+\[P(\mu)=a_0+a_1\mu+\ldots+a_{n-1}\mu^{n-1}+a_{n}\mu^{n}\]
+\begin{statement}
+  Пусть $\mu_1,\ldots,\mu_r$ - различные корни характеристического
+  многочлена, а $\sigma_1,\ldots,\sigma_r$ - их кратности $\left(\sum\sigma_i=n\right)$.
+  Тогда общее решение однородного уравнения с постоянными
+  коэффициентами $n$-го порядка можно представить в виде
+  \[
+    \begin{array}{ccccccccc}
+      y_k = &   & c_{11}\mu_1^k & + & c_{12}k\mu_1^k & + & \ldots & + & c_{1\sigma_1}k^{\sigma_1-1}\mu_1^k \\
+            & + & c_{21}\mu_2^k & + & c_{22}k\mu_2^k & + & \ldots & + & c_{2\sigma_2}k^{\sigma_2-1}\mu_2^k \\
+            & + & \ldots        &   & \ldots         &   & \ldots &   & \ldots                             \\
+            & + & c_{r1}\mu_r^k & + & c_{r2}k\mu_r^k & + & \ldots & + & c_{r\sigma_r}k^{\sigma_r-1}\mu_r^k \\
+    \end{array}
+  \]
+  где $c_{ij}$ - произвольные постоянные.
+\end{statement}
+\begin{proof}
+  Без доказательства.
+\end{proof}
+\begin{example}
+  Найти общее решение уравнения
+  \[by_{k+1}-cy_k+ay_{k-1}=0\]
+  Найдем корни характеристического многочлена
+  \[P(\mu)=b\mu^2-c\mu+a=0 \Rightarrow \mu_{1,2}=\frac{c\pm\sqrt{D}}{2b},\ D=c^2-4ab \]
+  Решение зависит от значения дискриминанта $D$:
+  \begin{enumerate}
+    \item $D>0$: $\mu_1\neq\mu_2\in\R\Rightarrow y(k)=C_1\mu_1^k+C_2\mu_2^k$
+    \item $D=0$: $\mu_1=\mu_2=\mu\in\R$ $\Rightarrow y(k)=C_1\mu^k+C_2k\mu^k$
+    \item $D<0$: Так как $a,b,c\in\R$, то $\mu_{1,2}=\rho\exp{(\pm i \varphi)}$ - комлексно-сопряженные.
+          \[\Re(\mu_{1,2})=\frac{c}{2b},\ \Im(\mu_{1,2})=\pm\frac{\sqrt{|D|}}{2b}\]
+          \begin{enumerate}
+            \item Если $\Re(\mu_{1,2})>0$:
+
+                  \begin{minipage}{.3\linewidth}
+                    \tikzsetnextfilename{03/PositiveRe}
+                    \begin{tikzpicture}[scale=0.6]
+                      \coordinate (O) at (-1,0);
+                      \draw[step=1cm,gray,very thin] (-1,-2) grid (2,2);
+                      \draw[thick,->] (-1,-2) -- (-1,2) node[left]{$\Im$};
+                      \draw[thick,->] (O) -- (2,0) coordinate (Re) node[right]{$\Re$};
+                      \draw[thick,-Circle] (O) -- (1,2) coordinate (mu1) node[anchor=north west]{$\mu_1$};
+                      \draw[thick,-Circle] (O) -- (1,-2) node[anchor=south west]{$\mu_2$};
+                      \pic [draw, angle radius=1cm,"$\varphi$"] {angle=Re--O--mu1};
+                    \end{tikzpicture}
+                  \end{minipage}\hfill
+                  \begin{minipage}{.7\linewidth}
+                    \[\rho=\sqrt{\Re(\mu_{1,2})^2 + \Im(\mu_{1,2})^2}=\sqrt{\left(-\frac{c}{2b}\right)^2 + \left(\frac{\sqrt{|D|}}{2b}\right)^2}=\sqrt{\frac{c^2}{4b^2} + \frac{4ab-c^2}{4b^2}}=\sqrt{\frac{a}{b}}\]
+                    \[\tan{\varphi}=\frac{\Im(\mu_{1,2})}{\Re(\mu_{1,2})}\Rightarrow\varphi=\arctan{\frac{\sqrt{|D|}}{c}}\]
+                  \end{minipage}
+            \item Если $\Re(\mu_{1,2})<0$:
+
+                  \begin{minipage}{.3\linewidth}
+                    \tikzsetnextfilename{03/NegativeRe}
+                    \begin{tikzpicture}[scale=0.6]
+                      \coordinate (O) at (0,0);
+                      \draw[step=1cm,gray,very thin] (-3,-2) grid (1,2);
+                      \draw[thick,->] (0,-2) -- (0,2) node[left]{$\Im$};
+                      \draw[thick,->] (-3,0) -- (1,0) coordinate (Re) node[right]{$\Re$};
+                      \draw[thick,-Circle] (O) -- (-2,2) coordinate (mu1) node[below]{$\mu_1$};
+                      \draw[thick,-Circle] (O) -- (-2,-2) node[above]{$\mu_2$};
+                      \pic [draw, angle radius=0.5cm,"$\varphi$"] {angle=Re--O--mu1};
+                    \end{tikzpicture}
+                  \end{minipage}\hfill
+                  \begin{minipage}{.7\linewidth}
+                    \[\rho=\sqrt{\frac{a}{b}}\]
+                    \[\tan{\varphi}=\frac{\Im(\mu_{1,2})}{\Re(\mu_{1,2})}\Rightarrow\varphi=\pi-\arctan{\frac{\sqrt{|D|}}{c}}\]
+                  \end{minipage}
+            \item Если $\Re(\mu_{1,2})=0\Rightarrow c=0$:
+
+                  \begin{minipage}{.3\linewidth}
+                    \tikzsetnextfilename{03/NullRe}
+                    \begin{tikzpicture}[scale=0.6]
+                      \coordinate (O) at (0,0);
+                      \draw[step=1cm,gray,very thin] (-1,-2) grid (1,2);
+                      \draw[thick,->] (0,-2) -- (0,2) node[left]{$\Im$};
+                      \draw[thick,->] (-1,0) -- (1,0) coordinate (Re) node[right]{$\Re$};
+                      \draw[very thick,-Circle] (O) -- (0,1) coordinate (mu1) node[anchor=north east]{$\mu_1$};
+                      \draw[very thick,-Circle] (O) -- (0,-1) node[anchor=south east]{$\mu_2$};
+                      \pic [draw,angle radius=0.3cm,"$\varphi$",anchor=south west] {angle=Re--O--mu1} ;
+                    \end{tikzpicture}
+                  \end{minipage}\hfill
+                  \begin{minipage}{.7\linewidth}
+                    \[\rho=\sqrt{\frac{a}{b}}\]
+                    \[\varphi=\frac{\pi}{2}\]
+                  \end{minipage}
+          \end{enumerate}
+  \end{enumerate}
+  Представив $\mu_{1,2}\in\C=\rho(\cos\varphi\pm i\sin\varphi)$ и подставив
+  в $y_k=c_1\mu_1^k+c_2\mu_2^k$ получим \textit{форму записи действительного решения}
+  \[y_k=\rho^k(\tilde{C_1}\cos{k\pi}+\tilde{C_2}\sin{k\pi})\]
+\end{example}
+
+Как и в случае дифференциальных уравнений, частное решение разностного уравнения для правой части
+специального вида может быть найдено методом неопределенных коэффициентов
+
+\begin{statement}
+  Если правая часть задачи с постоянными коэффициентами $Ly=f$ принимает вид квазимногочлена
+  \[f_k=\alpha^k(P_{m_1}(k)\cos{(\varphi k)}+Q_{m_2}(k)\sin{(\varphi k)})\]
+  где $m_1$ и $m_2$ степени соответсвующих полиномов,
+  то частное решение может принимать вид
+  \[y^1_k=\alpha^kk^s(\tilde{P}_{\tilde{m}}\cos{(\varphi k)}+\tilde{Q}_{\tilde{m}}\sin{(\varphi k)})\]
+  где $\tilde{m}=\min{(m_1,m_2)}$, $s = 0$, если $\alpha \exp{(\pm i\varphi)}$ не
+  является корнем характеристического многочлена, иначе $s$ - его кратность.
+\end{statement}
+\begin{proof}
+  Без доказательства.
+\end{proof}
+
+Чтобы найти коэффициенты многочленов $\tilde{P}_{\tilde{m}}$
+и $\tilde{Q}_{\tilde{m}}$, надо подставить
+частное решение  в неоднородное уравнение
+и приравнять коэффициенты при подобных членах.
+
+\begin{example}
+  Найти вид частного решения уравнения
+  \[y_{k+2}+y_{k}=\cos{\frac{\pi}{2}k}\]
+  \begin{itemize}
+    \item Корни характеристического уравнения:$P(\mu)=\mu^2+1=0\Rightarrow \mu_{1,2}=\pm i$
+    \item $\cos{\frac{\pi}{2}k}$ является квазимногочленом с $\alpha=1,\ m_1=m_2=0,\ \varphi=\frac{\pi}{2}$.
+    \item $\alpha \exp{(\pm i\varphi)}=\exp{\left(\pm i\frac{\pi}{2}\right)}=\pm i$ - корень характеристического многочлена кратности 1 $\Rightarrow$ $s = 1$
+  \end{itemize}
+  Вид частного решения принимает вид
+  \[y^1_k=k\left(c_1\cos{\frac{\pi}{2}k}+c_2\sin{\frac{\pi}{2}k}\right)\]
+\end{example}
