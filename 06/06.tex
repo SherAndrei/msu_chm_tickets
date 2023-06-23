@@ -1,1 +1,100 @@
 \section{Построение многочленов Чебышёва первого и второго рода.}
+
+Рассматривается рекурентное соотношение
+\[y_{n+1}(x)=2xy_n(x)-y_{n-1}(x),\ x=\const\in\R\]
+Так как $x$ зафиксировано, то можем решить
+это соотношение как однородное разностное уравнение.
+\[P(\mu)=\mu^2-2x\mu+1=0\Rightarrow\mu_{1,2}=x\pm\sqrt{x^2-1}\]
+\begin{equation}\label{cheb::diff}
+  \begin{array}{cc}
+    |x|\neq1: & y_n(x)=C_1(x)(x+\sqrt{x^2-1})^n+C_2(x)(x-\sqrt{x^2-1})^n \\
+    |x|=1:    & y_n(x)=C_1(x)+C_2(x)n
+  \end{array}
+\end{equation}
+При $|x|<1$ сделаем замену $x=\cos\varphi$ и получим тригонометрическую форму записи:
+
+\[y_n(x)=\hat{C}_1(x)(\cos(n\arccos(x)))+\hat{C}_2(x)(\sin(n\arccos(x)))\]
+
+\begin{definition}
+  Многочленами Чебышёва первого рода называется последовательность
+  многочленов, удовлетворяющих рекурентному соотношению
+  \[T_{n+1}(x)=2xT_n(x)-T_{n-1}(x),\ T_0(x)=1,\ T_1(x)=x\]
+\end{definition}
+\begin{theorem}
+  \[T_n(x)=\frac{(x+\sqrt{x^2-1})^n+(x-\sqrt{x^2-1})^n}{2}\ \forall x\in\R\]
+\end{theorem}
+\begin{proof}
+  Найдем $C_1$ и $C_2$ для первого уравнения системы \eqref{cheb::diff}
+  \[\begin{cases}
+      C_1(x+\sqrt{x^2-1})^0+C_2(x-\sqrt{x^2-1})^0=1 \\
+      C_1(x+\sqrt{x^2-1})^1+C_2(x-\sqrt{x^2-1})^1=x \\
+    \end{cases}\Rightarrow\begin{cases}
+      C_1+C_2=1 \\
+      (1-2C_2)\sqrt{x^2-1}=0
+    \end{cases}\Rightarrow C_1=C_2=\frac{1}{2},\ x\neq\pm1\]
+  Так как $T_n$ порождается полиномами - непрерывными функциями,
+  а предложенная в теореме запись - рациональная функция - непрерывна,
+  то значит что в точках $x\pm1$ из-за непрерывности они будут совпадать.
+\end{proof}
+\begin{theorem}
+  \[T_n(x)=\cos(n\arccos(x)),\ |x|\leq1\]
+\end{theorem}
+\begin{proof}
+  Найдем $C_1$ и $C_2$ для тригонометрической формы
+  \[\begin{cases}
+      C_1(\cos(0\cdot\arccos(x)))+C_2(\sin(0\cdot\arccos(x)))=1 \\
+      C_1(\cos(\arccos(x)))+C_2(\sin(\arccos(x)))=x             \\
+    \end{cases}\Rightarrow\begin{cases}
+      C_1=1 \\
+      C_2(\sin(\arccos(x)))=0
+    \end{cases}\Rightarrow C_1=1,\ C_2=0,\ |x|\leq1\]
+  По непрерывности аналогично получаем значения на краях интервала $(-1,1)$.
+\end{proof}
+
+\begin{definition}
+  Многочленами Чебышёва второго рода называется последовательность
+  многочленов, удовлетворяющих рекурентному соотношению
+  \[U_{n+1}(x)=2xU_n(x)-U_{n-1}(x),\ U_0(x)=1,\ U_1(x)=2x\]
+\end{definition}
+\begin{theorem}
+  \[U_n(x)=\frac{(x+\sqrt{x^2-1})^{n+1}-(x-\sqrt{x^2-1})^{n+1}}{2\sqrt{x^2-1}}\ \forall x\in\R\]
+\end{theorem}
+\begin{proof}
+  Уже знаем, что $\forall\ x\in\R$ решение можно представить в виде
+  \[U_n(x)=C_1(x)(x+\sqrt{x^2-1})^n+C_2(x)(x-\sqrt{x^2-1})^n\]
+  Осталось подобрать коэффициенты $C_1$ и $C_2$:
+  \begin{multline*}
+    \begin{cases}
+      C_1(x+\sqrt{x^2-1})^0+C_2(x-\sqrt{x^2-1})^0=1  \\
+      C_1(x+\sqrt{x^2-1})^1+C_2(x-\sqrt{x^2-1})^1=2x \\
+    \end{cases}\Rightarrow\begin{cases}
+      C_1+C_2=1 \\
+      (1-2C_2)\sqrt{x^2-1}=x
+    \end{cases}\Rightarrow \\ \Rightarrow\begin{cases}
+      C_1+C_2=1 \\
+      C_2=\frac{\sqrt{x^2-1} - x}{2\sqrt{x^2-1}}
+    \end{cases}\Rightarrow \begin{cases}
+      C_1=\frac{\sqrt{x^2-1} + x}{2\sqrt{x^2-1}} \\
+      C_2=-\frac{x-\sqrt{x^2-1}}{2\sqrt{x^2-1}}
+    \end{cases}\ x\neq\pm1
+  \end{multline*}
+  Аналогично из непрерывности следует тождественность на $x=\pm1$
+\end{proof}
+
+\begin{theorem}
+  \[U_n(x)=\frac{\sin((n+1)\arccos{x})}{\sin\arccos{x}},\ |x|\leq1\]
+\end{theorem}
+\begin{proof}
+  Сделаем замену $x=\cos\varphi$ в предыдущей теореме и воспользуемся формулой Муавра
+  \begin{multline*}
+    \frac{(\cos\varphi+i\sin\varphi)^{n+1}-(\cos\varphi-i\sin\varphi)^{n+1}}{2i\sin\varphi}=\frac{\cos((n+1)\varphi)+i\sin((n+1)\varphi)-\cos((n+1)\varphi)+i\sin((n+1)\varphi)}{2i\sin\varphi} = \\
+    = \frac{2i\sin((n+1)\varphi)}{2i\sin\varphi}=\frac{\sin((n+1)\arccos{x})}{\sin\arccos{x}}
+  \end{multline*}
+  Аналогично из непрерывности получаем тождественность для $x=\pm1$
+\end{proof}
+\begin{remark*}
+  Обратим внимание, что $T_n(x)$ и $U_n(x)$ порождаются линейно независимыми
+  комбинациями $(1,x)$ и $(1,2x)$. Это значит, что любое рекурентное
+  соотношение $y_{n+1}(x)=2xy_n(x)-y_{n-1}(x)$ имеет решение
+  $y_{n}(x)=C_1(x)T_n(x)+C_2(x)U_n(x)$.
+\end{remark*}
