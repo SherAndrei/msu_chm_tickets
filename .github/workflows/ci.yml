@@ -19,14 +19,10 @@ jobs:
       - name: Build PDF files
         uses: xu-cheng/latex-action@v2
         with:
-          compiler: pdflatex
           root_file: |
             tickets.tex
             tasks.tex
-          args: |
-            -shell-escape
-            -synctex=1
-            -interaction=nonstopmode
+          latexmk_shell_escape: true
 
       - name: Gather build artifacts
         run: |

@@ -14,13 +14,13 @@
 \end{definition}
 \begin{example}
   \[S(n)=\sum_{i=0}^{n}(1+i+i^3)\underset{\text{переход к разностному уравнению}}{\Rightarrow}S_{n+1}=S_n+1+(n+1)+(n+1)^3\]
-  Получили уравнение первого порядка, а в качестве начальных условий можем взять $S_0\equiv S_1\equiv1$.
+  Получили уравнение первого порядка, а в качестве начальных условий возьмем $S_0=+1+(0+1)+(0+1)^3=3$.
 \end{example}
 \begin{theorem}
   Пусть $y^{(1)}(k),\ldots,y^{(n)}(k)$ - произвольные линейно независимые
   решения линейного однородного разностного уравнения $n$-го порядка
   $Ly=0$, тогда общее решение можно представить в виде
-  \[y(k)=\sum_{i=1}^{n}c_iy^{(i)}\]
+  \[y(k)=\sum_{i=1}^{n}c_iy^{(i)}(k)\]
   $c_i$ в данной записи порождаются из начальных условий задачи.
 \end{theorem}
 \begin{proof}
@@ -32,16 +32,16 @@
           $\exists$ ${a_0(k)},\ldots,a_{n-1}(k)\neq0$.
 
           Перепишем исходное уравнение в двух видах
-          \begin{equation}\label{lin_equiv::forward}
+          \begin{equation}\label{eq:lin:forward}
             y(k+n)=-\sum_{i=0}^{n-1}\frac{a_i(k)}{a_n(k)}y(k+i)
           \end{equation}
-          \begin{equation}\label{lin_equiv::backward}
+          \begin{equation}\label{eq:lin:backward}
             y(k)=-\sum_{i=1}^{n}\frac{a_i(k)}{a_0(k)}y(k+i)
           \end{equation}
 
           Таким образом, если мы знаем $n$ точек $y(k_0),\ldots,y(k_0+n-1)$,
-          то из \eqref{lin_equiv::forward} мы можем восстановить $y(k)\ \forall\ k\geq k_0+n$,
-          а из \eqref{lin_equiv::backward} мы можем восстановить $y(k)\ \forall\ k\leq k_0$.
+          то из равенства~\eqref{eq:lin:forward} мы можем восстановить $y(k)\ \forall\ k\geq k_0+n$,
+          а из равенства~\eqref{eq:lin:backward} мы можем восстановить $y(k)\ \forall\ k\leq k_0$.
           То есть если мы имеем $n$ точек, то мы можем однозначно восстановить
           все решение, а это значит, что если два решения совпадают на
           $n$ точках, то они тождественно равны $\forall\ k$.
@@ -72,5 +72,6 @@
 \begin{proof}
   Пусть $y(k)$ -- какое-либо решение задачи $Ly=f$,
   $y^1(k)$ -- некоторое частное решение этой же задачи. Тогда
-  \[L(y(k))-L(y^1(k))=f(k)-f(k)=0=L(y(k)-y^1(k))=y^o(k)\]
+  $y(k)-y^1(k)$ является решением задачи $Ly=0$:
+  \[L(y(k)-y^1(k))=L(y(k))-L(y^1(k))=f(k)-f(k)=0\Rightarrow y(k)=y^o(k)+y^1(k)\]
 \end{proof}
