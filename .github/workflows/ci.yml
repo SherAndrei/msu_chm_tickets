@@ -23,6 +23,7 @@ jobs:
             tickets.tex
             tasks.tex
           latexmk_shell_escape: true
+          extra_system_packages: gnuplot
 
       - name: Gather build artifacts
         run: |
