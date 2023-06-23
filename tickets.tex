@@ -31,6 +31,7 @@
 
 \newtheorem{theorem}{Теорема}
 \newtheorem {lemma}{Лемма}
+\newtheorem*{statement}{Утверждение}
 \newtheorem*{lemma*}{Лемма}
 \newtheorem*{proposition}{Предложение}
 
@@ -46,6 +47,23 @@
 \newtheorem*{remark*}{Замечание}
 \newtheorem {corollary}{Следствие}
 \newtheorem*{corollary*}{Следствие}
+
+%--------------------------------------
+
+% For graphics
+%--------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{
+  % for faster compilation
+  external
+  % for cool arrows
+  , arrows.meta
+  % for angles
+  , angles
+  , quotes
+  , babel
+}
+\tikzexternalize
 
 %--------------------------------------
 
