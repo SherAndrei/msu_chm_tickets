@@ -1,1 +1,52 @@
-\section{Экстремальные свойства многочленов Чебышёва первого рода вне (a, b).}
+\section{Экстремальные свойства многочленов Чебышёва
+  первого рода вне (a,b).}
+
+\begin{theorem}
+  Среди всех многочленов $P_n(x)$, удовлетворяющих условию $\max_{x\in[a,b]}|P_n(x)|=M$
+  приведенный многочлен Чебышёва $M\cdot T_n\left(\frac{2x-(a+b)}{b-a}\right)$ принимает максимальное значение
+  для всех $\xi\notin(a,b)$, то есть
+  \[|P_n(\xi)|<M\left|T_n\left(\frac{2\xi-(a+b)}{b-a}\right)\right|,\ \forall\ \xi\notin(a,b)\]
+\end{theorem}
+\begin{proof}
+  \begin{enumerate}
+    \item Пусть $\exists\ \xi\notin(a,b),\ \exists\ P_n(x): |P_n(\xi)|>M\left|T_n\left(\frac{2\xi-(a+b)}{b-a}\right)\right|$. Рассмотрим многочлен следующего вида
+          \[Q_n(x)=\underbrace{\left|\frac{P_n(\xi)}{T_n\left(\frac{2\xi-(a+b)}{b-a}\right)}\right|T_n\left(\frac{2x-(a+b)}{b-a}\right)}_{\tilde{T}_n} - P_n(x)\]
+          \begin{enumerate}
+            \item Многочлен $Q_n(x)\not\equiv0$, так как $\Vert P_n(x)\Vert=M$, а $\left|\frac{P_n(\xi)}{T_n\left(\frac{2\xi-(a+b)}{b-a}\right)}\right|>M$.
+            \item Многочлен $Q_n(x)$ степени $n$.
+          \end{enumerate}
+    \item Обратим внимание, что $\sgn Q_n(x_{(m)})=\sgn(\tilde{T}_n(x_{(m)}))=(-1)^m,\ m=0,\ldots,n$, где $x_{(m)}=\frac{a+b}{2}+\frac{b-a}{2}\cos\frac{\pi m}{n}$
+          - экстремумы приведенного многочлена Чебышёва. То есть $Q_n$ имеет $n+1$ экстремум на $[a,b]$ $\Rightarrow n$ корней на $[a,b]$.
+    \item Обратим так же внимание, что $Q_n(\xi)=0$. То есть на отрезке $[a,b]$
+          $Q_n$ имеет $n$ корней и еще один корень в точке $\xi\notin(a,b)\Rightarrow Q_n(x)\equiv0$. Противоречие.
+  \end{enumerate}
+\end{proof}
+
+\begin{theorem}[Марков А.А]
+  Среди всех многочленов $P_n(x)$, удовлетворяющих условию $\max_{x\in[a,b]}|P_n(x)|=M$
+  производная приведенного многочлена Чебышёва $M\cdot T_n\left(\frac{2x-(a+b)}{b-a}\right)$ принимает максимальное значение
+  для всех $\xi\notin(a,b)$, то есть
+  \[|P'_n(x)|_{x=\xi}<M\left|T'_n\left(\frac{2x-(a+b)}{b-a}\right)\right|_{x=\xi}\]
+  Равенство достигается только для указанного полинома.
+\end{theorem}
+\begin{proof}
+  \begin{enumerate}
+    \item Пусть $\exists\ \xi\notin(a,b),\ \exists\ P_n(x): |P'_n(x)|_{x=\xi}>M\left|T'_n\left(\frac{2x-(a+b)}{b-a}\right)\right|_{x=\xi}$. Рассмотрим многочлен
+          \[Q_n(x)=\underbrace{\frac{|P'_n(x)|_{x=\xi}}{\left|T'_n\left(\frac{2x-(a+b)}{b-a}\right)\right|_{x=\xi}}T_n\left(\frac{2x-(a+b)}{b-a}\right)}_{\tilde{T}_n} - P_n(x)\]
+          \begin{enumerate}
+            \item Многочлен $Q_n(x)\not\equiv0$, так как $\Vert P_n(x)\Vert=M$, а $\frac{|P'_n(x)|_{x=\xi}}{\left|T'_n\left(\frac{2x-(a+b)}{b-a}\right)\right|_{x=\xi}}>M$.
+            \item Многочлен $Q_n(x)$ степени $n$.
+          \end{enumerate}
+    \item Обратим внимание, что $\sgn Q_n(x_{(m)})=\sgn(\tilde{T}_n(x_{(m)}))=(-1)^m,\ m=0,\ldots,n$, где $x_{(m)}=\frac{a+b}{2}+\frac{b-a}{2}\cos\frac{\pi m}{n}$
+          - экстремумы приведенного многочлена Чебышёва. То есть $Q_n$ имеет $n+1$ экстремум на $[a,b]$ $\Rightarrow n$ корней. Значит $Q'_n(x)$ имеет $n-1$ корень на $[a,b]$.
+    \item Обратим так же внимание, что
+          \begin{multline*}
+            Q'_n(\xi)=\frac{|P'_n(x)|_{x=\xi}}{\left|T'_n\left(\frac{2x-(a+b)}{b-a}\right)\right|_{x=\xi}}\left(T'_n\left(\frac{2x-(a+b)}{b-a}\right)\right)_{x=\xi} - (P'_n(x))_{x=\xi}=\\
+            |P'_n(x)|_{x=\xi}\sgn\left\{\left(T'_n\left(\frac{2x-(a+b)}{b-a}\right)\right)_{x=\xi}\right\} - (P'_n(x))_{x=\xi}=0
+          \end{multline*}
+          То есть на отрезке $[a,b]$
+          $Q'_n$ имеет $n-1$ корней и еще один корень
+          в точке $\xi\notin(a,b)\Rightarrow Q'_n(x)\equiv0\Rightarrow Q_n(x)\equiv\const$ и $Q_n$ имеет $n$ корней $\Rightarrow Q_n\equiv0$. Противоречие.
+  \end{enumerate}
+  (Единственность экстремального полинома без доказательства).
+\end{proof}
