@@ -1,1 +1,255 @@
-\section{Конечно-разностный метод. Аппроксимация, устойчивость, сходимость, теорема Филиппова.}
+\section[Конечно-разностный метод. Аппроксимация, устойчивость, сходимость, теорема Филиппова.]{Конечно-разностный метод. Аппроксимация, устойчивость, \\ сходимость, теорема Филиппова.}
+
+Пусть в области $\Omega$ с границей $\partial\Omega$ задана
+дифференциальная задача с граничным условием
+\[\left\{\begin{array}{cccc}
+    Ly=f,       & x\in\Omega,          & L: Y\rightarrow F,\ y\in Y,\ f\in F   & (1) \\
+    ly=\varphi, & x\in \partial\Omega, & l: Y\rightarrow \Phi,\ \varphi\in\Phi & (2)
+  \end{array}\right.\]
+Здесь $L$ и $l$ - дифференциальные операторы; $f$ и $\varphi$
+заданные элементы, а $y$ -- искомый элемент некоторых линейных
+нормированных пространств $F$, $\Phi$ и $Y$ с заданными нормами
+$\norm{\cdot}_{F}$, $\norm{\cdot}_{\Phi}$ и $\norm{\cdot}_{Y}$
+соответственно.
+
+\subsection*{Конечно-разностный метод.}
+Для применения разностного метода задают некоторую \textit{сетку} -
+конечное множество точек (узлов) $\overline{\Omega}_h=\Omega_h\cup\partial\Omega_h$,
+принадлежащее области $\overline{\Omega}=\Omega\cup\partial\Omega$,
+определяют сеточные пространства $F_h$, $\Phi_h$ и $Y_h$ и
+задают операторы проектирования $(\cdot)_{Y_h}:Y\rightarrow Y_h,(\cdot)_{F_h}:F\rightarrow F_h,(\cdot)_{\Phi_h}:\Phi\rightarrow \Phi_h$ элементов
+исходных пространств на элементы сеточных пространств.
+
+\textbullet\  Далее при написании операторов проектирования будем опускать на какое пространство он действует,
+так как из контекста будет понятно: если пишем $(f)_h$, то имеем в виду $(f)_{F_h}$.
+
+При этом в пространствах задаются согласованные нормы.
+
+\begin{definition}
+  Нормы $\norm{\cdot},\ U$ и $\norm{\cdot}_h,\ U_h$
+  называются согласованными, если для произвольной достаточно
+  гладкой функции $u$ выполняется соотношение
+  \[\lim\limits_{h\rightarrow0}\norm{(u)_h}_h=\norm{u}\]
+\end{definition}
+
+\begin{example}
+  Рассмотрим $y(x)\in C[0,1]$. Зададим оператор проектирования $(y)_h\rightarrow[y(0),y(h),\ldots,y(Nh)]\in Y_h$.
+
+  Возьмем в качестве нормы на пространстве непрерывных функций следующую: $\norm{y}_{C}=\max\limits_{x\in[0,1]}|y(x)|$.
+  Для векторов в $\R^{n+1}$ возьмем евклидову норму: $\norm{y_h}_{\R^{n+1}}=\sqrt{\sum\limits_{i=0}^{N}y_i^2}$.
+
+  Проверим согласованность: рассмотрим непрерывную функцию $y^0\equiv1$:
+  \[\begin{array}{ccccc}
+      \norm{y^0}_{C}            & = & \max\limits_{x\in[0,1]}\abs{1} & = & 1          \\
+      \norm{(y^0)_h}_{\R^{N+1}} & = & \sqrt{\sum\limits_{i=0}^{N}1}  & = & \sqrt{N+1}
+    \end{array}\Rightarrow \lim\limits_{h\rightarrow0}\norm{(y)_h}_h=\infty\neq\norm{(y^0)}_{C}=1\]
+  То есть норма $\norm{y_h}_{\R^{n+1}}=\sqrt{\sum\limits_{i=0}^{N}y_i^2}$ не является
+  согласованной с $\norm{y}_{C}=\max\limits_{x\in[0,1]}|y(x)|$.
+
+  Для нормы $\norm{y}_{C}=\max\limits_{x\in[0,1]}|y(x)|$ в качестве
+  согласованной часто выбирают $\norm{y_h}_{\R^{n+1}}=\max\limits_{i}|y_i|$
+\end{example}
+
+\begin{remark*}
+  Если нормы не являются согласованными, то из условия
+  $\lim\limits_{h\rightarrow0}\norm{(u)_h}_h=0$ не следует $\norm{u}=0$
+  т.е. что $u\equiv0$ в исходном пространстве $U$.
+  Однако, это требование необходимо для обоснования
+  сходимости сеточной функций $u_h$ к непрерывной $u$.
+\end{remark*}
+
+\textbullet\ Далее когда будем говорить о нормах $\norm{\cdot}_{F_h},\ \norm{\cdot}_{Y_{h}},\ \norm{\cdot}_{\Phi_h}$, будем иметь
+в виду, что они согласованы соответственно с $\norm{\cdot}_{F},\ \norm{\cdot}_{Y},\ \norm{\cdot}_{\Phi}$.
+
+Все производные, входящие в уравнение и краевые условия, заменяются
+\textit{разностными аппроксимациями}. В результате дифференциальные
+операторы $L$ и $l$ заменяются разностными $L_h$ и $l_h$.
+Для нахождения приближенного решения задачи $(1)$, $(2)$
+определим \textit{разностную схему} - семейство разностных задач,
+зависящих от параметра $h$:
+\[\left\{\begin{array}{cccc}
+    L_hy_h=f_h,       & x_h\in\Omega_h,          & L_h: Y_h\rightarrow F_h,\ y_h\in Y_h,\ f_h\in F_h & (3) \\
+    l_hy_h=\varphi_h, & x_h\in \partial\Omega_h, & l_h: Y_h\rightarrow \Phi_h,\ \varphi_h\in\Phi_h   & (4)
+  \end{array}\right.\]
+
+\begin{example}
+  Рассмотрим в качестве примера дифференциальную задачу с нормой $\norm{y(x)}_{C^{\infty}}=\max\limits_{x\in\R}\abs{y(x)}$
+  \[\left\{\begin{array}{ccccc}
+      y'(x)=e^x, & x\in\Omega\equiv[0,1],           & L \equiv \frac{\partial}{\partial x}, & y\in Y\equiv C^{\infty},\ f\in F\equiv C^{\infty} & (1) \\
+      y(0)=1,    & x\in\partial\Omega\equiv\{0,1\}, & l \equiv I,                           & \varphi\in\Phi\equiv C^{\infty}                   & (2)
+    \end{array}\right.\]
+  Предлагается для численного решения взять шаг сетки $h=\frac{1}{N}$,
+  операторы проектирования:
+  \[\begin{array}{ccc}
+      (y)_{Y_h}          & = & [y(x_0),\ldots,y(x_N)]                                       \\
+      (f)_{F_h}          & = & [\frac{f(x_1)-f(x_0)}{2},\ldots,\frac{f(x_N)-f(x_{N-1})}{2}] \\
+      (\varphi)_{\Phi_h} & = & \varphi(x_0)
+    \end{array}\]
+  в качестве согласованных норм
+  выбрать $\norm{y_h}_{\R^{n+1}}=\max\limits_{i}|y_i|$, $\norm{f_h}_{\R^{n}}=\max\limits_{i}|f_i|$ и рассмотреть разностную схему
+  \[\left\{\begin{array}{cccccc}
+      \frac{y_{k+1}-y_{k}}{h}=\frac{e^{x_{k+1}}-e^{x_k}}{2}=:f_k & x_k\in\Omega_h\equiv\{0,h,\ldots h(N-1)\}, & (L_hy_h)_i \equiv \frac{y_{i+1}-y_i}{h}, & y_h\in Y_h\equiv \R^{N+1},\ f_h\in F_h\equiv \R^{N} & (3) \\
+      y_0=1,                                                     & x_k\in\partial\Omega_h\equiv\{0,N-1\},     & l_h \equiv I,                            & \varphi_h\in\Phi_h\equiv \R                         & (4)
+    \end{array}\right.\]
+\end{example}
+
+Задача $(3),\ (4)$ образует систему линейных уравнений, у которой $\exists!$ решение $y_k$,
+но как $y_k\in Y_h$ хоть как-то связано с $y\in Y$? Почему задачи $(1),\ (2)$ хоть как-то связаны с задачами $(3),\ (4)$?
+
+\subsection*{Сходимость}
+
+\begin{definition}
+  Решение $y_h$ разностной задачи $(3),\ (4)$ сходится к
+  решению $y$ дифференциальной задачи $(1),\ (2)$,
+  если $\exists$ $h_0,c,p$ такие что
+  \[\norm{(y)_{Y_h}-y_h }_{Y_h} \leq ch^p,\ \forall\ h\leq h_0\]
+  причем $c$ и $p$ не зависят от $h$. Число $p$ называют порядком сходимости
+  разностной схемы.
+\end{definition}
+
+Доказывать сходимость в общем случае может быть не просто, ее удобно свести
+к проверке аппроксимации и устойчивости, а затем воспользовать теоремой Филиппова.
+
+\subsection*{Аппроксимация}
+
+\begin{definition}
+  Разностная задача $(3),\ (4)$ аппроксимирует дифференциальную задачу $(1),\ (2)$
+  если $\exists$ $h_0,c_1,c_2,p_1,p_2$:
+  \[\begin{array}{c}
+      \norm{L_h(y)_{Y_h} - (Ly)_{F_h}}_{F_h}+\norm{(f)_{F_h}-f_h}_{F_h}\leq c_1h^{p_1} \\
+      \norm{l_h(y)_{Y_h} - (ly)_{\Phi_h}}_{\Phi_h}+\norm{(\varphi)_{\Phi_h}-\varphi_h}_{\Phi_h}\leq c_2h^{p_2}
+    \end{array}\forall\ h\leq h_0\]
+  При этом $c_1,c_2,p_1,p_2$ не зависят от $h$. Константу $p=\max(p_1,p_2)$ называют
+  порядком аппроксимации.
+\end{definition}
+
+\begin{definition}
+  Разностный оператор $L_h$ из $(3)$ локально аппроксимирует дифференциальный
+  оператор $L$ из $(1)$ в точке $x_i$, если для достаточно
+  гладкой функции $y$ $\exists$ $h_0,c,p$:
+  \[|(L_h(y)_{Y_h} - (Ly)_{F_h})_{x=x_i}|\leq ch^p,\ \forall\ h\leq h_0\]
+\end{definition}
+
+\begin{definition}
+  Говорят, что разностная схема $(3),\ (4)$ аппроксимирует на решении
+  дифференициальную задачу $(1),\ (2)$ с порядком аппроксимации $p=\min(p_1,p_2)$,
+  если $\exists$ $h_0,c_1,c_2,p_1,p_2$:
+  \[\begin{array}{c}
+      \norm{L_h(y)_{Y_h}-f_h}_{F_h}\leq c_1h^{p_1} \\
+      \norm{l_h(y)_{Y_h}-\varphi_h}_{\Phi_h}\leq c_1h^{p_2}
+    \end{array}\forall\ h\leq h_0\]
+  При этом $c_1,c_2,p_1,p_2$ не зависят от $h$ и выполнено условие нормировки
+  \[\norm{(f)_{F_h}-f_h}_{F_h}\underset{h\rightarrow0}{\rightarrow}0\]
+  \[\norm{(\varphi)_{\Phi_h}-\varphi_h}_{\Phi_h}\underset{h\rightarrow0}{\rightarrow}0\]
+\end{definition}
+
+\begin{lemma}
+  Аппроксимация задач $\Rightarrow$ аппроксимация на решении.
+\end{lemma}
+\begin{proof}
+  Записываем определение аппроксимации на решении, получаем оценку сверху.
+  \begin{multline*}
+    \begin{array}{c}
+      \norm{L_h(y)_{Y_h}-f_h}_{F_h} \\
+      \norm{l_h(y)_{Y_h}-\varphi_h}_{\Phi_h}
+    \end{array}=\begin{array}{c}
+      \norm{L_h(y)_{Y_h}-(Ly)_{F_h}+(Ly)_{F_h}-f_h}_{F_h} \\
+      \norm{l_h(y)_{Y_h}-(ly)_{\Phi_h}+(ly)_{\Phi_h}-\varphi_h}_{\Phi_h}
+    \end{array}\leq\begin{array}{c}
+      \norm{L_h(y)_{Y_h}-(Ly)_{F_h}}_{F_h}+\norm{(Ly)_{F_h}-f_h}_{F_h} \\
+      \norm{l_h(y)_{Y_h}-(ly)_{\Phi_h}}_{\Phi_h}+\norm{(ly)_{\Phi_h}-\varphi_h}_{\Phi_h}
+    \end{array}=\\
+    =\begin{array}{cc}
+      \norm{L_h(y)_{Y_h}-(Ly)_{F_h}}_{F_h}+       & \norm{(f)_{F_h}-f_h}_{F_h} \leq c_1h^{p_1}                                                        \\
+      \norm{l_h(y)_{Y_h}-(ly)_{\Phi_h}}_{\Phi_h}+ & \underset{\text{условия нормировки}}{\norm{(\varphi)_{\Phi_h}-\varphi_h}_{\Phi_h}}\leq c_2h^{p_2}
+    \end{array}\forall\ h\leq h_0\text{ - определение аппроксимации задач}
+  \end{multline*}
+\end{proof}
+
+\subsection*{Устойчивость}
+
+\begin{definition}
+  Разностная схема $(3),(4)$ называется устойчивой если
+  $\forall\ \varepsilon > 0$ можно подобрать $\delta=\delta(\varepsilon)$ такое, что
+  для произвольных решений $y_h^{(1)}$, $y_h^{(2)}$ при $\forall\ h\leq h_0$
+  \[\norm{f_h^{(1)}-f_h^{(2)}}_{F_h}+\norm{\varphi_h^{(1)}-\varphi_h^{(2)}}_{\Phi_h}\leq\delta
+    \Rightarrow \norm{y_h^{(1)}-y_h^{(2)}}_{Y_h}\leq\varepsilon \]
+  То есть малое изменение во входных данных не влечет большого изменения в решении.
+\end{definition}
+
+\begin{definition}
+  Линейная схема $(3),(4)$ называется устойчивой если
+  для произвольных решений $y_h^{(1)}$, $y_h^{(2)}$ при $\forall\ h\leq h_0$ $\exists c_1,c_2$
+  \[\norm{y_h^{(1)}-y_h^{(2)}}_{Y_h}\leq c_1\norm{f_h^{(1)}-f_h^{(2)}}_{F_h} +c_2 \norm{\varphi_h^{(1)}-\varphi_h^{(2)}}_{\Phi_h}\]
+\end{definition}
+
+\begin{remark}
+  Дали задачу $\begin{cases}
+      L_hy_h=f_h \\ l_hy_h=\varphi_h
+    \end{cases}$. Если $L_h$, $l_h$ - линейные, то можем перейти к системе
+  линейных уравнений $A_hy_h=b_h,\ A_h\equiv\left(\begin{array}{c}
+        L_h \\ l_h
+      \end{array}\right),\ b_h\equiv\left(\begin{array}{c}
+        f_h \\ \varphi_h
+      \end{array}\right)$. Тогда если задача устойчива, то константу можно искать
+  следующим образом:
+  \[A_h(y_h^{(1)}-y_h^{(2)})=b_h^{(1)}-b_h^{(2)}\Rightarrow y_h^{(1)}-y_h^{(2)}=A_h^{-1}(b_h^{(1)}-b_h^{(2)})\Rightarrow\norm{y_h^{(1)}-y_h^{(2)}}_{Y_h}\leq\norm{A^{-1}_h}_h\norm{b_h^{(1)}-b_h^{(2)}}_h\]
+  То есть устойчивость для линейных разностных схем обозначает, что $\norm{A^{-1}_h}_h\leq \const\leq\infty,\ h\rightarrow0$.
+\end{remark}
+
+\begin{example*}
+  Рассмотрим дифференциальную задачу $y(x)=f(y)$.
+  Построим для нее разностную схему $h\cdot y_h=h\cdot f_h$.
+  \begin{itemize}
+    \item Тогда $(L_hy_h)_i\equiv hy_i$, но $\norm{L_h}^{-1}=\frac{1}{h}\underset{h\rightarrow0}{\rightarrow}\infty$,
+          то есть данная разностная схема не устойчива.
+    \item Обратим так же внимание, что $\norm{(f)_{F_h}-f_h}_{F_h}=\norm{h\cdot f_h-f_h}_{F_h}\underset{h\rightarrow0}{\not\rightarrow}0$, то
+          есть мы так же не можем ничего сказать про аппроксимацию задач, так как не соблюдена нормировка правых частей.
+  \end{itemize}
+\end{example*}
+
+\begin{remark}
+  Дана задача $Ax=b$, тогда по теореме Кронекера-Капелли:
+  если при $b\equiv0\Rightarrow\exists!\ x:\ Ax=b,\ x\equiv0$,
+  то $\forall\ b\ \exists!\ x:\ Ax=b$.
+
+  Рассмотрим два решения $y_h^{(1)}\equiv y_h$ и $y_h^{(2)}\equiv0$:
+  $\begin{cases}
+      A_hy_h=b_h \\ A_h\cdot0=0
+    \end{cases}\underset{\text{устойчивость}}{\Rightarrow}\norm{y_h}_{h}\leq C\norm{b_h}_h$.
+  Тогда по теореме Кронекера-Капелли если из $b_h\equiv0\Rightarrow y_h\equiv0\Rightarrow\forall\ b_h\exists!\ y_h$.
+  То есть таким образом \textbf{устойчивость задачи влечет ее корректность}.
+\end{remark}
+
+\begin{theorem}[Филиппов А.Ф.]
+  Пусть выполнены следующие условия
+  \begin{enumerate}
+    \item $L$, $l$, $L_h$, $l_h$ - линейные операторы.
+    \item Существует и единственно решение дифференциальной задачи $(1),\ (2)$.
+    \item Разностная схема $(3),\ (4)$ аппроксимирует задачу $(1),\ (2)$ с порядком $p$.
+    \item Разностная схема $(3),\ (4)$ устойчива
+  \end{enumerate}
+  Тогда решение разностной задачи $(3),\ (4)$ сходится к решению $(1),\ (2)$ с порядком не ниже $p$.
+\end{theorem}
+\begin{proof}
+  Запишем две задачи
+  \[\begin{array}{cc}
+      \begin{cases}
+        L_hy_h=f_h \\
+        l_hy_h=\varphi_h
+      \end{cases} &
+      \begin{cases}
+        L_h(y)_h=f_h + (L_h(y)_h-f_h) \\
+        l_h(y)_h=\varphi_h + (l_h(y)_h-\varphi_h)
+      \end{cases}
+    \end{array}\]
+  \begin{itemize}
+    \item Так как разностная схема устойчива, то решение $y_h$ $\exists!$
+    \item $(y)_h$ валидная запись, так как решение дифференциальной задачи $\exists!$ по условию.
+  \end{itemize}
+  Так как операторы $L$, $l$, $L_h$, $l_h$ линейные, то запишем оценку из определения устойчивости:
+  \begin{multline*}
+    \norm{y_h-(y)_h}_{Y_h}\leq c_1\norm{f_h-(f_h-(L_h(y)_h-f_h))}_{F_h}+c_2\norm{\varphi_h-(\varphi_h-(l_h(y)_h-\varphi_h))}_{\Phi_h}= \\
+    =c_1\underbrace{\norm{L_h(y)_h-f_h}_{F_h}}_{\leq \hat{c}h^p}+c_2\underbrace{\norm{l_h(y)_h-\varphi_h}_{\Phi_h}}_{\leq \hat{c}h^p}\underset{\text{аппроксимация}}{\leq}\hat{c}(c_1+c_2)h^p\leq\overline{c}h^p
+  \end{multline*}
+\end{proof}
