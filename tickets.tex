@@ -80,6 +80,7 @@
 \newcommand*{\defeq}{\stackrel{\text{def}}{=}}
 
 \DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\cnd}{cond}
 
 \def\const{ \mathrm{const} }
 \def\eps{ \varepsilon }
@@ -94,6 +95,12 @@
 
 \def\littleO{ \overline{\overline{o}} }
 \def\bigO{ \underline{\underline{\mathcal{O}}} }
+
+\newcommand*{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand*{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand*{\norminf}[1]{\norm{\mathbf{#1}}_{\infty}}
+\newcommand*{\norml}[2]{\norm{\mathbf{#1}}_{#2}}
+\newcommand*{\RomanNumeralCaps}[1]{\MakeUppercase{\romannumeral #1}}
 
 % suppress page count
 \pagestyle{empty}

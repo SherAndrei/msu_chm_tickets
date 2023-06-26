@@ -1,1 +1,238 @@
-\section{Нормы векторов, линейных операторов, обусловленность матрицы. Оценка возмущения решения системы линейных алгебраических уравнений при возмущении правой части.}
+\section[Нормы векторов, линейных операторов, обусловленность матрицы.
+  Оценка возмущения решения системы линейных алгебраических уравнений
+  при возмущении правой части.]{Нормы векторов, линейных операторов, обусловленность матрицы. \\
+  Оценка возмущения решения системы линейных алгебраических уравнений
+  при возмущении правой части.}
+
+\begin{definition}
+  Нормой вектора $\mathbf{x} = (x_1, \dots, x_n)^\intercal$ называется функционал, обозначаемый $\norm{\mathbf{x}}$ и удовлетворяющий следующим условиям:
+  \begin{flalign*}
+    & \norm{\mathbf{x}} > 0, \text{если } \mathbf{x} \neq 0                    \\
+    & \norm{\mathbf{x}} = 0 \Leftrightarrow x = 0                              \\
+    & \norm{\alpha\mathbf{x}} = \abs{\alpha}\norm{\mathbf{x}}                  \\
+    & \norm{\mathbf{x} + \mathbf{y}} \le \norm{\mathbf{x}} + \norm{\mathbf{y}}
+  \end{flalign*}
+\end{definition}
+
+Наиболее употребительны следующие нормы:
+\begin{flalign*}
+  & \norm{\mathbf{x}}_2 = \sqrt{\sum_{i=1}^{n}x_i^2} = \sqrt{(\mathbf{x}, \mathbf{x})} - \text{Евклидова, или } l^2 \text{ норма} \\
+  & \norm{\mathbf{x}}_1 = \sum_{i=1}^{n} \abs{x_i} - \text{Манхэттенская, или } l^1 \text{ норма}                                 \\
+  & \norm{\mathbf{x}}_{\infty} = \max_{1 \le i \le n} \abs{x_i} - \text{иногда называют нормой Чебышёва}
+\end{flalign*}
+
+\begin{definition}
+  Нормы $\norm{\cdot}_{\RomanNumeralCaps{1}}$ и $\norm{\cdot}_{\RomanNumeralCaps{2}}$ называются эквивалентными, если $\forall \mathbf{x} \in \R^n$ с одними и теми же фиксированными положительными постоянными $c_1$ и $c_2$ справедливо
+  $$
+    c_1 \norm{\cdot}_{\RomanNumeralCaps{2}} \le \norm{\cdot}_{\RomanNumeralCaps{1}} \le c_2 \norm{\cdot}_{\RomanNumeralCaps{2}}
+  $$
+\end{definition}
+
+\begin{example}
+  Найдём константы эквивалентности, связывающие нормы $\norminf{x}, \norml{x}{1}, \norml{x}{2}$, а также векторы, на которых они достигаются (для которых выполняется равенство)
+  \begin{proof}
+
+    Из неравенств $\max\limits_{1 \le i \le n} \abs{x_i} \le \sum\limits_{i=1}^{n} \abs{x_i} \le n \max\limits_{1 \le i \le n} \abs{x_i}$ следует
+    $$
+      \norminf{x} \le \norml{x}{1} \le n \norminf{x}
+    $$
+
+    Так как $\sum\limits_{i=1}^{n} x_i^2 \le \left( \sum\limits_{i=1}^{n} \abs{x_i} \right)^2$, то $\norml{x}{2}  \le \norml{x}{1}$. Из неравенства Коши-Буняковского ($\abs{(\mathbf{x}, \mathbf{y})} \le \norm{\mathbf{x}} \norm{\mathbf{y}}$) имеем
+    $$
+      \sum_{i=1}^{n} \abs{x_i} \le \sqrt{\sum_{i=1}^{n} 1} \sqrt{\sum_{i=1}^{n} x_i^2} = \sqrt{n} \sqrt{\sum_{i=1}^{n} x_i^2}
+    $$
+
+    (Перемножили вектор из одних единиц с $\mathbf{x}$, после чего из всего неравенства извлекли квадратный корень)
+
+    Следовательно,
+    $$
+      \frac{1}{\sqrt{n}} \norml{x}{1} \le \norml{x}{2} \le \norml{x}{1}
+    $$
+
+    Из неравенств $\max\limits_{1 \le i \le n} x_i^2 \le \sum\limits_{i=1}^{n} x_i^2 \le n \max\limits_{1 \le i \le n} x_i^2$ имеем
+    $$
+      \norminf{x} \le \norml{x}{2} \le \sqrt{n}\norminf{x}
+    $$
+
+    В полученных неравенствах константы эквивалентности достигаются на векторах либо с равными компонентами, либо с единственной ненулевой компонентой.
+  \end{proof}
+\end{example}
+
+\begin{theorem}
+  Пусть $B$ - симметричная положительно определенная матрица. Тогда величину $\sqrt{(B \mathbf{x}, \mathbf{x})}$ можно принять за норму вектора $\mathbf{x}$
+  $$
+    \sqrt{(B \mathbf{x}, \mathbf{x})} = \norml{\mathbf{x}}{B}
+  $$
+  и будет верна оценка
+  $$
+    \sqrt{\min_i \lambda_i} \norml{x}{2} \le \norml{\mathbf{x}}{B} \le \sqrt{\max_i \lambda_i} \norml{x}{2}
+  $$
+  где $\left\{\lambda_i\right\}$ - собственные числа матрицы $B$.
+
+  \begin{proof}
+    Проверим свойства нормы:
+    положительность нормы для ненулевых векторов и равенство нулю для нулевого следует из определения,
+    $$
+      \text{матрица } B \text{ положительно определена} \Leftrightarrow \forall \mathbf{x} \neq 0 \;\; \mathbf{x}^\intercal B \mathbf{x} = (B\mathbf{x}, \mathbf{x}) > 0
+    $$
+    Вынесем скаляр $\alpha : \sqrt{(B\alpha\mathbf{x}, \alpha\mathbf{x})} = \sqrt{\alpha^2(B\mathbf{x}, \mathbf{x})} = \abs{\alpha}\sqrt{(B\mathbf{x}, \mathbf{x})} $
+
+    Самым нетривиальным является проверка выполнимости неравенства треугольника. Для положительно определенной матрицы $B \;\; \exists C : B = C^2$. Поскольку она ещё и симметрична, то $B = B^\intercal \Rightarrow C = C^\intercal$
+    \begin{multline*}
+      (B(\mathbf{x}+\mathbf{y}), \mathbf{x}+\mathbf{y}) =
+      (\mathbf{x} + \mathbf{y})^\intercal B (\mathbf{x} + \mathbf{y}) =
+      (\mathbf{x} + \mathbf{y})^\intercal C^2 (\mathbf{x} + \mathbf{y}) =
+      (\mathbf{x} + \mathbf{y})^\intercal C C (\mathbf{x} + \mathbf{y}) =
+      (\mathbf{x} + \mathbf{y})^\intercal C^\intercal C (\mathbf{x} + \mathbf{y}) = \\
+      = (\mathbf{x} + \mathbf{y})^\intercal C^\intercal (C (\mathbf{x} + \mathbf{y})) =
+      (C(\mathbf{x} + \mathbf{y}))^\intercal (C (\mathbf{x} + \mathbf{y})) =
+      (C(\mathbf{x} + \mathbf{y}), C(\mathbf{x} + \mathbf{y})) =
+      (C\mathbf{x} + C\mathbf{y}, C\mathbf{x} + C\mathbf{y}) = \left[C\mathbf{x} = \tilde{\mathbf{x}}, C\mathbf{y} = \tilde{\mathbf{y}}\right] = \\
+      = (\tilde{\mathbf{x}}, \tilde{\mathbf{x}}) + (\tilde{\mathbf{y}}, \tilde{\mathbf{y}}) + (\tilde{\mathbf{x}}, \tilde{\mathbf{y}}) + (\tilde{\mathbf{y}}, \tilde{\mathbf{x}}) \le
+      (\tilde{\mathbf{x}}, \tilde{\mathbf{x}}) + (\tilde{\mathbf{y}}, \tilde{\mathbf{y}}) + \abs{(\tilde{\mathbf{x}}, \tilde{\mathbf{y}})} + \abs{(\tilde{\mathbf{y}}, \tilde{\mathbf{x}})} \le
+      \norm{\tilde{\mathbf{x}}}^2 + \norm{\tilde{\mathbf{y}}}^2 + 2\norm{\tilde{\mathbf{x}}}\norm{\tilde{\mathbf{y}}} =
+      (\norm{\tilde{\mathbf{x}}} + \norm{\tilde{\mathbf{y}}})^2 = \\
+      = (\norm{C\mathbf{x}} + \norm{C\mathbf{y}})^2 =
+      (\sqrt{(C\mathbf{x}, C\mathbf{x})} + \sqrt{(C\mathbf{y}, C\mathbf{y})})^2 =
+      (\sqrt{(B\mathbf{x}, \mathbf{x})} + \sqrt{(B\mathbf{y}, \mathbf{y})})^2
+    \end{multline*}
+
+    Итого имеем $\norml{\mathbf{x} + y}{B} \le \norml{\mathbf{x}}{B} + \norml{y}{B}$
+
+    Теперь докажем вторую часть. Так как $B = B^\intercal > 0$, то собственные векторы матрицы различны и ортогональны. Пусть $\mathbf{e}_1, \dotsc, \mathbf{e}_n -$ ортонормированная система собственных векторов матрицы $B$, (т.е. $(\mathbf{e}_i, \mathbf{e}_j) = \delta_i^j$), а $\lambda_1, \dotsc, \lambda_n - $ соответствующие собственные значения. Любой вектор $\mathbf{x}$ представим в виде $\mathbf{x} = \sum\limits_{i=1}^{n} c_i \mathbf{e}_i$. Поэтому
+    $$
+      (B\mathbf{x}, \mathbf{x}) = \left(\sum\limits_{i=1}^{n} \lambda_i c_i \mathbf{e}_i, \sum\limits_{i=1}^{n} c_i \mathbf{e}_i\right) = \sum\limits_{i=1}^{n} \lambda_i c_i^2
+    $$
+    Отсюда для произвольного вектора $\mathbf{x}$ имеем
+    $$
+      \min_i \lambda_i (\mathbf{x}, \mathbf{x}) \le (B\mathbf{x}, \mathbf{x}) \le \max_i \lambda_i (\mathbf{x}, \mathbf{x}), (\mathbf{x}, \;\; \mathbf{x}) = \sum_{i=1}^{n} c_i^2
+    $$
+    Так как все $\lambda_i(B) > 0$, то полученное неравенство означает эквивалентность евклидовой норме $\norml{x}{2}$ с постоянными
+    $$
+      \tilde{c_1} = \sqrt{\min_i\lambda_i},\;\; \tilde{c_2} = \sqrt{\max_i\lambda_i}
+    $$
+  \end{proof}
+\end{theorem}
+
+\begin{definition}
+  Нормой матрицы $A$ называется функционал, обозначаемый $\norm{A}$ и удовлетворяющий следующим условиям:
+  \begin{flalign*}
+    & \norm{A} > 0, \text{если} A \neq 0     \\
+    & \norm{A} = 0 \Leftrightarrow A = 0     \\
+    & \norm{\alpha A} = \abs{\alpha}\norm{A} \\
+    & \norm{A + B} \le \norm{A} + \norm{B}   \\
+    & \norm{A B} \le \norm{A} \norm{B}
+  \end{flalign*}
+\end{definition}
+
+\begin{example}
+  Функционал $\norm{A}_{F} = \sqrt{\sum\limits_{i,j = 1}^{n}} a_{ij}^2$ является матричной нормой и называется нормой Фробениуса.
+\end{example}
+
+\begin{example}
+  Функционал $\eta(A) = \max\limits_{i,j}\abs{a_{ij}}$ (максимальный по модулю элемент матрицы) не является матричной нормой. Нарушается последнее свойство: рассмотрим матрицы $A = B : a_{ij} = b_{ij} = 1$. Тогда $\eta(A) = \eta(B) = 1$, но $\eta(AB) = \sum\limits_{i=1}^{n} 1 = n \Rightarrow \eta(AB) \nleq \eta(A)\eta(B)$.
+  Тем не менее функционал $M(A) = n \eta(A)$ является матричной нормой.
+  $$
+    M(AB) = n \max_{i,j}\abs{\sum_{k=1}^{n} a_{ik}b_{kj}} \le n \max_{i,j}\sum_{k=1}^{n} \abs{a_{ik}b_{kj}} \le n \sum_{k=1}^{n} \eta(A)\eta(B) = n\eta(A)n\eta(B) = M(A)M(B)
+  $$
+\end{example}
+
+\begin{lemma}
+  Пусть задана некоторая векторная норма $\norm{\cdot}_v$. Тогда матричную норму можно определить как операторную
+  $$
+    \norm{A}_v = \sup_{\norml{x}{v} \neq 0} \frac{\norm{A \mathbf{x}}_v}{\norml{x}{v}} = \sup_{\norml{x}{v} = 1} \norm{A \mathbf{x}}_v
+  $$
+  \begin{proof}
+    `Сводится к проверке свойств матричной нормы'
+    Тем не менее, для доказательства данного факта используется соотношение $\norm{A\mathbf{x}} \le \norm{A}\norm{\mathbf{x}}$. Докажем его от противного. Пусть $\norm{\mathbf{x}} \neq 0$ (иначе в следующем неравенстве сразу противоречие), предположим, что $\norm{A\mathbf{x}} > \norm{A}\norm{\mathbf{x}}$, тогда из этого следует $\frac{1}{\norm{\mathbf{x}}} \norm{A\mathbf{x}} > \norm{A}$. Заметим, что $\frac{1}{\norm{\mathbf{x}}}$ является скаляром, внесём его под норму (вектора). $\norm{A \frac{\mathbf{x}}{\norm{\mathbf{x}}}} > \norm{A} = \sup\limits_{\norm{\mathbf{y}} = 1} \norm{A \mathbf{y}} $. Но $\frac{\mathbf{x}}{\norm{\mathbf{x}}} $ это вектор единичной длины, а значит имеем противоречие, т.к. получили что-то большее чем точная верхняя грань (справа по определению)
+
+    Теперь можно доказать последнее свойство матричной нормы. В соответствии с доказанным свойством имеем
+    $$
+      \norm{AB} =
+      \sup_{\norm{\mathbf{x}} \neq 0} \frac{\norm{AB \mathbf{x}}}{\norm{\mathbf{x}}} =
+      \sup_{\norm{\mathbf{x}} \neq 0} \frac{\norm{A(B\mathbf{x})}}{\norm{\mathbf{x}}} \le
+      \sup_{\norm{\mathbf{x}} \neq 0} \frac{\norm{A} \norm{B\mathbf{x}}}{\norm{\mathbf{x}}} \le
+      \sup_{\norm{\mathbf{x}} \neq 0} \frac{\norm{A}\norm{B} \norm{\mathbf{x}}}{\norm{\mathbf{x}}} =
+      \norm{A}\norm{B}
+    $$
+  \end{proof}
+\end{lemma}
+
+\begin{definition}
+  Построенная матричная норма называется подчиненной соответствующей векторной норме $\norm{\cdot}_v$.
+\end{definition}
+
+\begin{remark*}
+  Для единичной матрицы $I$ и произвольной подчиненной матричной нормы $\norm{I}_v = 1$.
+\end{remark*}
+
+\begin{theorem}
+  Матричные нормы, подчиненные векторным нормам $\norm{\cdot}_\infty, \norm{\cdot}_1, \norm{\cdot}_2$ имеют вид
+  \begin{flalign*}
+    & \norm{A}_\infty = \max_i \sum_{j=1}^{n} \abs{a_{ij}} - \text{максимум сумм строкам}                          \\
+    & \norm{A}_1 = \max_j \sum_{i=1}^{n} \abs{a_{ij}} - \text{максимум сумм по столбцам}                           \\
+    & \norm{A}_2 = \max_i \lambda_i (A^\intercal A) - \text{максимальное собственное число матрицы } A^\intercal A
+  \end{flalign*}
+
+  \begin{proof}
+    Получим оценку сверху для $\norm{A\mathbf{x}}_\infty$
+    $$
+      \norm{A\mathbf{x}}_\infty = \max_i\abs{\sum_{j=1}^{n} a_{ij}x_j} \le
+      \max_i\left(\sum_{j=1}^{n} \abs{a_{ij}} \max_j\abs{x_j}\right) \le
+      \max_i\left(\sum_{j=1}^{n} \abs{a_{ij}}\right) \norminf{x}
+    $$
+    Пусть максимальная построчная сумма соответствует строке с номером $l$. Тогда возьмём вектор $\mathbf{x}$, состоящий из знаков элементов соответствующей строки. Векторная норма будет равна $1$, поэтому последнее неравенство обратиться в равенство. В результате умножения строки $l$ на такой вектор $\mathbf{x}$ получим, фактически, сумму модулей, тем самым оставшееся неравенство также обратиться в равенство. Значит мы показали, что оценка достигается. Поделим на $\norminf{x}$ и получим
+    $$
+      \norm{A}_\infty = \sup_{\norm{\mathbf{x}}_\infty = 1} \norm{A \mathbf{x}}_\infty = \max_i\sum_{j=1}^{n} \abs{a_{ij}}
+    $$
+
+    Для $\norm{A\mathbf{x}}_1$ `аналогично показывается' (TODO: не особо то и аналогично)
+
+    Теперь для евклидовой нормы.
+    $$
+      \norm{A}_2 =
+      \sup_{\mathbf{x} \neq 0} \frac{\norm{A \mathbf{x}}_2}{\norml{x}{2}} =
+      \sup_{\mathbf{x} \neq 0} \sqrt{\frac{(A\mathbf{x}, A\mathbf{x})}{(\mathbf{x}, \mathbf{x})}}
+    $$
+    Заметим, что $(A^\intercal A)^\intercal = A^\intercal (A^\intercal)^\intercal = (A^\intercal A)$, т.е матрица $B = A^\intercal A - $ симметричная. Также имеем $ 0 \le (A\mathbf{x}, A\mathbf{x}) = (A\mathbf{x})^\intercal (A\mathbf{x}) = \mathbf{x}^\intercal A^\intercal A \mathbf{x} = (A^\intercal A \mathbf{x}, \mathbf{x}) = (B\mathbf{x}, \mathbf{x})$, следовательно, все $\lambda(B) \ge 0$. Тогда
+    $$
+      \sup_{\mathbf{x} \neq 0} \sqrt{\frac{(A\mathbf{x}, A\mathbf{x})}{(\mathbf{x}, \mathbf{x})}} =
+      \sup_{\mathbf{x} \neq 0} \sqrt{\frac{(A^\intercal A\mathbf{x}, \mathbf{x})}{(\mathbf{x}, \mathbf{x})}} =
+      \sup_{\mathbf{x} \neq 0} \sqrt{\frac{(B\mathbf{x}, \mathbf{x})}{(\mathbf{x}, \mathbf{x})}} \le \sqrt{\max_i \lambda_i(B)}
+    $$
+    (Последнее следует из эквивалентности данной нормы евклидовой, а именно из $(B\mathbf{x}, \mathbf{x}) \le \max\limits_i \lambda_i \norml{x}{2}$)
+    Равенство достигается на соответствующем собственном векторе. Поэтому $\norm{A}_2 = \sqrt{\max\limits_i \lambda_i(A^\intercal A)}$
+
+    Важный частный случай симметричной матрицы $A = A^\intercal$. Тогда $\norm{A}_2 = \max\limits_i\abs{\lambda_i(A)}$
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}
+  Модуль любого собственного значения матрицы не больше любой ее нормы: $\abs{\lambda(A)} \le \norm{A}$
+
+  \begin{proof}
+    Зафиксируем произвольный собственный вектор $\mathbf{x}$ матрицы $A$ и построим матрицу $X$, столбцами которой являются вектора $\mathbf{x}$. Получим равенство $\lambda X = AX$. Отсюда следует
+    $$
+      \abs{\lambda} \norm{X} = \norm{\lambda X} = \norm{AX} \le \norm{A} \norm{X}
+    $$
+  \end{proof}
+\end{theorem}
+
+\begin{corollary}
+  Для любого собственного значения $\lambda(A)$ невырожденной матрицы $A$ справедлива оценка $\frac{1}{\norm{A^{-1}}} \le \abs{\lambda(A)}$
+\end{corollary}
+
+\begin{definition}
+  Величина $\cnd(A) = \norm{A}\lVert A^{-1} \rVert$ называется числом обусловленности матрицы $A$. Для вырожденных матриц $\cnd(A) = \infty$. Конкретное значение $\cnd(A)$ зависит от выбора матричной нормы, однако, в силу их эквивалентности при практических оценках этим различием обычно можно пренебречь. Если $\cnd(A)$ велико, то матрицу называют \textit{плохо обусловленной}.
+\end{definition}
+
+Рассмотрим систему линейных алгебраических уравнений $A\mathbf{x} = \mathbf{b}$ с квадратной невырожденной матрицей $A$ и точным решением $\mathbf{x}$. В результате численного решения с конечной разрядностью вместо $\mathbf{x}$ получается \textit{приближенное} решение $\tilde{\mathbf{x}} : A\tilde{\mathbf{x}} = \tilde{\mathbf{b}}$. При этом вектор $\mathbf{z} = \mathbf{x} - \tilde{\mathbf{x}}$ называют \textit{вектор ошибки}, а вектор $\mathbf{r} = \mathbf{b} - A\tilde{\mathbf{x}}$ - \textit{вектор невязки}.
+
+Найдем насколько приближенное решение отличается от точного. Из неравенств
+$$
+  \norm{\mathbf{z}} = \norm{\mathbf{x} - \tilde{\mathbf{x}}} \le \lVert A^{-1} \rVert \norm{\mathbf{b} - \tilde{\mathbf{b}}}, \norm{A} \norm{\mathbf{x}} \ge \norm{\mathbf{b}}
+$$
+получаем, что для относительной ошибки верна оценка (во втором неравенстве нужно единицу поделить на левую и правую части, в результате чего неравенство поменяет знак. После домножения на норму матрицы $A$ нужно это всё перемножить с первым неравенством)
+$$
+  \frac{\norm{\mathbf{x} - \tilde{\mathbf{x}}}}{\norm{\mathbf{x}}} \le \norm{A}\lVert A^{-1} \rVert \frac{\norm{\mathbf{b} - \tilde{\mathbf{b}}}}{\norm{\mathbf{b}}} = \norm{A}\lVert A^{-1} \rVert \frac{\norm{\mathbf{b} - A\tilde{\mathbf{x}}}}{\norm{\mathbf{b}}} = \cnd(A) \frac{\norm{\mathbf{b} - A\tilde{\mathbf{x}}}}{\norm{\mathbf{b}}}
+$$
