@@ -1,1 +1,69 @@
 \section{Экстремальные свойства многочленов Чебышёва первого рода на отрезке [a, b].}
+
+\begin{theorem}
+  Среди всех многочленов со старшим коэффициентом $1$
+  приведенный многочлен Чебышёва наименее
+  отклоняется от нуля на отрезке $[a;b]$. Эквивалентная запись:
+  \[\arg\left\{\inf_{P_n(x)=x^n+\ldots}\max_{x\in[a,b]}{|P_n(x)|}\right\}=2^{1-n}\left(\frac{b-a}{2}\right)^nT_n\left(\frac{2x-(a+b)}{b-a}\right)=:\overline{T}_n(x)\]
+\end{theorem}
+\begin{proof}
+  \begin{enumerate}
+    \item Перенесем на отрезок $[a,b]$ многочлен Чебышёва, используя замену
+          \[x=\frac{a+b}{2}+\frac{b-a}{2}t,\ t\in[-1,1]\Leftrightarrow t=\frac{2x-(a+b)}{b-a},\ x\in[a,b]\]
+          \[T_n\left(\frac{2x-(a+b)}{b-a}\right)\underset{\text{св-во}}{=}2^{n-1}\left(\frac{2x-(a+b)}{b-a}\right)^n+\ldots\]
+          Нормируем для получения приведенного многочлена:
+          \[\overline{T}_n(x):=2^{1-n}\left(\frac{b-a}{2}\right)^nT_n\left(\frac{2x-(a+b)}{b-a}\right)=x^n+\ldots\]
+    \item Пусть $\exists\ P_n^*(x),\ \Vert P_n^*(x)\Vert_{[a,b]}<\Vert\overline{T}_n(x)\Vert_{[a,b]}$.
+          Рассмотрим $Q_{n-1}=\overline{T}_n(x)-P_n^*(x)$.
+          \begin{itemize}
+            \item Многочлен $Q_{n-1}(x)\not\equiv0$, так
+                  как $P_n^*(x)$ и $\overline{T}_n(x)$ имеют различные нормы.
+            \item Многочлен $Q_{n-1}(x)$ степени $n-1$, так
+                  как старшие коэффициенты у $P_n^*(x)$ и $\overline{T}_n(x)$ равны и сократились.
+          \end{itemize}
+    \item Заметим, что $\sgn{Q_{n-1}(x_{(m)})}=\sgn{(\overline{T}_n(x_{(m)})-P_n^*(x_{(m)}))}=\sgn{\overline{T}_n(x_{(m)})}$, так как
+          $\Vert P_n^*(x)\Vert_{[a,b]}<\Vert\overline{T}_n(x)\Vert_{[a,b]}$,
+    \item Знаем, что $\sgn{\overline{T}_n(x_{(m)})}=(-1)^m,\ m=0,\ldots,n$. Значит
+          изучаемый полином $Q_{n-1}$ имеет $n+1$ экстремум, а значит имеет $n$ корней,
+          а значит $Q_{n-1}\equiv0$. Противоречие.
+  \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+  Среди всех многочленов, которые в точке $x_0=0$ равны $1$,
+  приведенный многочлен Чебышёва наименее
+  отклоняется от нуля на отрезке $[a,b]$, при условии, что $x_0\notin[a,b]$.
+  \[\arg\left\{\inf_{P_n(x)=1+\ldots}\max_{\substack{x\in[a,b] \\ x_0\notin[a,b]}}{|P_n(x)|}\right\}=\frac{T_n\left(\frac{2x-(a+b)}{b-a}\right)}{T_n\left(\frac{-(a+b)}{b-a}\right)}=:\hat{T}_n\]
+  При этом если $0<a<b$:
+  \[\Vert\hat{T}_n\Vert=\frac{2}{q^n+q^{-n}}=\frac{2q^n}{q^{2n}+1}\leq2q^n,\ q=\frac{\sqrt{b}-\sqrt{a}}{\sqrt{b}+\sqrt{a}}<1\]
+\end{theorem}
+\begin{proof}
+  \begin{enumerate}
+    \item Многочлен Чебышёва перенесенный на $[a,b]$ имеет вид
+          \[T_n\left(\frac{2x-(a+b)}{b-a}\right)=c_{n}x^n+\ldots+c_1x_1+c_0\]
+          Тогда, чтобы найти значение $c_0$ возьмем многочлен Чебышёва в точке $x_0$:
+          \[T_n\left(\frac{-(a+b)}{b-a}\right)=c_n\cdot0+\ldots+c_1\cdot0+c_0=c_0\]
+          Тогда приведенный многочлен с $1$ в младшем коэффициенте имеет вид
+          \[\hat{T}_n=\frac{T_n\left(\frac{2x-(a+b)}{b-a}\right)}{T_n\left(\frac{-(a+b)}{b-a}\right)}\]
+    \item Пусть $\exists\ P_n^*(x),\ \Vert P_n^*(x)\Vert_{[a,b]}<\Vert\hat{T}_n(x)\Vert_{[a,b]}$.
+          Рассмотрим $Q_n=\hat{T}_n(x)-P_n^*(x)$.
+          \begin{itemize}
+            \item Многочлен $Q_{n}(x)\not\equiv0$, так
+                  как $P_n^*(x)$ и $\hat{T}_n(x)$ имеют различные нормы.
+            \item Многочлен $Q_{n}(x)$ степени $n$.
+          \end{itemize}
+    \item Аналогично предыдущей теореме $\sgn{Q_n(x_{(m)})}=\sgn{\hat{T}_n(x_{(m)})}=(-1)^m,\ m=0,\ldots,n$.
+          Значит $Q_n(x)$ имеет $n$ корней и $n+1$ экстремум на $[a,b]$. Но заметим, что у $Q_n(x)$ нет
+          свободного члена, так как они сократились. Это значит, что в точке $0\notin[a,b]$ $Q_n$ имеет
+          еще один корень $x_0$. Значит $Q_n\equiv0$. Противоречие.
+
+          Заметим, что именно здесь важно, что $x_0\notin[a,b]$, так как иначе
+          нельзя сказать, что у $Q_n$ имеется $n+1$ корень.
+    \item Посчитаем норму $\hat{T}_n(x)$ при $0<a<b$:
+          \[\max_{x\in[a,b]}|\hat{T}_n(x)|=\max_{x\in[a,b]}\left|\frac{T_n\overbrace{\left(\frac{2x-(a+b)}{b-a}\right)}^{t\in[-1,1]}}{T_n\left(\frac{-(a+b)}{b-a}\right)}\right|=\frac{1}{\left|T_n\left(\frac{-(a+b)}{b-a}\right)\right|}\]
+          \[T_n\left(\frac{-(a+b)}{b-a}\right)=\frac{\left(\frac{-(a+b)}{b-a}+\sqrt{\left(\frac{-(a+b)}{b-a}\right)^2-1}\right)^n+\left(\frac{-(a+b)}{b-a}-\sqrt{\left(\frac{-(a+b)}{b-a}\right)^2-1}\right)^n}{2}=(\star)\]
+          \[\sqrt{\left(\frac{-(a+b)}{b-a}\right)^2-1}=\sqrt{\left(\frac{a+b}{a-b}\right)^2-1}=\sqrt{\frac{(a+b)^2-(a-b)^2}{(a-b)^2}}=\sqrt{\frac{4ab}{(a-b)^2}}=\frac{2\sqrt{ab}}{a-b}\]
+          \[(\star)=\frac{\left(\frac{a+b}{a-b}+\frac{2\sqrt{ab}}{a-b}\right)^n+\left(\frac{a+b}{a-b}-\frac{2\sqrt{ab}}{a-b}\right)^n}{2}=\frac{\left(\frac{\sqrt{a}+\sqrt{b}}{\sqrt{a}-\sqrt{b}}\right)^n+\left(\frac{\sqrt{a}-\sqrt{b}}{\sqrt{a}+\sqrt{b}}\right)^n}{2}=\frac{q^n+q^{-n}}{2},\ q=\frac{\sqrt{b}-\sqrt{a}}{\sqrt{b}+\sqrt{a}}\]
+  \end{enumerate}
+\end{proof}
+
