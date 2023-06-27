@@ -26,25 +26,34 @@ jobs:
           extra_system_packages: gnuplot
 
       - name: Gather build artifacts
+        if: always()
         run: |
           mkdir -p build
-          mv *.pdf build/
-          cp .github/pages.md build/README.md
-          (echo; cat TODO.md) >> build/README.md
+          mv *.pdf ./build/ || true
+          find . -name "*.log" -exec mv '{}' "./build/" ";";
 
-      - name: Upload PDF
+      - name: Upload artifacts
+        if: always()
         uses: actions/upload-artifact@v3.1.0
         with:
-          name: Tickets
-          path: build/*.pdf
+          name: Contents
+          path: build/
           retention-days: 60
           if-no-files-found: error
+
+      - name: Prepare to publish
+        if: success() && github.ref == 'refs/heads/master'
+        run: |
+          mkdir -p public
+          cp build/*.pdf public/
+          cp .github/pages.md public/README.md
+          (echo; cat TODO.md) >> public/README.md
 
       - name: Publish to GitHub pages
         if: success() && github.ref == 'refs/heads/master'
         uses: crazy-max/ghaction-github-pages@v3
         with:
           target_branch: gh-pages
-          build_dir: build/
+          build_dir: public/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
