@@ -7,18 +7,18 @@
 \begin{definition}
   Нормой вектора $\mathbf{x} = (x_1, \dots, x_n)^\intercal$ называется функционал, обозначаемый $\norm{\mathbf{x}}$ и удовлетворяющий следующим условиям:
   \begin{flalign*}
-    & \norm{\mathbf{x}} > 0, \text{если } \mathbf{x} \neq 0                    \\
-    & \norm{\mathbf{x}} = 0 \Leftrightarrow x = 0                              \\
-    & \norm{\alpha\mathbf{x}} = \abs{\alpha}\norm{\mathbf{x}}                  \\
-    & \norm{\mathbf{x} + \mathbf{y}} \le \norm{\mathbf{x}} + \norm{\mathbf{y}}
+     & \norm{\mathbf{x}} > 0, \text{если } \mathbf{x} \neq 0                    \\
+     & \norm{\mathbf{x}} = 0 \Leftrightarrow x = 0                              \\
+     & \norm{\alpha\mathbf{x}} = \abs{\alpha}\norm{\mathbf{x}}                  \\
+     & \norm{\mathbf{x} + \mathbf{y}} \le \norm{\mathbf{x}} + \norm{\mathbf{y}}
   \end{flalign*}
 \end{definition}
 
 Наиболее употребительны следующие нормы:
 \begin{flalign*}
-  & \norm{\mathbf{x}}_2 = \sqrt{\sum_{i=1}^{n}x_i^2} = \sqrt{(\mathbf{x}, \mathbf{x})} - \text{Евклидова, или } l^2 \text{ норма} \\
-  & \norm{\mathbf{x}}_1 = \sum_{i=1}^{n} \abs{x_i} - \text{Манхэттенская, или } l^1 \text{ норма}                                 \\
-  & \norm{\mathbf{x}}_{\infty} = \max_{1 \le i \le n} \abs{x_i} - \text{иногда называют нормой Чебышёва}
+   & \norm{\mathbf{x}}_2 = \sqrt{\sum_{i=1}^{n}x_i^2} = \sqrt{(\mathbf{x}, \mathbf{x})} - \text{Евклидова, или } l^2 \text{ норма} \\
+   & \norm{\mathbf{x}}_1 = \sum_{i=1}^{n} \abs{x_i} - \text{Манхэттенская, или } l^1 \text{ норма}                                 \\
+   & \norm{\mathbf{x}}_{\infty} = \max_{1 \le i \le n} \abs{x_i} - \text{иногда называют нормой Чебышёва}
 \end{flalign*}
 
 \begin{definition}
@@ -117,11 +117,11 @@
 \begin{definition}
   Нормой матрицы $A$ называется функционал, обозначаемый $\norm{A}$ и удовлетворяющий следующим условиям:
   \begin{flalign*}
-    & \norm{A} > 0, \text{если} A \neq 0     \\
-    & \norm{A} = 0 \Leftrightarrow A = 0     \\
-    & \norm{\alpha A} = \abs{\alpha}\norm{A} \\
-    & \norm{A + B} \le \norm{A} + \norm{B}   \\
-    & \norm{A B} \le \norm{A} \norm{B}
+     & \norm{A} > 0, \text{если} A \neq 0     \\
+     & \norm{A} = 0 \Leftrightarrow A = 0     \\
+     & \norm{\alpha A} = \abs{\alpha}\norm{A} \\
+     & \norm{A + B} \le \norm{A} + \norm{B}   \\
+     & \norm{A B} \le \norm{A} \norm{B}
   \end{flalign*}
 \end{definition}
 
@@ -169,9 +169,9 @@
 \begin{theorem}
   Матричные нормы, подчиненные векторным нормам $\norm{\cdot}_\infty, \norm{\cdot}_1, \norm{\cdot}_2$ имеют вид
   \begin{flalign*}
-    & \norm{A}_\infty = \max_i \sum_{j=1}^{n} \abs{a_{ij}} - \text{максимум сумм строкам}                          \\
-    & \norm{A}_1 = \max_j \sum_{i=1}^{n} \abs{a_{ij}} - \text{максимум сумм по столбцам}                           \\
-    & \norm{A}_2 = \max_i \lambda_i (A^\intercal A) - \text{максимальное собственное число матрицы } A^\intercal A
+     & \norm{A}_\infty = \max_i \sum_{j=1}^{n} \abs{a_{ij}} - \text{максимум сумм строкам}                          \\
+     & \norm{A}_1 = \max_j \sum_{i=1}^{n} \abs{a_{ij}} - \text{максимум сумм по столбцам}                           \\
+     & \norm{A}_2 = \max_i \lambda_i (A^\intercal A) - \text{максимальное собственное число матрицы } A^\intercal A
   \end{flalign*}
 
   \begin{proof}
@@ -186,7 +186,12 @@
       \norm{A}_\infty = \sup_{\norm{\mathbf{x}}_\infty = 1} \norm{A \mathbf{x}}_\infty = \max_i\sum_{j=1}^{n} \abs{a_{ij}}
     $$
 
-    Для $\norm{A\mathbf{x}}_1$ `аналогично показывается' (TODO: не особо то и аналогично)
+    Для вывода $\norm{A\mathbf{x}}_1$ обозначим $A_1, \dotsc, A_n -$ столбцы матрицы. Заметим, что умножая матрицу слева на вектор-столбец справа, элемент столбца матрицы будет умножаться на одну и ту же компоненту вектора:
+    $$
+      \norm{A\mathbf{x}}_1 = \norm{ \sum_{j=1}^{n} x_j A_j }_1 \le  \sum_{j=1}^{n} \norm{x_j A_j }_1 =
+      \sum_{j=1}^{n} \abs{x_j} \norm{A_j}_1 \le \max_j \norm{A_j}_1 \sum_{j=1}^{n} \abs{x_j} = \max_j \norm{A_j}_1 \norml{x}{1}
+    $$
+    Получили желаемую оценку. Она достигается на векторе $\mathbf{e}_l$, где $l -$ индекс максимального по норме столбца
 
     Теперь для евклидовой нормы.
     $$
@@ -236,3 +241,81 @@ $$
 $$
   \frac{\norm{\mathbf{x} - \tilde{\mathbf{x}}}}{\norm{\mathbf{x}}} \le \norm{A}\lVert A^{-1} \rVert \frac{\norm{\mathbf{b} - \tilde{\mathbf{b}}}}{\norm{\mathbf{b}}} = \norm{A}\lVert A^{-1} \rVert \frac{\norm{\mathbf{b} - A\tilde{\mathbf{x}}}}{\norm{\mathbf{b}}} = \cnd(A) \frac{\norm{\mathbf{b} - A\tilde{\mathbf{x}}}}{\norm{\mathbf{b}}}
 $$
+
+\begin{example}
+  Невязка и ошибка не одно и то же. Проиллюстрируем это на примере матрицы с плохой обусловленностью. Тогда невязка не может гарантировать малость относительной ошибки. Более того, может оказаться так, что достаточно точное решение будет иметь большую невязку. Пусть
+  $$
+    \begin{pmatrix}
+      \varepsilon & 0                \\
+      0           & \varepsilon^{-1} \\
+    \end{pmatrix}
+    \begin{pmatrix}
+      1           \\
+      \varepsilon \\
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+      \varepsilon \\
+      1           \\
+    \end{pmatrix}
+    , \;\; \varepsilon \ll 1
+  $$
+  Вектор $\tilde{\mathbf{x}} = (1 + 1, \varepsilon)^\intercal$, который не является близким к $\mathbf{x}$, дает маленькую невязку $\mathbf{r} = (-\varepsilon, 0)^\intercal$. Вектор $\tilde{\mathbf{x}} = (1, \varepsilon + \sqrt{\varepsilon})^\intercal$ достаточно близок к $\mathbf{x}$ в смысле относительной погрешности, однако $\tilde{\mathbf{x}}$ дает большую невязку $\mathbf{r} = (0, \frac{-1}{\sqrt{\varepsilon}})^\intercal$.
+\end{example}
+
+\begin{lemma}
+  $\forall A \;\; \cnd(\alpha A) = \cnd(A), \cnd(A) \ge 1$. Если матрица $Q$ ортогональная, то $\cnd_2(Q) = 1$
+  \begin{proof}
+    $\alpha$ при обращении матрицы сократится, тем самым первое будет доказано. Второе получается из оценки
+    $$
+      \cnd(A) = \norm{A}\norm{A^{-1}} \ge \norm{A A^{-1}} = \norm{I} \ge 1
+    $$
+    И для третьего
+    $$
+      \norm{Q}_2 = \sup_{\norml{x}{2} \neq 0} \frac{\sqrt{(Q\mathbf{x}, Q\mathbf{x})}}{\norml{x}{2}} =
+      \sup_{\norml{x}{2} \neq 0} \frac{\sqrt{(Q^\intercal Q\mathbf{x}, \mathbf{x})}}{\norml{x}{2}} = 1 =
+      \sup_{\norml{x}{2} \neq 0} \frac{\sqrt{(Q Q^\intercal \mathbf{x}, \mathbf{x})}}{\norml{x}{2}} =
+      \sup_{\norml{x}{2} \neq 0} \frac{\sqrt{( Q^\intercal \mathbf{x},Q^\intercal \mathbf{x})}}{\norml{x}{2}} =
+      \norm{Q^\intercal}_2 =
+      \norm{Q^{-1}}_2
+    $$
+  \end{proof}
+\end{lemma}
+
+Также обусловленность не связана с определителем матрицы, приведем примеры
+\begin{example}
+  Покажем, что если определитель матрицы мал, то матрица не обязательно плохо обусловлена, а определитель плохо обусловленной матрицы может равняться 1.
+
+  Пусть дана диагональная матрица $A = \varepsilon I$, где $\varepsilon > 0 -$ малое число и $I -$ единичная матрица. Определитель $\det(A) = \varepsilon n$ весьма мал, тогда как матрица $A$ хорошо обусловлена, поскольку
+  $$
+    \cnd_\infty(A) = \norm{A}_\infty \norm{A^{-1}}_\infty = \varepsilon \norm{I}_\infty \varepsilon^{-1} \norm{A^{-1}}_\infty = 1
+  $$
+  $$
+    \text{Пусть } A =
+    \begin{pmatrix}
+      \varepsilon & 0                \\
+      0           & \varepsilon^{-1} \\
+    \end{pmatrix}, \text{ тогда }
+    \det(A) = 1, \; \cnd_\infty(A) = \varepsilon^{-2}
+  $$
+\end{example}
+\begin{example}
+  Пусть
+  $$
+    A =
+    \begin{pmatrix}
+      1      & -1     & -1     & \dotsc & -1     \\
+      0      & 1      & -1     & \dotsc & -1     \\
+      \dotsc & \dotsc & \dotsc & \dotsc & \dotsc \\
+      0      & 0      & 0      & \dotsc & 1      \\
+    \end{pmatrix}
+    , \; A^{-1} =
+    \begin{pmatrix}
+      1      & 1      & 2      & \dotsc & 2^{n-2} \\
+      0      & 1      & 1      & \dotsc & 2^{n-3} \\
+      \dotsc & \dotsc & \dotsc & \dotsc & \dotsc  \\
+      0      & 0      & 0      & \dotsc & 1       \\
+    \end{pmatrix}
+  $$
+  $\det(A) = 1, \; \norm{A}_\infty = n, \; \norm{A^{-1}}_\infty = 1 + 1 + 2 + 2^2 + \dotsc + 2^{n-2} = 2^{n-1}, \; \cnd_\infty(A) = n 2^{n-1}$. Т.е. матрица плохо обусловлена, хотя $\det(A) = 1$. Отметим, что $\lambda_i(A) = 1$, но матрица $A$ несимметрична, поэтому за обусловленность отвечают $\lambda(A^\intercal A)$.
+\end{example}
