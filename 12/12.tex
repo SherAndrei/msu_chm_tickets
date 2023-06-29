@@ -6,13 +6,13 @@
   Задачей Коши первого порядка называют следующую дифференциальную
   задачу
   \[\begin{cases}
-      y'(x) = f(y(x),x),\ y\in C^{(m)}[x_0,x_0+X],\ \norm{y}=\max_{x\in[x_0,x_0+X]}\abs{y(x)} \\
+      y'(x) = f(y(x),x),\ y\in C^{(m)}[x_0,x_0+X],\ \norm{y}=\max\limits_{x\in[x_0,x_0+X]}\abs{y(x)} \\
       y(x_0) = y^0
     \end{cases}\]
   Для такой задачи предлагается строить следующую разностную схему
   \begin{equation}\label{eq:cauchy:recur_scheme}
     \begin{array}{c}
-      h=\frac{X}{N},\ x_i=x_o+i\cdot h,\ y_h=\{y_i\}_{i=0}^{N},\ \norm{y_h}_{Y_h}=\max_{i}\abs{y_k} \\
+      h=\frac{X}{N},\ x_i=x_o+i\cdot h,\ y_h=\{y_i\}_{i=0}^{N},\ \norm{y_h}_{Y_h}=\max\limits_{i}\abs{y_k} \\
       \begin{cases}
         \frac{1}{h}\sum\limits_{i=0}^na_{-i}y_{k-i}=\sum\limits_{i=0}^nb_{-i}f(y_{k-i},x_{k-i}) \\
         y_0,y_1,\ldots,y_{n-1} - \text{ начальные условия (может быть больше одного)}
@@ -97,7 +97,7 @@ $\begin{cases}\norm{r_h}_{F_h}\leq ch^p \\
 $\alpha$-устойчивости.
 
 \begin{definition}
-  Разностная схема $\frac{1}{h}\sum_{i=0}^{n}a_{-i}y_{k-i}=fk$ для задачи
+  Разностная схема $\frac{1}{h}\sum\limits_{i=0}^{n}a_{-i}y_{k-i}=f_k$ для задачи
   $y'(x)=f(x)$ называется $\alpha$-устойчивой, если все корни
   соответствующего характеристического многочлена однородного
   разностного уравнения принадлежат единичному кругу и на границе
@@ -140,7 +140,7 @@ $\alpha$-устойчивости.
             Проверим $\alpha$-устойчивость: $y_k-y_{k-1}=0\Rightarrow P(\mu)=\mu-1=0\Rightarrow\mu=1$
 
             Таким образом разностная схема должна сходиться.
-            Мы можем проверить это проверить, решив эквивалентное однородное
+            Мы можем это проверить, решив эквивалентное однородное
             разностное уравнение с постоянными коэффициентами:
             \[\frac{y_k-y_{k-1}}{h}=-\frac{y_k+y_{k-1}}{2}\Leftrightarrow y_k(2-h)+y_{k-1}(2+h)=0;\ P(\mu)=0\Rightarrow\mu=\frac{1-h/2}{1+h/2}\Rightarrow y_k=\left(\frac{1-h/2}{1+h/2}\right)^k\]
             \[y_n=\left(\frac{1-h/2}{1+h/2}\right)^{X/h}\overunderset{\text{Тейлор в 0}}{h\rightarrow0}{\longrightarrow}\left(1-h+\bigO(h^2)\right)^{X/h}\underset{\text{2й замечательный}}{\longrightarrow}e^{-X}=y(x_n)\]
