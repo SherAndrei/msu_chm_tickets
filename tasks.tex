@@ -32,6 +32,23 @@
 
 %--------------------------------------
 
+% For graphics
+%--------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{
+  % for faster compilation
+  external
+  % for cool arrows
+  , arrows.meta
+  % for angles
+  , angles
+  , quotes
+  , babel
+}
+\tikzexternalize
+
+%--------------------------------------
+
 % My commands
 %--------------------------------------
 
@@ -55,51 +72,38 @@
 \pagestyle{empty}
 
 \includeonly{
-  task1.1/task,
-  task1.2/task,
-  task1.3/task,
-  task2.1/task,
-  task2.2/task,
-  task2.3/task,
-  task2.4/task,
-  task3.1/task,
-  task3.2/task,
-  task3.3/task,
-  task3.4/task,
-  task4.1/task,
-  task4.2/task,
-  task4.3/task,
-  task4.4/task,
-  task5.1/task,
-  task5.2/task,
-  task5.3/task,
-  task6.1/task,
-  task6.2/task,
-  task6.3/task,
+  task01/task,
+  task02/task,
+  task03/task,
+  task04/task,
+  task05/task,
+  task06/task,
+  task07/task,
+  task08/task,
+  task09/task,
+  task10/task,
+  task11/task,
+  task12/task,
+  task13/task,
+  task14/task,
+  task15/task,
 }
 
 \begin{document}
 
-\include{task1.1/task}
-\include{task1.2/task}
-\include{task1.3/task}
-\include{task2.1/task}
-\include{task2.2/task}
-\include{task2.3/task}
-\include{task2.4/task}
-\include{task3.1/task}
-\include{task3.2/task}
-\include{task3.3/task}
-\include{task3.4/task}
-\include{task4.1/task}
-\include{task4.2/task}
-\include{task4.3/task}
-\include{task4.4/task}
-\include{task5.1/task}
-\include{task5.2/task}
-\include{task5.3/task}
-\include{task6.1/task}
-\include{task6.2/task}
-\include{task6.3/task}
+\include{task01/task}
+\include{task02/task}
+\include{task03/task}
+\include{task04/task}
+\include{task05/task}
+\include{task06/task}
+\include{task07/task}
+\include{task08/task}
+\include{task10/task}
+\include{task11/task}
+\include{task12/task}
+\include{task13/task}
+\include{task14/task}
+\include{task15/task}
 
 \end{document}
