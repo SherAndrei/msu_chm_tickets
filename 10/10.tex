@@ -33,9 +33,9 @@ $\norm{\cdot}_{F}$, $\norm{\cdot}_{\Phi}$ и $\norm{\cdot}_{Y}$
 \end{definition}
 
 \begin{example}
-  Рассмотрим $y(x)\in C[0,1]$. Зададим оператор проектирования $(y)_h\rightarrow[y(0),y(h),\ldots,y(Nh)]\in Y_h$.
+  Рассмотрим $y(x)\in C[0,1]$, выберем норму $\norm{y}_{C}=\max\limits_{x\in[0,1]}|y(x)|$.
 
-  Возьмем в качестве нормы на пространстве непрерывных функций следующую: $\norm{y}_{C}=\max\limits_{x\in[0,1]}|y(x)|$.
+  Зададим оператор проектирования $(y)_h\rightarrow[y(0),y(h),\ldots,y(Nh)]\in Y_h$.
   Для векторов в $\R^{n+1}$ возьмем евклидову норму: $\norm{y_h}_{\R^{n+1}}=\sqrt{\sum\limits_{i=0}^{N}y_i^2}$.
 
   Проверим согласованность: рассмотрим непрерывную функцию $y^0\equiv1$:
@@ -73,7 +73,7 @@ $\norm{\cdot}_{F}$, $\norm{\cdot}_{\Phi}$ и $\norm{\cdot}_{Y}$
   \end{array}\right.\]
 
 \begin{example}
-  Рассмотрим в качестве примера дифференциальную задачу с нормой $\norm{y(x)}_{C^{\infty}}=\max\limits_{x\in\R}\abs{y(x)}$
+  Рассмотрим в качестве примера дифференциальную задачу, $\norm{y(x)}_{C^{\infty}}=\max\limits_{x\in\R}\abs{y(x)}$
   \[\left\{\begin{array}{ccccc}
       y'(x)=e^x, & x\in\Omega\equiv[0,1],           & L \equiv \frac{\partial}{\partial x}, & y\in Y\equiv C^{\infty},\ f\in F\equiv C^{\infty} & (1) \\
       y(0)=1,    & x\in\partial\Omega\equiv\{0,1\}, & l \equiv I,                           & \varphi\in\Phi\equiv C^{\infty}                   & (2)
@@ -86,10 +86,10 @@ $\norm{\cdot}_{F}$, $\norm{\cdot}_{\Phi}$ и $\norm{\cdot}_{Y}$
       (\varphi)_{\Phi_h} & = & \varphi(x_0)
     \end{array}\]
   в качестве согласованных норм
-  выбрать $\norm{y_h}_{\R^{n+1}}=\max\limits_{i}|y_i|$, $\norm{f_h}_{\R^{n}}=\max\limits_{i}|f_i|$ и рассмотреть разностную схему
+  выбрать $\norm{y_h}_{Y_h}=\max\limits_{i}|y_i|$, $Y_h\equiv \R^{N+1}$, $\norm{f_h}_{F_h}=\max\limits_{i}|f_i|$, $F_h\equiv \R^{N}$ и рассмотреть разностную схему
   \[\left\{\begin{array}{cccccc}
-      \frac{y_{k+1}-y_{k}}{h}=\frac{e^{x_{k+1}}-e^{x_k}}{2}=:f_k & x_k\in\Omega_h\equiv\{0,h,\ldots h(N-1)\}, & (L_hy_h)_i \equiv \frac{y_{i+1}-y_i}{h}, & y_h\in Y_h\equiv \R^{N+1},\ f_h\in F_h\equiv \R^{N} & (3) \\
-      y_0=1,                                                     & x_k\in\partial\Omega_h\equiv\{0,N-1\},     & l_h \equiv I,                            & \varphi_h\in\Phi_h\equiv \R                         & (4)
+      \frac{y_{k+1}-y_{k}}{h}=\frac{e^{x_{k+1}}-e^{x_k}}{2}=:f_k & x_k\in\Omega_h\equiv\{0,h,\ldots h(N-1)\}, & (L_hy_h)_i \equiv \frac{y_{i+1}-y_i}{h} & (3) \\
+      y_0=1,                                                     & x_k\in\partial\Omega_h\equiv\{0,N-1\},     & l_h \equiv I,                           & (4)
     \end{array}\right.\]
 \end{example}
 
@@ -113,14 +113,13 @@ $\norm{\cdot}_{F}$, $\norm{\cdot}_{\Phi}$ и $\norm{\cdot}_{Y}$
 \subsection*{Аппроксимация}
 
 \begin{definition}
-  Разностная задача $(3),\ (4)$ аппроксимирует дифференциальную задачу $(1),\ (2)$
-  если $\exists$ $h_0,c_1,c_2,p_1,p_2$:
+  Разностная задача $(3),\ (4)$ аппроксимирует дифференциальную задачу $(1),\ (2)$,
+  с порядком аппроксимации $p=\max(p_1,p_2)$, если $\exists$ $h_0,c_1,c_2,p_1,p_2$:
   \[\begin{array}{c}
       \norm{L_h(y)_{Y_h} - (Ly)_{F_h}}_{F_h}+\norm{(f)_{F_h}-f_h}_{F_h}\leq c_1h^{p_1} \\
       \norm{l_h(y)_{Y_h} - (ly)_{\Phi_h}}_{\Phi_h}+\norm{(\varphi)_{\Phi_h}-\varphi_h}_{\Phi_h}\leq c_2h^{p_2}
     \end{array}\forall\ h\leq h_0\]
-  При этом $c_1,c_2,p_1,p_2$ не зависят от $h$. Константу $p=\max(p_1,p_2)$ называют
-  порядком аппроксимации.
+  При этом $c_1,c_2,p_1,p_2$ не зависят от $h$.
 \end{definition}
 
 \begin{definition}
@@ -150,19 +149,19 @@ $\norm{\cdot}_{F}$, $\norm{\cdot}_{\Phi}$ и $\norm{\cdot}_{Y}$
   Записываем определение аппроксимации на решении, получаем оценку сверху.
   \begin{multline*}
     \begin{array}{c}
-      \norm{L_h(y)_{Y_h}-f_h}_{F_h} \\
-      \norm{l_h(y)_{Y_h}-\varphi_h}_{\Phi_h}
+      \norm{L_h(y)_{h}-f_h}_{h} \\
+      \norm{l_h(y)_{h}-\varphi_h}_{h}
     \end{array}=\begin{array}{c}
-      \norm{L_h(y)_{Y_h}-(Ly)_{F_h}+(Ly)_{F_h}-f_h}_{F_h} \\
-      \norm{l_h(y)_{Y_h}-(ly)_{\Phi_h}+(ly)_{\Phi_h}-\varphi_h}_{\Phi_h}
-    \end{array}\leq\begin{array}{c}
-      \norm{L_h(y)_{Y_h}-(Ly)_{F_h}}_{F_h}+\norm{(Ly)_{F_h}-f_h}_{F_h} \\
-      \norm{l_h(y)_{Y_h}-(ly)_{\Phi_h}}_{\Phi_h}+\norm{(ly)_{\Phi_h}-\varphi_h}_{\Phi_h}
+      \norm{L_h(y)_{h}-(Ly)_{h}+(Ly)_{h}-f_h}_{h} \\
+      \norm{l_h(y)_{h}-(ly)_{{h}}+(ly)_{{h}}-\varphi_h}_{{h}}
+    \end{array}\leq\begin{array}{ccc}
+      \norm{L_h(y)_{h}-(Ly)_{h}}_{h}     & + & \norm{(Ly)_{h}-f_h}_{h}           \\
+      \norm{l_h(y)_{h}-(ly)_{{h}}}_{{h}} & + & \norm{(ly)_{{h}}-\varphi_h}_{{h}}
     \end{array}=\\
-    =\begin{array}{cc}
-      \norm{L_h(y)_{Y_h}-(Ly)_{F_h}}_{F_h}+       & \norm{(f)_{F_h}-f_h}_{F_h} \leq c_1h^{p_1}                                                        \\
-      \norm{l_h(y)_{Y_h}-(ly)_{\Phi_h}}_{\Phi_h}+ & \underset{\text{условия нормировки}}{\norm{(\varphi)_{\Phi_h}-\varphi_h}_{\Phi_h}}\leq c_2h^{p_2}
-    \end{array}\forall\ h\leq h_0\text{ - определение аппроксимации задач}
+    =\begin{array}{ccc}
+      \norm{L_h(y)_{h}-(Ly)_{h}}_{h}     & + & \norm{(f)_{h}-f_h}_{h} \leq c_1h^{p_1}                                                      \\
+      \norm{l_h(y)_{h}-(ly)_{{h}}}_{{h}} & + & \underset{\text{условия нормировки}}{\norm{(\varphi)_{{h}}-\varphi_h}_{{h}}}\leq c_2h^{p_2}
+    \end{array}\forall\ h\leq h_0\text{ - аппроксимация задач}
   \end{multline*}
 \end{proof}
 

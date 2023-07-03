@@ -7,36 +7,25 @@
   \end{cases}$
 Мы хотим построить наше решение в точках $y(h),y(2h)\ldots$,
 предлагается явно посчитать значения в этих точках,
-разложив в ряд Тейлора до $p+1$ степени. Далее для упрощения записи $y\defeq y(x_k),\ f\defeq f(x_k,y(x_k))$:
+разложив в ряд Тейлора до $p+1$ степени. Далее для упрощения записи $y\defeq y(x_0),\ f\defeq f(x_0,y(x_0))$:
 \[\begin{cases}
-    y(x_{k+1})=y+hy'+\frac{h^2}{2}y''+\sum_{s=2}^{p}y^{(s)}\frac{h^s}{s!}+\bigO(h^{p+1}) \\
-    y'=f \text{ -- по условию}                                                           \\
-    y''=f_x+f_yy'                                                                        \\
-    y'''=f_{xx}+f_{xy}y'+f_{yx}y'+f_{y}y''+f_{yy}(y')^2                                  \\
+    y(x)=y+hy'+\frac{h^2}{2}y''+\sum_{s=2}^{p}y^{(s)}\frac{h^s}{s!}+\bigO(h^{p+1}) \\
+    y'=f \text{ -- по условию}                                                     \\
+    y''=f_x+f_yy'                                                                  \\
+    y'''=f_{xx}+f_{xy}y'+f_{yx}y'+f_{y}y''+f_{yy}(y')^2                            \\
     \cdots
   \end{cases}
 \]
-Рассматриваем разностную схему
-\[\frac{y_{k+1}-y_{k}}{h}=f+\frac{h}{2}(f_x+f_yf)+\frac{h^2}{6}(f_{xx}+f_{xy}f+f_{yx}f+f_{y}f_x+f(f_y)^2+f_{yy}(f)^2)+\ldots\]
-Считаем аппроксимацию на решении
-\begin{align*}
-   & \norm{\frac{y(x_k+h)-y(x_k)}{h}-(f+\frac{h}{2}(f_x+f_yf)+\ldots)}_{F_h}=                                \\
-   & \norm{\frac{y+hy'+\frac{h^2}{2}y''+\ldots+\bigO(h^{p+1})-y}{h}-(f+\frac{h}{2}(f_x+f_yf)+\ldots)}_{F_h}= \\
-   & \norm{y'+\frac{h}{2}y''+\ldots+\bigO(h^{p+1})-(f+\frac{h}{2}(f_x+f_yf)+\ldots)}_{F_h}=                  \\
-   & \norm{y'+\frac{h}{2}y''+\ldots+\bigO(h^{p+1})-(f+\frac{h}{2}(f_x+f_yf)+\ldots)}_{F_h}=0\leq ch^{p+1}    \\
-\end{align*}
-Нормировка правых частей
-\[\norm{f_h-(f)_h}_{F_h}=\norm{f-(f+\frac{h}{2}(f_x+f_yf)+\ldots)}_{F_h}\underset{h\rightarrow0}{\rightarrow}0\]
 
-Метод применим если $|h|<$ области сходимости ряда Тейлора,
-иначе предлагается разбивать отрезки на подотрезки, например $h=h/2$,
-до тех пор пока не выполнится условие.
+Метод применим если $|x-x_0|$ больше области сходимости ряда Тейлора,
+иначе предлагается разбивать отрезки на подотрезки и строить решение
+в точке $x$ за несколько шагов.
 
 \begin{remark}
   Данный алгоритм может быть полезен, когда требуется решить
   большое количество задач вполне определенного вида с
   различными начальными данными. В этом случае требуемые
-  производные можно найти аналитически и сохранить для многократного                                                                                                                   схема имеет первый порядок точности.
+  производные можно найти аналитически и сохранить для многократного
   применения.
 \end{remark}
 
@@ -46,11 +35,18 @@
     y''(x) & = 2x\sin(y(x))+x^2\cos(y(x))y'(x)      \\
            & = 2x\sin(y(x))+x^4\cos(y(x))\sin(y(x))
   \end{align*}
-  Таким образом мы можем наиграть точность используя следующую формулу
+  Таким образом второй порядок \textit{локальной} точности используя следующую формулу
   \[y_{k+1}=y_k+hx_k^2\sin(y_{k})+\frac{h^2}{2}[2x_k\sin(y_k)+x_k^4\cos(y_k)\sin(y_k)]\]
-  \[\frac{y_{k+1}-y_k}{h}+hx_k^2\sin(y_{k})+\frac{h^2}{2}[2x_k\sin(y_k)+x_k^4\cos(y_k)\sin(y_k)]\]
   Можно продолжать считать производные и получать более точный результат.
 \end{example}
+
+\begin{remark}
+  Заметим, что здесь нет речи о разностной схеме, так как формально достаточно
+  затруднительно посчитать \textit{глобальную} погрешность аппроксимации.
+  Если при первом шаге мы считаем производную в известной нам начальной точке,
+  то при каждом следующем шаге мы будем искать производную в точке, которая
+  никак не привязана к изначальному уравнению.
+\end{remark}
 
 \subsection*{Методы Адамса первого порядка точности}
 
@@ -76,8 +72,9 @@
   \begin{flalign*}
     & 1) \abs{\int_a^bg(a)+g'(\xi)(x-a)dx-g(a)(b-a)}=\abs{\int_a^bg'(\xi)(x-a)dx}\leq\norm{g'}\int_a^b(x-a)dx\leq\norm{g'}\frac{(b-a)^2}{2} \\
     & 2) \abs{\int_a^bg(b)+g'(\xi)(x-b)dx-g(b)(b-a)}=\abs{\int_a^bg'(\xi)(x-b)dx}\leq\norm{g'}\int_a^b(b-x)dx\leq\norm{g'}\frac{(b-a)^2}{2}                 \\
-    & 3) \abs{\int_a^bg\left(\frac{a+b}{2}\right)+g'\left(\frac{a+b}{2}\right)\left(x-\left(\frac{a+b}{2}\right)\right)+\frac{g''}{2}(\xi)\left(x-\left(\frac{a+b}{2}\right)\right)^2dx-g\left(\frac{a+b}{2}\right)(b-a)}=    \\
-    & = \abs{\underbrace{\int_a^bg'\left(\frac{a+b}{2}\right)\left(x-\left(\frac{a+b}{2}\right)\right)dx}_{=0,\ (\text{симм. отн. середины})}+\int_a^b\frac{g''}{2}(\xi)\left(x-\left(\frac{a+b}{2}\right)\right)^2dx}\leq \frac{\norm{g''}}{2}\abs{\int_a^b\left(x-\left(\frac{a+b}{2}\right)\right)^2dx}=\norm{g''}\frac{(a - b)^3}{24}
+    & 3) \abs{\int_a^bg\left(\frac{a+b}{2}\right)+g'\left(\frac{a+b}{2}\right)\left(x-\left(\frac{a+b}{2}\right)\right)+\frac{g''(\xi)}{2}\left(x-\left(\frac{a+b}{2}\right)\right)^2dx-g\left(\frac{a+b}{2}\right)(b-a)}=    \\
+    & \: \abs{\int_a^bg\left(\frac{a+b}{2}\right)dx+\underbrace{\int_a^bg'\left(\frac{a+b}{2}\right)\left(x-\left(\frac{a+b}{2}\right)\right)dx}_{=\ 0,\ (\text{симм. отн. середины})}+\int_a^b\frac{g''(\xi)}{2}\left(x-\left(\frac{a+b}{2}\right)\right)^2dx-g\left(\frac{a+b}{2}\right)(b-a)} \\
+    & = \abs{\int_a^b\frac{g''(\xi)}{2}\left(x-\left(\frac{a+b}{2}\right)\right)^2dx}\leq \frac{\norm{g''}}{2}\abs{\int_a^b\left(x-\left(\frac{a+b}{2}\right)\right)^2dx}=\norm{g''}\frac{(a - b)^3}{24}
   \end{flalign*}
   Для доказательства 4ого пункта рассматриваем следующий интеграл
   \begin{multline*}
@@ -149,7 +146,10 @@
   = y_k+h\frac{f(x_k,y_k)+f(x_{k+1},y_{k+1}^*)}{2}+\frac{h}{2}(f(x_{k+1},y_{k+1})-f(x_{k+1},y_{k+1}^*))+\bigO(h^3)
 \end{multline*}
 Воспользуемся теоремой о среднем: $\tilde{y_k}$ - точка между $y_{k+1}^*$ и $y_k$
-\[y_{k+1}=y_k+h\frac{f(x_k,y_k)+f(x_{k+1},y_{k+1}^*)}{2}+\frac{h}{2}f_x(x_{k+1},\tilde{y_k})\underbrace{(y_{k+1}^*-y_k)}_{\bigO(h^2)}+\bigO(h^3)=y_k+h\frac{f(x_k,y_k)+f(x_{k+1},y_{k+1}^*)}{2}+\bigO(h^3)\]
+\begin{multline*}
+  y_{k+1}=y_k+h\frac{f(x_k,y_k)+f(x_{k+1},y_{k+1}^*)}{2}+\frac{h}{2}f_x(x_{k+1},\tilde{y_k})\underbrace{(y_{k+1}^*-y_k)}_{\bigO(h^2)}+\bigO(h^3)= \\
+  =y_k+h\frac{f(x_k,y_k)+f(x_{k+1},y_{k+1}^*)}{2}+\bigO(h^3)
+\end{multline*}
 Точку $y_{k+1}^*$ будем искать с помощью явного метода Эйлера $y_{k+1}^*=y_k+hf(x_k,y_k)$.
 Итоговая расчетная формула
 \[\begin{cases}

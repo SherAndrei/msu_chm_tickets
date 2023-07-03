@@ -1,4 +1,4 @@
-\documentclass[a4paper]{article}
+\documentclass{article}
 
 %Russian-specific packages
 %--------------------------------------
@@ -16,11 +16,14 @@
 
 %Format-specific packages
 %--------------------------------------
-\usepackage[left=1cm,
-            right=1cm,
-            top=1cm,
-            bottom=1cm,
-            bindingoffset=0cm]{geometry}
+\usepackage{geometry}
+\geometry{
+  a4paper,
+  total={170mm,257mm},
+  left=15mm,
+  top=15mm,
+}
+
 %--------------------------------------
 
 % for theorems, lemmas and definitions

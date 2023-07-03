@@ -47,7 +47,10 @@
     \end{cases}\Rightarrow\begin{cases}
       C_1=1 \\
       C_2(\sin(\arccos(x)))=0
-    \end{cases}\Rightarrow C_1=1,\ C_2=0,\ |x|\leq1\]
+    \end{cases}\Rightarrow\begin{cases}
+      C_1=1 \\
+      C_2=0
+    \end{cases}\ |x|\leq1\]
   По непрерывности аналогично получаем значения на краях интервала $(-1,1)$.
 \end{proof}
 
@@ -87,8 +90,8 @@
 \begin{proof}
   Сделаем замену $x=\cos\varphi$ в предыдущей теореме и воспользуемся формулой Муавра
   \begin{multline*}
-    \frac{(\cos\varphi+i\sin\varphi)^{n+1}-(\cos\varphi-i\sin\varphi)^{n+1}}{2i\sin\varphi}=\frac{\cos((n+1)\varphi)+i\sin((n+1)\varphi)-\cos((n+1)\varphi)+i\sin((n+1)\varphi)}{2i\sin\varphi} = \\
-    = \frac{2i\sin((n+1)\varphi)}{2i\sin\varphi}=\frac{\sin((n+1)\arccos{x})}{\sin\arccos{x}}
+    \frac{(\cos\varphi+i\sin\varphi)^{n+1}-(\cos\varphi-i\sin\varphi)^{n+1}}{2i\sin\varphi}= \\
+    \frac{\cos((n+1)\varphi)+i\sin((n+1)\varphi)-\cos((n+1)\varphi)+i\sin((n+1)\varphi)}{2i\sin\varphi}= \frac{2i\sin((n+1)\varphi)}{2i\sin\varphi}=\frac{\sin((n+1)\arccos{x})}{\sin\arccos{x}}
   \end{multline*}
   Аналогично из непрерывности получаем тождественность для $x=\pm1$
 \end{proof}
