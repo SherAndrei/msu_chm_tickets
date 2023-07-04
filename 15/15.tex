@@ -1,1 +1,147 @@
 \section{Вычисление главного члена погрешности для простейших схем для задачи Коши. Оценка глобальной погрешности явного одношагового метода.}
+
+\subsection*{Вычисление главного члена погрешности}
+
+Получили разностную схему, хотим узнать насколько она пригодна.
+Предлагается рассмотреть модельную дифференциальную задачу
+и модельное разностное решение.
+
+Рассматривается задача Коши $\begin{cases}y'=y,\ x\in[0,1] \\ y(0)=1\end{cases}$
+с точным решением $e^x$.
+В качестве примера рассмотрим явную схему Эйлера
+$\begin{cases}\frac{y_{k+1}-y_{k}}{h}=y_k,\ h=\frac{1}{N} \\ y_0=1\end{cases}$
+с решением $y_{k+1}=(1+h)y_k=(1+h)^k$.
+
+Хотим узнать отличие в последней точке $x_N=1$: $y(x_N)-y_N=c_0+c_1\cdot h+c_2\cdot h^2+\ldots$
+\begin{multline*}
+  y_N=(1+h)^N=(1+h)^{\frac{1}{h}}=\exp\left\{\ln(1+h)^{\frac{1}{h}}\right\}=\exp\left\{\frac{1}{h}\ln(1+h)\right\}\underset{h\rightarrow0}{=}\\
+  = \exp\left\{\frac{1}{h}\left(h-\frac{h^2}{2}+\bigO(h^3)\right)\right\}
+  = \exp\left\{1-\frac{h}{2}+\bigO(h^2)\right\}=e\cdot\exp\left\{-\frac{h}{2}+\bigO(h^2)\right\}=e\cdot\left(1-\frac{h}{2}+\bigO(h^2)\right)
+\end{multline*}
+\[\Rightarrow y(x_N)-y_N\underset{h\rightarrow0}{=}e-e\cdot\left(1-\frac{h}{2}+\bigO(h^2)\right)=e\cdot\frac{h}{2}+\bigO(h^2)\]
+Таким образом $c_0=0,\ c_1=\frac{e}{2}$ - главный член погрешности.
+
+\subsection*{Оценка глобальной погрешности явного одношагового метода}
+
+Рассматривается задача Коши $y'(x)=f(x,y),\ y(x_0)=y^0$.
+Для ее решения выбирается явный одношаговый метод
+$y_{k+1}=F(y_k, x_k, x_{k+1}-x_{k}),\ k=0,\ldots,n-1,\ x_n=x_0+X$ с локальной погрешностью $s+1$ порядка.
+Нас интересует итоговая погрешность в $n$ точке, то есть величина $\abs{y_n-y(x_n)}$.
+Докажем вспомогательную лемму.
+
+\begin{lemma}[Гронуолл]
+  Пусть $y_{(1)}(x)$, $y_{(2)}(x)$ - два решения задачи $y'(x)=f(x,y),\ x\in[a,b]$,
+  пусть $f$ непрерывна и непрерывно дифференцируема по $y$.
+  Тогда верное следующее выражение
+  \[y_{(1)}(b)-y_{(2)}(b)=(y_{(1)}(a)-y_{(2)}(a))\exp\left(\int_a^bf_y(\tau, \tilde{y}(\tau))d\tau\right)\]
+  где $\tilde{y}$ заключена между $y_{(1)}$ и $y_{(2)}$.
+\end{lemma}
+\begin{proof}
+  Из линейности дифференциального оператора следует следующее
+  \[(y_{(1)}(x)-y_{(2)}(x))'=f(x,y_{(1)})-f(x,y_{(2)})\]
+  Так как $f$ непрерывна и непрерывно дифференцируема по $y$,
+  то по теореме о среднем для $f$:
+  \begin{equation}\label{eq:gronuoll}
+    (y_{(1)}(x)-y_{(2)}(x))'=f_y(x,\tilde{y})(y_{(1)}(x)-y_{(2)}(x))
+  \end{equation}
+  Так как функция $\tilde{y}$ фиксирована, то есть
+  $f_y(x,\tilde{y})$ зависит только от $x$, то обозначим $g(x)\defeq f_y(x,\tilde{y})$.
+
+  Делаем трюк: домножаем \eqref{eq:gronuoll} и слева и справа на $\exp\left(\int_a^x g(\tau)d\tau\right)$:
+  \[\exp\left(\int_a^x g(\tau)d\tau\right)(y_{(1)}(x)-y_{(2)}(x))'=g(x)(y_{(1)}(x)-y_{(2)}(x))\exp\left(\int_a^x g(\tau)d\tau\right)=:(\star)\]
+
+  Посчитаем следующее выражение
+  \begin{multline*}
+    \frac{d}{dx}\left[\exp\left(-\int_a^x g(\tau)d\tau\right)(y_{(1)}(x)-y_{(2)}(x))\right]= \\
+    \underbrace{\underbrace{\frac{d}{dx}\left[-\int_a^x g(\tau)d\tau\right]}_{-g(x)}\exp\left(-\int_a^x g(\tau)d\tau\right)(y_{(1)}(x)-y_{(2)}(x))}_{-(\star)}+\underbrace{\exp\left(-\int_a^x g(\tau)d\tau\right)(y_{(1)}(x)-y_{(2)}(x))'}_{(\star)}=0
+  \end{multline*}
+  Проинтегрируем полученное тождество по отрезку $[a,b]$:
+  \[\int_{a}^b\frac{d}{dx}\left[\exp\left(-\int_a^x g(\tau)d\tau\right)(y_{(1)}(x)-y_{(2)}(x))\right]dx=\int_a^b0\ dx\]
+  \[\exp\left(-\int_a^b g(\tau)d\tau\right)(y_{(1)}(b)-y_{(2)}(b))-\exp\left(-\int_a^a g(\tau)d\tau\right)(y_{(1)}(a)-y_{(2)}(a))=0\]
+  \[y_{(1)}(b)-y_{(2)}(b)=(y_{(1)}(a)-y_{(2)}(a))\exp\left(\int_a^b f_y(\tau,\tilde{y}(\tau))d\tau\right)\]
+\end{proof}
+
+\begin{figure}[h]
+  \centering
+  \tikzsetnextfilename{15/GlobalApprox}
+  \begin{tikzpicture}
+    \def\RightBound {10};
+    \def\Y {-0.2};
+    \draw[thick,->] (\Y,-1) -- (-0.2,7)  node[anchor=south east]{$y(x)$};
+    \draw[thick,->] (-1,0) -- (\RightBound+1,0) node[right]{$x$};
+
+    \draw [domain=1:\RightBound] plot function{log10(x)+1} node[right]{$y(x_n)$};
+    \draw [dashed] (1,0) node[below]{$x_0$} -- (1,{log10(1)+1}) node[anchor=north east]{$y(x_0)$};
+
+    \draw [domain=1:\RightBound] plot function{log10(x)+1.4} node[right]{$y_0(x_n)$};
+    \draw [dashed] (1,0) node[below]{$x_0$} -- (1,{log10(1)+1.4}) node[anchor=south east]{$y_0(x_0)$} -- (\Y,{log10(1)+1.4}) node[left]{$y_0$};
+
+    \def\XOne {1.5};
+    \draw [domain=\XOne:\RightBound] plot function{log10(x)+2} node[right]{$y_1(x_n)$};
+    \draw [dashed] (\XOne,0) node[below]{$x_1$} -- (\XOne,{log10(\XOne)+2}) node[anchor=south east]{$y_1(x_1)$} -- (\Y,{log10(\XOne)+2}) node[left]{$y_1$};
+
+    \def\XKMinusOne {5};
+    \draw [domain=\XKMinusOne:\RightBound] plot function{log10(x)+3} node[right]{$y_{k-1}(x_n)$};
+    \draw [dashed] (\XKMinusOne,0) node[below]{$x_{k-1}$} -- (\XKMinusOne,{log10(\XKMinusOne)+3}) node[anchor=north east]{$y_{k-1}(x_k)$} -- (\Y,{log10(\XKMinusOne)+3}) node[left]{$y_{k-1}$};
+
+    \def\XK {6};
+    \draw [domain=\XK:\RightBound] plot function{log10(x)+3.4} node[right]{$y_k(x_n)$};
+    \draw [dashed] (\XK,0) node[below]{$x_k$} -- (\XK,{log10(\XK)+3.4}) node[anchor=south east]{$y_k(x_k)$} -- (\Y,{log10(\XK)+3.4}) node[left]{$y_{k}$};
+
+    \def\XNMinusOne {9};
+    \draw [domain=\XNMinusOne:\RightBound] plot function{log10(x)+4.4} node[right]{$y_{n-1}(x_n)$};
+    \draw [dashed] (\XNMinusOne,0) node[below]{$x_{n-1}$} -- (\XNMinusOne,{log10(\XNMinusOne)+4.4}) node[anchor=south east]{$y_{n-1}(x_{n-1})$} -- (\Y,{log10(\XNMinusOne)+4.4}) node[left]{$y_{n-1}$};
+
+    \def\XN {\RightBound};
+    \draw [dashed] (\XN,0) node[below]{$x_{n}$} -- (\XN,{log10(\XN)+5}) node[right]{$y_{n}(x_n)$}
+    -- (\Y,{log10(\XN)+5}) node[left]{$y_n$};
+  \end{tikzpicture}
+\end{figure}
+
+Рассмотрим рисунок.
+\begin{itemize}
+  \item Начальное условие $y(x_0)$ порождает интегральную кривую
+        $y$, которая даст нам точное решение в точке $x_n$.
+  \item После внесения $y(x_0)$ в компьютер мы получаем значение $y_0=:y_0(x_0)$.
+        Мы вносим погрешность в виде машинного нуля: $r_0=y(x_0)-y_0$.
+        Начальное условие $y_0$ породит интегральную кривую
+        $y_0(x)$ со значением на конце отрезка $y_0(x_n)$.
+  \item Явная формула подсчета следующего значения $y_{k+1}=F(x_k,y_k,x_{k+1}-x_k)$
+        позволяет узнать значение в точке $x_1$ с какой-то точностью:
+        $y_1-y_0(x_1)=c_1h_1^{s+1}+\delta_1$, где $\delta_1$ - погрешность вычислений первого шага, $h_1:=x_1-x_0$.
+  \item Используя формулу подсчета мы можем подсчитать значения в каждой из точек $x_k$.
+        Обратим внимание, что каждая интегральная кривая является решением исходной задачи
+        со своими начальными данными $\begin{cases}
+            y'=f(x,y) \\ y(x_k)=y_k
+          \end{cases}$
+\end{itemize}
+Таким образом мы можем явно выписать чему равна искомая величина
+\[y_n-y(x_n)=\sum_{k=1}^n(y_k(x_n)-y_{k-1}(x_n))+y_0(x_n)-y(x_n)\]
+Так как каждая из наших интегральных кривых является решением на отрезках $[x_k,x_n]$,
+мы можем воспользоваться леммой Гронуолла:
+\[y_n-y(x_n)=\sum_{k=1}^n(y_k(x_k)-y_{k-1}(x_k))\exp\left[\int_{x_k}^{x_n}f_y(\tau,\tilde{y}(\tau))d\tau\right]+r_0\exp\left[\int_{0}^{x_n}f_y(\tau,\tilde{y}(\tau))d\tau\right]\]
+Так как локальная оценка погрешности нам известна, то мы можем переписать полученное выражение:
+
+\begin{equation}\label{eq:global_approx}
+  y_n-y(x_n)=\sum_{k=1}^n(c_kh_k^{s+1}+\delta_k)\exp\left[\int_{x_k}^{x_n}f_y(\tau,\tilde{y}(\tau))d\tau\right]+r_0\exp\left[\int_{0}^{x_n}f_y(\tau,\tilde{y}(\tau))d\tau\right]
+\end{equation}
+
+Получили довольно сложную формулу, покажем, какие выводы с помощью можно сделать.
+
+Пусть $h_k\leq h$, $\delta_k\leq\delta$, $c_k\leq c$.
+\begin{enumerate}
+  \item Пусть $0<\abs{f_y}\leq L<\infty$. Тогда выражение \eqref{eq:global_approx} можно оценить:
+        \[\abs{y_n-y(x_n)}\leq\sum_{k=1}^n(ch^{s}h+\delta)\exp\left[L(x_n-x_k)\right]+r_0\exp\left[XL\right]\leq \exp\left[LX\right](ch^{s}X+n\delta+r_0)\]
+        Таким образом, чем больше длина отрезка, тем больше итоговая погрешность, и растет она экспоненциально!
+        Из второго слагаемого напрашивается вывод: чем больше шагов мы делаем, тем больше становится итоговая
+        вычислительная погрешность.
+  \item Более занимательный результат получается, если $f$ является убывающей, то есть $f_y \leq -L \leq 0$
+        \begin{multline*}
+          \abs{y_n-y(x_n)}\leq(ch^{s}h+\delta)\sum_{k=1}^n\exp\left[-Lkh\right]+r_0\exp\left[-XL\right]\leq \frac{ch^{s}h+\delta}{1-\exp[-Lh]}+r_0\exp\left[-XL\right]\underset{h<<L,\text{ Тейлор}}{\leq} \\
+          \frac{ch^s}{L}+\frac{\delta n}{XL}+r_0\exp\left[-XL\right]
+        \end{multline*}
+        Таким образом получаем, что чем сильнее убывает правая часть, тем точнее
+        получаем решение. От количества шагов вычислительная погрешность растет,
+        но не с экспоненциальной скоростью, как в предыдущем примере.
+\end{enumerate}
+
