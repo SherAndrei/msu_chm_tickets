@@ -56,12 +56,12 @@ $\begin{cases}\norm{r_h}_{F_h}\leq ch^p \\
           \[\norm{f_h-(f)_h}_{F_h}=\norm{f(x_{k-i})-\sum_{i=0}^nb_{-i}f(x_{k-i})}_{F_h}=\norm{f(x_{k-i})\left(1-\sum_{i=0}^nb_{-i}\right)}_{F_h}\underset{h\rightarrow0}{\rightarrow}0\Leftrightarrow\sum_{i=0}^nb_{-i}=1\]
     \item Выпишем ряд Тейлора для левой и правой части в узлах $\{x_k\}$:
           \begin{align*}
-            y(x_k-ih)=y(x_k)-hy'(x_k)+\sum_{s=2}^{p}\frac{(-ih)^{s}y^{(s)}(x_k)}{s!} + \bigO(h^{p+1})        \\
+            y(x_k-ih)=y(x_k)-ihy'(x_k)+\sum_{s=2}^{p}\frac{(-ih)^{s}y^{(s)}(x_k)}{s!} + \bigO(h^{p+1})       \\
             f(x_k-ih)=y'(x_k-ih)=y'(x_k)+\sum_{s=2}^{p}\frac{(-ih)^{s-1}y^{(s)}(x_k)}{(s-1)!} + \bigO(h^{p}) \\
           \end{align*}
           Запишем условие аппроксимации на решении до $p$-го порядка:
           \begin{multline*}
-            \abs{\frac{1}{h}\sum_{i=0}^na_{-i}y(x_k-ih)-\sum_{i=0}^nb_{-i}f(x_k-ih)} =
+            \abs{\frac{1}{h}\sum_{i=0}^na_{-i}y(x_k-ih)-\sum_{i=0}^nb_{-i}f(x_k-ih)}
             = \left|\frac{1}{h}\sum_{i=0}^na_{-i}y(x_k)+\right. \\
             +\frac{1}{h}\sum_{i=0}^na_{-i}(-ihy'(x_k))-\sum_{i=0}^nb_{-i}y'(x_k)+\left.\frac{1}{h}\sum_{i=0}^na_{-i}\sum_{s=2}^{p}\frac{(-ih)^sy^{(s)}(x_k)}{s!}-\sum_{i=0}^nb_{-i}\sum_{s=2}^{p}\frac{(-ih)^{s-1}y^{(s)}(x_k)}{(s-1)!}\right|=
           \end{multline*}
