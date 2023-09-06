@@ -1,1 +1,61 @@
 \section{Устойчивость краевой задачи для уравнения второго порядка: метод собственных функций.}
+
+Напомним определение устойчивости
+\begin{definition}
+  Разностная схема $\begin{cases}
+      L_hy_h = f_h \\
+      l_hy_h = \varphi_h
+    \end{cases}$
+  называется устойчивой, если:
+  $\forall y_h^{(1)}$, $y_h^{(2)}\ \forall \varepsilon > 0\ \exists\delta=\delta(\varepsilon):$
+  \[\norm{f^{(1)}_h-f^{(2)}_h}+\norm{\varphi^{(1)}_h-\varphi^{(2)}_h}\leq\delta,\ \forall h\leq h_0\Rightarrow\norm{y^{(1)}_h-y^{(2)}_h}\leq\varepsilon\]
+\end{definition}
+\begin{definition}
+  Линейная схема $\begin{cases}
+      L_hy_h = f_h \\
+      l_hy_h = \varphi_h
+    \end{cases}$
+  называется устойчивой, если:
+  \[\norm{y^{(1)}_h-y^{(2)}_h}\leq C\left(\norm{f^{(1)}_h-f^{(2)}_h}+\norm{\varphi^{(1)}_h-\varphi^{(2)}_h}\right),\ \forall h\leq h_0\]
+  $C$ не должна зависеть от $h$.
+\end{definition}
+Если в разностной схеме матрица $L_h$ является не вырожденной, то $y_h=L_h^{-1}f_h$.
+Отсюда следует неравенство для нормы векторов
+\[\norm{y_h^{(1)}-y_h^{(2)}}_h\leq\norm{L^{-1}_h}_h\norm{f_h^{(1)}-f_h^{(2)}}_h\]
+То есть, чтобы удостовериться в том, что схема устойчива надо выбрать $C\geq \norm{L_h^{-1}}_h$.
+
+Исследуем устойчивость разностной схемы
+\begin{equation}\label{eq:scheme}
+  -\frac{y_{i+1}-2y_i+y_{i-1}}{h^2}=f_k,\ y_0=y_N=0,\ h=1/N \Leftrightarrow L_hy_h=f_h
+\end{equation}
+
+в сеточной интегральной норме $\norm{y_h}^2_h=(y_h,y_h)_h=\sum_{k=1}^{N-1}y_k^2$, согласованной с непрерывной нормой $\norm{y(x)}_{L_2(0,1)}^2=\int_{0}^{1}y^2(x)dx$ исходной задачи.
+Будем оценивать норму оператора $\norm{L_h^{-1}}_h$, где
+\[\norm{L_h^{-1}}_h^2\defeq\sup_{y_h\neq0}\frac{\norm{L_h^{-1}y_h}_h}{\norm{y_h}_h}=\sup_{y_h\neq0}\frac{(L_h^{-1}y_h,L_h^{-1}y_h)_h}{(y_h,y_h)_h}\]
+Пусть известны собственные числа $\lambda_n$ матрицы $L_h$,
+собственные вектора ортонормальны: $(y^{(n)},y^{(m)})=\delta_m^n$.
+Тогда
+\[\norm{L_h^{-1}}_h^2=\sup_{\{c_n\}}\frac{(\sum\lambda^{-1}_nc_ny_h^{(n)},\sum\lambda^{-1}_nc_ny_h^{(n)})_h}{(\sum c_ny_h^{(n)},\sum c_ny_h^{(n)})_h}=\sup_{\{c_n\}}\frac{\sum\lambda^{-2}_nc^2_n}{\sum c_n^2}=\max_n{\abs{\lambda_n^{-2}}}\sup_{\{c_n\}}\frac{\sum c^2_n}{\sum c_n^2}=\max_n{\abs{\lambda_n^{-2}}}\]
+То есть $\norm{L_h}_h=\lambda^{-1}_{\min}$. Решив разностную задачу $\eqref{eq:scheme}$ аналитически, получим
+\[y_k^{(n)}=\sin\pi nkh,\ \lambda_n=\frac{4}{h^2}\sin^2\frac{\pi nh}{2},\ n=1,\ldots,N-1\]
+Проверим, что получившиеся решения уравнения являются ортогональными векторами.
+Матрица $L_h$ симметрична $L_h=L_h^T$, а это значит, что
+\[(L_hy^{(n)},y^{(m)})_h=(y^{(n)},L_hy^{(m)})_h\Leftrightarrow 0=(L_hy^{(n)},y^{(m)})_h-(y^{(n)},L_hy^{(m)})_h=(\lambda^{(n)}-\lambda^{(m)})(y^{(n)},y^{(m)})_h\]
+То есть $(y^{(n)},y^{(m)})_h=0$ для $\lambda^{(m)}\neq\lambda^{(n)}$.
+Ортогональность собственных векторов доказана.
+
+\begin{minipage}{.5\linewidth}
+  \tikzsetnextfilename{19/SinInequation}
+  \begin{tikzpicture}[scale=1.5]
+    \draw (-2,0) grid (2,2);
+    \draw [domain=-2:2,color=red] plot function{abs(sin(x))} node[anchor=north west]{$\sin\abs{x}$};
+    \draw [domain=-2:2,color=blue] plot function{abs(x*2/pi)} node[right]{$\frac{2}{\pi}\abs{x}$};
+  \end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}{.5\linewidth}
+  Из неравенства $\sin\abs{x}\geq\frac{2}{\pi}\abs{x}$ при $\abs{x}\leq\frac{\pi}{2}$ имеем
+  \[\lambda_{\min}=\lambda_1=\frac{4}{h^2}\sin^2\frac{\pi h}{2}\geq\frac{4}{h^2}h^2\geq4\]
+  \[\lambda_{\max}=\lambda_{N-1}=\frac{4}{h^2}\sin^2\frac{\pi h(N-1)}{2}\leq\frac{4}{h^2}\sin^2\frac{\pi}{2}\leq\frac{4}{h^2}\]
+\end{minipage}
+Таким образом, верна не зависящая от $h$ оценка для нормы $\norm{L_h^{-1}}_h\leq\frac{1}{4}$,
+то есть мы доказали устойчивость схемы по определению.
