@@ -1,1 +1,73 @@
 \section{Устойчивость краевой задачи для уравнения второго порядка: энергетический метод.}
+
+Напомним определение устойчивости
+\begin{definition}
+  Разностная схема $\begin{cases}
+      L_hy_h = f_h \\
+      l_hy_h = \varphi_h
+    \end{cases}$
+  называется устойчивой, если:
+  $\forall y_h^{(1)}$, $y_h^{(2)}\ \forall \varepsilon > 0\ \exists\delta=\delta(\varepsilon):$
+  \[\norm{f^{(1)}_h-f^{(2)}_h}+\norm{\varphi^{(1)}_h-\varphi^{(2)}_h}\leq\delta,\ \forall h\leq h_0\Rightarrow\norm{y^{(1)}_h-y^{(2)}_h}\leq\varepsilon\]
+\end{definition}
+\begin{definition}
+  Линейная схема $\begin{cases}
+      L_hy_h = f_h \\
+      l_hy_h = \varphi_h
+    \end{cases}$
+  называется устойчивой, если:
+  \[\norm{y^{(1)}_h-y^{(2)}_h}\leq C\left(\norm{f^{(1)}_h-f^{(2)}_h}+\norm{\varphi^{(1)}_h-\varphi^{(2)}_h}\right),\ \forall h\leq h_0\]
+  $C$ не должна зависеть от $h$.
+\end{definition}
+
+Будем доказывать устойчивость разностной схемы энергетическим методом.
+Запишем нашу дифференциалную задачу
+\[-y''(x)+p(x)y(x)=f(x),\ y(0) = y'(1) = 0,\ p(x)\geq 0\]
+Умножим уравнение на $y(x)$, и результат проинтегрируем по отрезку $[0, 1]$
+\[\int_0^1 (-y''y+py^2)dx = \int_0^1fydx \]
+\[\int_0^1 -y''ydx+ \int_0^1py^2 dx = \int_0^1fydx \]
+Проинтегрируем по частям первое слагаемое
+\[\int_0^1 -y''ydx = \int_0^1-ydy' = -yy'\vert^1_0 - \int_0^1y'd(-y) = \int_0^1(y')^2dx\]
+Получили интегральное тождество
+\[\int_0^1 (y'(x))^2dx+ \int_0^1py^2 dx = \int_0^1fydx \]
+Оценим слева через неравенство, связывающее интегралы от квадратов
+функции и ее производной. Так как $y(0) = 0$, то справедливо следующее:
+\[y(x_0) = \int_0^{x_0}y'(x)dx\]
+Применим интегральную форму неравенства Коши-Буняковского:
+\[|y(x_0)|^2 = \left|\int_0^{x_0}y'dx\right|^2\leq\left(\int_0^{x_0}1^2dx\right)\left(\int_0^{x_0}(y')^2dx\right)\leq\int_0^{x_0}(y')^2dx\leq\int_0^{1}(y')^2dx\]
+После интегрирования по $x_0$ по отрезку $[0,1]$ обеих частей получим искомое равенство
+\[\int_0^1|y(x_0)|^2dx_0 \leq \int_0^{1}(y')^2dx\int_0^1dx_0 \Leftrightarrow \int_0^1y^2dx\leq\int_0^1(y')^2dx\]
+Оценку справа выведем из разности квадратов:
+\[0\leq\int_0^1(f - y)^2dx\leq\int_0^1f^2dx-2\int_0^1fydx+\int_0^1y^2dx\]
+\[\Rightarrow\int_0^1fydx\leq\frac{1}{2}\left(\int_0^1f^2dx + \int_0^1y^2dx\right)\]
+
+Таким образом, имеем:
+\[\int_0^1y^2dx\leq\int_0^1 (y'(x))^2dx+ \int_0^1py^2 dx = \int_0^1fydx\leq\frac{1}{2}\left(\int_0^1f^2dx + \int_0^1y^2dx\right)\]
+Получаем следующую оценку
+\[\int_0^1y^2dx\leq\int_0^1f^2dx\Rightarrow\Vert y\Vert_{L_2(0,1)}\leq\Vert f\Vert_{L_2(0,1)}\]
+Это означает устойчивость дифференциальной задачи по правой части.
+
+Докажем теперь устойчивость разностной схемы.
+\[-\frac{y_{k+1}-2y_k+y_{k-1}}{h^2}+p_ky_k = f_k,\ 1 \leq k \leq N-1,\ y_0 = 0,\ y_N = y_{N-1}\]
+Умножим на $y_k$ и просуммируем от $1$ до $N-1$. Так как $y_0 = 0,\ y_N = y_{N-1}$
+\[-\frac{1}{h^2}\left(\sum_{k=1}^{N-1}\left(y_{k+1}-2y_k+y_{k-1}\right)y_k\right)=-\frac{1}{h^2}\left(\sum_{k=1}^{N-1}\left(y_{k+1}-y_k-y_k+y_{k-1}\right)y_k\right)=\]
+\[=-\frac{1}{h^2}\sum_{k=1}^{N-1}\left(y_{k+1}-y_k\right)y_k+\frac{1}{h^2}\sum_{k=1}^{N-1}\left(y_k-y_{k-1}\right)y_k=-\frac{1}{h^2}\sum_{k=2}^{N}\left(y_{k}-y_{k-1}\right)y_{k-1}+\frac{1}{h^2}\sum_{k=1}^{N-1}\left(y_k-y_{k-1}\right)y_k=\]
+\[=-\frac{1}{h^2}\sum_{k=2}^{N}\left(-\left(y_{k}-y_{k-1}\right)y_{k-1}+\left(y_k-y_{k-1}\right)y_k\right)=\frac{1}{h^2}\sum_{k=1}^{N}(y_k-y_{k-1})^2\]
+Получили конечномерный аналог интегрального тождества:
+\[\frac{1}{h^2}\sum_{k=1}^N(y_k-y_{k-1})^2+\sum_{k=1}^{N-1}p_ky_k^2=\sum_{k=1}^{N-1}f_ky_k\]
+Для оценки слева докажем сеточный аналог неравенства для функции и ее производной в точках $k=1,...,N-1$.
+Так как $y_0 = 0$, справедливо следующее:
+\[y_k=\sum_{i=1}^{k}(y_i-y_{i-1})\]
+Воспользуемся неравенством Коши-Буняковского и $y_N=y_{N-1}$
+\[y_k^2\leq\left(\sum_{i=1}^k1^2\right)\left(\sum_{i=1}^k(y_i-y_{i-1})^2\right)\leq (N-1)\sum_{i=1}^{N-1}(y_i-y_{i-1})^2\]
+Суммируя до $N-1$ обе части, при $h=\frac{2}{2N-1}$ получаем оценку:
+\[\sum_{k=1}^{N-1}y_k^2\leq(N-1)^2\sum_{k=1}^{N-1}(y_k-y_{k-1})^2\leq\frac{1}{h^2}\sum_{k=1}^{N-1}(y_k-y_{k-1})^2\]
+Найдем аналогично дифференциальному неравенству оценку справа
+\[0\leq\sum_{k=1}^{N-1}(f_k-y_k)^2 = \sum_{k=1}^{N-1}f_k^2-2\sum_{k=1}^{N-1}f_ky_k+\sum_{k=1}^{N-1}y_k^2\]
+\[\Rightarrow\sum_{k=1}^{N-1}f_ky_k\leq\frac{1}{2}\left(\sum_{k=1}^{N-1}f_k^2+\sum_{k=1}^{N-1}y_k^2\right)\]
+Итоговая оценка имеет вид
+\[\sum_{k=1}^{N-1}y_k^2\leq\frac{1}{h^2}\sum_{k=1}^{N-1}(y_k-y_{k-1})^2+\sum_{k=1}^{N-1}p_ky_k^2=\sum_{k=1}^{N-1}f_ky_k\leq\frac{1}{2}\left(\sum_{k=1}^{N-1}f_k^2+\sum_{k=1}^{N-1}y_k^2\right)\]
+Таким образом,
+\[\sum_{k=1}^{N-1}y_k^2\leq\sum_{k=1}^{N-1}f_k^2\Rightarrow\sum_{k=1}^{N-1}y_k^2h\leq\sum_{k=1}^{N-1}f_k^2h\Rightarrow\Vert y_h\Vert^2_h\leq\Vert f_h\Vert^2_h\]
+То есть \textbf{разностная схема устойчива} в норме $\Vert\cdot\Vert_h$.
+
