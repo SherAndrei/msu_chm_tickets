@@ -1,1 +1,118 @@
 \section{Метод прогонки.}
+
+Требуется найти решение $y$ задачи $Ay=f,\ A\in \mathbb{R}^{N-1\times N-1}$
+с заданной матрицей квадратной матрицей $A$ (примеры см. ниже), заданной правой частью $f$.
+
+Перепишем матрицу $A$, сделав вспомогательные замены:
+\[\left(\begin{array}{cccccc}
+      c_1  & -b_1 &        &          &          & 0        \\
+      -a_2 & c_2  & -b_2   &          &          &          \\
+           &      & \cdots & \cdots   &          &          \\
+           &      &        & -a_{N-2} & c_{N-2}  & -b_{N-2} \\
+      0    &      &        &          & -a_{N-1} & c_{N-1}  \\
+    \end{array}\right)\]
+Тогда задачу можно переписать следующем образом
+\begin{equation}\label{eq:tridiag_method}
+  \begin{array}{cc}
+    c_1y_1-b_1y_2=f_1,                      & k=1            \\
+    -a_ky_{k-1}+c_ky_k-b_ky_{k+1}=f_k       & k=2,\ldots,N-2 \\
+    -a_{N-1}y_{N-2}+c_{N-1}y_{N-1}=f_{N-1}, & k=N-1
+  \end{array}
+\end{equation}
+
+Перепишем первое уравнение
+\[ c_1y_1-b_1y_2=f_1 \Leftrightarrow y_1-\frac{b_1}{c_1}y_2=\frac{f_1}{c_1}\Leftrightarrow y_1=\alpha_2y_2+\beta_2,\ \alpha_2=\frac{b_1}{c_1},\ \beta_2=\frac{f_1}{c_1}\]
+Найдем $\alpha_{k+1}$ и $\beta_{k+1}$, используя полученную формулу $y_{k-1}=\alpha_ky_k+\beta_k$, подставив во второе уравнение
+\[-a_k(\alpha_ky_k+\beta_k)+c_ky_k-b_ky_{k+1}=f_k\Leftrightarrow(-a_k\alpha_k+c_k)y_k-a_k\beta_k-b_ky_{k+1}=f_k\Leftrightarrow\]
+\[\Leftrightarrow(-\alpha_ka_k+c_k)y_k+(-b_k)y_{k+1}=a_k\beta_k+f_k\Leftrightarrow y_k=\left(\frac{b_k}{c_k-\alpha_ka_k}\right)y_{k+1}+\frac{a_k\beta_k+f_k}{c_k-\alpha_ka_k}\]
+\[\alpha_{k+1}=\frac{b_k}{c_k-\alpha_ka_k},\ \beta_{k+1}=\frac{a_k\beta_k+f_k}{c_k-\alpha_ka_k}\]
+Рассмотрим последнее равенство, подставим в него $y_{N-2}=\alpha_{N-1}y_{N-1}+\beta_{N-1}$
+\[-a_{N-1}(\alpha_{N-1}y_{N-1}+\beta_{N-1})+c_{N-1}y_{N-1}=f_{N-1}\]
+\[y_{N-1}=\frac{f_{N-1}+a_{N-1}\beta_{N-1}}{c_{N-1}-a_{N-1}\alpha_{N-1}};\ y_k=\alpha_{k+1}y_{k+1}+\beta_{k+1},\ k=N-2,\ldots,1\]
+Получили формулы для \textit{правой прогонки}.
+
+\begin{theorem}[Достаточные условия корректности и устойчивости метода прогонки]
+  Пусть коэффициенты \eqref{eq:tridiag_method} действительны и удовлетворяют
+  условиям: $c_1$, $c_{N-1}$, $a_k$, $c_k$, $b_k$ при $k=2,\ldots,N-2$
+  отличны от нуля и
+  \[\abs{c_k}\geq\abs{a_k}+\abs{b_k},\ k=2,\ldots,N-2\]
+  \[\abs{c_1}\geq\abs{b_1};\ \abs{c_{N-1}}\geq\abs{a_{N-1}}\]
+  При чем хотя бы одно из неравенств является строгим. Тогда
+  для формул метода прогонки справедливы неравенства
+  \[c_k-a_k\alpha_k\neq0,\ \abs{a_k}\leq1,\ k=2,\ldots,N-1\]
+  гарантирующие разрешимость и устойчивость, то есть корректность метода.
+\end{theorem}
+\begin{proof}
+  Убедимся методом индукции, что ни один из знаменателей не обращается в ноль,
+  то есть убедимся в устойчивости метода.
+  База: $\abs{\frac{b_1}{c_1}}=\abs{\alpha_2}\leq1$ из условий теоремы.
+  Шаг: Пусть $\abs{\alpha_k}\leq1$.
+  \[\abs{c_k-a_k\alpha_k}\geq\abs{c_k}-\abs{a_k}\abs{\alpha_k}\geq\abs{c_k}-\abs{\alpha_k}\geq\abs{b_k}>0\]
+  \[\Rightarrow\abs{\alpha_{k+1}}=\frac{\abs{b_k}}{\abs{c_k-\alpha_ka_k}}\leq1\]
+  Обратим внимание, что если $\abs{\alpha_{k_0}}<1$, то $\forall k>k_0$ $\alpha_k<1$.
+
+  Проверим, что последнее слагаемое так же не обратится в ноль. Рассмотрим
+  \[\abs{c_{N-1}-\alpha_{N-1}a_{N-1}}\geq\abs{c_{N-1}}-\abs{\alpha_{N-1}}\abs{a_{N-1}}\]
+  Здесь нам потребуется условие, что хотя бы одно из неравенств должно обращаться в строгое равенство.
+  \begin{enumerate}
+    \item Если $\abs{c_{N-1}}>\abs{a_{N-1}}$, то $\abs{c_{N-1}}-\abs{\alpha_{N-1}}\abs{a_{N-1}}>0$, значит и $\abs{c_{N-1}-\alpha_{N-1}a_{N-1}}>0$, ч.т.д.
+    \item Если $\abs{c_k}>\abs{a_k}+\abs{b_k}$, то $\abs{c_k}-\abs{a_k}>\abs{b_k}>0$, значит и $\abs{c_{N-1}-\alpha_{N-1}a_{N-1}}>0$, ч.т.д.
+    \item Если $\abs{c_1}>\abs{b_1}$, то $\abs{\alpha_2}<1\Rightarrow\abs{\alpha_{N-1}<1}$, значит и $\abs{c_{N-1}-\alpha_{N-1}a_{N-1}}>0$, ч.т.д.
+  \end{enumerate}
+\end{proof}
+
+\begin{example}
+  Для задачи $-y''=f,\ y(0)=a,\ y(1)=b$ разностная аппроксимация имеет вид
+  \[\frac{1}{h^2}\underset{N-1\times N-1}{\left(\begin{array}{cccccc}
+        2  & -1 &        &        &    & 0  \\
+        -1 & 2  & -1     &        &    &    \\
+           &    & \cdots & \cdots &    &    \\
+           &    &        & -1     & 2  & -1 \\
+        0  &    &        &        & -1 & 1  \\
+      \end{array}\right)}
+    \left(\begin{array}{c}
+        y_{1}   \\
+        \\
+        \vdots  \\
+        \\
+        y_{N-1} \\
+      \end{array}\right)
+    =\left(\begin{array}{c}
+        f_{1} +\frac{a}{h^2}   \\
+        \\
+        \vdots                 \\
+        \\
+        f_{N-1} +\frac{b}{h^2} \\
+      \end{array}\right)
+  \]
+  В данном примере мы исключили известные значениея $y_0$, $y_N$. Метод прогонки устойчив.
+\end{example}
+
+\begin{example}
+  Для задачи $-y''=f,\ y'(0)=a,\ y'(1)=b$ разностная аппроксимация имеет вид
+  \[\frac{1}{h^2}\underset{N+1\times N+1}{\left(\begin{array}{cccccc}
+        2  & -2 &        &        &    & 0  \\
+        -1 & 2  & -1     &        &    &    \\
+           &    & \cdots & \cdots &    &    \\
+           &    &        & -1     & 2  & -1 \\
+        0  &    &        &        & -2 & 2  \\
+      \end{array}\right)}
+    \left(\begin{array}{c}
+        y_{0}  \\
+        \\
+        \vdots \\
+        \\
+        y_{N}  \\
+      \end{array}\right)
+    =\left(\begin{array}{c}
+        f_{0} -\frac{2a}{h} \\
+        \\
+        \vdots              \\
+        \\
+        f_{N} -\frac{2b}{h} \\
+      \end{array}\right)
+  \]
+  Аппроксимация для краевых условий здесь подобрана с помощью $\delta$-поправки.
+  Метод прогонки в данной задаче не устойчив, так как не выполняется условие
+  о наличии хотя бы одного строгого неравенства.
+\end{example}
