@@ -28,9 +28,9 @@ jobs:
       - name: Gather build artifacts
         if: always()
         run: |
-          mkdir -p build
+          mkdir -p build build/logs
           mv *.pdf ./build/ || true
-          find . -name "*.log" -exec mv '{}' "./build/" ";";
+          find . -name "*.log" -exec mv '{}' "./build/logs/" ";";
 
       - name: Upload artifacts
         if: always()
