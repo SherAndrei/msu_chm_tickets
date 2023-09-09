@@ -86,15 +86,52 @@
 \end{proof}
 
 \subsubsection*{Явный метод Эйлера}
+
 Разностная схема получается из пункта 1) доказанной выше леммы:
 \[\frac{y_{k+1}-y_k}{h}= f(x_k,y_k) + \bigO(h),\ y_0=y(x_0)\]
 Локальная погрешность $O(h^2)$, глобальная погрешность и сходимость $O(h)$.
 
+\begin{figure}[h]
+  \centering
+  \tikzsetnextfilename{13/ExplicitEuler}
+  \begin{tikzpicture}[scale=2]
+    \def\StartX {0.3};
+    \draw [dashed] (\StartX,0) node[below]{$x_k$} -- (\StartX,{exp(\StartX*\StartX-1)});
+    \draw [domain=0:2, range=0:2,color=red] plot function{exp(x*x-1)} node[anchor=north west]{$y{(x)}$};
+
+    \def\EndX {1.1};
+    \draw [dashed] (\EndX,0) node[below]{$x_{k+1}$} -- (\EndX,{+exp(\EndX*\EndX-1)});
+    \draw [domain=0:\EndX, color=teal,thick] plot function{exp(\StartX*\StartX-1)+2*exp(-1 + \StartX*\StartX)*\StartX*(x-\StartX)} node[right]{$y(x_k)+f(x_k)(x-x_k)$};
+    \draw [<->] (\EndX,{exp(\StartX*\StartX-1)+2*exp(-1 + \StartX*\StartX)*\StartX*(\EndX-\StartX)}) -- node[right]{$\bigO(h)$} (\EndX, {exp(\EndX*\EndX-1)});
+    \draw [<->] (\StartX, 0) --node[below]{$h$} (\EndX, 0);
+  \end{tikzpicture}
+  \caption{Пример явного метода Эйлера}
+\end{figure}
+
 \subsubsection*{Неявный метод Эйлера}
+
 Разностная схема получается из пункта 2) доказанной выше леммы:
 \[\frac{y_{k+1}-y_k}{h}= f(x_{k+1},y_{k+1}) + \bigO(h),\ y_0=y(x_0)\]
 Локальная погрешность $O(h^2)$, глобальная погрешность и сходимость $O(h)$.
 Является более устойчивой схемой, чем явный метод Эйлера.
+
+\begin{figure}[h]
+  \centering
+  \tikzsetnextfilename{13/ImplicitEuler}
+  \begin{tikzpicture}[scale=2]
+    \def\StartX {0.3};
+    \draw [dashed] (\StartX,0) node[below]{$x_k$} -- (\StartX,{exp(\StartX*\StartX-1)});
+    \draw [domain=0:2, range=0:2,color=red] plot function{exp(x*x-1)} node[anchor=north west]{$y{(x)}$};
+
+    \def\EndX {1.1};
+    \draw [dashed] (\EndX,0) node[below]{$x_{k+1}$} -- (\EndX,{+exp(\EndX*\EndX-1)});
+    \draw [domain=0:4, range=0:2.8, color=teal, thick] plot function{exp(\StartX*\StartX-1)+2*exp(-1 + \EndX*\EndX)*\EndX*(x-\StartX)} node[right]{$y(x_k)+f(x_{k+1})(x-x_k)$};
+    \draw [domain=0:2, range=0:2, color=darkgray, dashed] plot function{exp(\EndX*\EndX-1)+2*exp(-1 + \EndX*\EndX)*\EndX*(x-\EndX)} node[right]{$y(x_{k+1})+f(x_{k+1})(x-x_{k+1})$};
+    \draw [<->] (\EndX,{exp(\StartX*\StartX-1)+2*exp(-1 + \EndX*\EndX)*\EndX*(\EndX-\StartX)}) -- node[anchor=south west]{$\bigO(h)$} (\EndX, {exp(\EndX*\EndX-1)});
+    \draw [<->] (\StartX, 0) --node[below]{$h$} (\EndX, 0);
+  \end{tikzpicture}
+  \caption{Пример неявного метода Эйлера}
+\end{figure}
 
 Неявный метод называется именно так из-за того, что разностное уравнение
 в схеме является нелинейным. Для того, чтобы его решать предлагается
@@ -132,6 +169,27 @@
     y_0=y(x_0)
   \end{cases}\]
 
+\begin{figure}[h]
+  \centering
+  \tikzsetnextfilename{13/ImplicitAdamsMidPoint}
+  \begin{tikzpicture}[scale=2]
+    \def\StartX {0.3};
+    \draw [dashed] (\StartX,0) node[below]{$x_k$} -- (\StartX,{exp(\StartX*\StartX-1)});
+    \draw [domain=0:2, range=0:2,color=red] plot function{exp(x*x-1)} node[anchor=north west]{$y{(x)}$};
+
+    \def\EndX {1.1};
+    \draw [dashed] (\EndX,0) node[below]{$x_{k+1}$} -- (\EndX,{+exp(\EndX*\EndX-1)});
+    \draw [domain=0:1.3, color=teal,thick] plot function{exp(\StartX*\StartX-1)+2*exp(-1 + (\StartX+\EndX)**2/4)*(\StartX+\EndX)*(x-\StartX)/2} node[right]{$y(x_k)+(x-x_k)f(\frac{x_k+x_{k+1}}{2})$};
+    \draw [domain=0:1.3, color=darkgray, dashed] plot function{exp(((\StartX+\EndX)**2)/4-1)+2*exp(-1 + (\StartX+\EndX)**2/4)*(\StartX+\EndX)*(x-(\EndX+\StartX)/2)/2} node[anchor=north west]{$y(\frac{x_k+x_{k+1}}{2})+(x-\frac{x_{k+1}+x_k}{2})f(\frac{x_k+x_{k+1}}{2})$};
+    \draw [<->] (\EndX,{exp(\StartX*\StartX-1)+2*exp(-1 + (\StartX+\EndX)^2/4)*(\StartX+\EndX)*(\EndX-\StartX)/2}) -- node[left]{$\bigO(h^2)$} (\EndX, {exp(\EndX*\EndX-1)});
+    \draw [<->] (\StartX, 0) --node[below]{$h$} (\EndX, 0);
+  \end{tikzpicture}
+  \caption{Пример неявного метода Адамса через среднюю точку}
+\end{figure}
+
+Через точку $x_k$ проводится касательная с углом наклона,
+равным коэффициенту касательной, построенной по явному методу Эйлера через среднюю точку.
+
 \subsubsection*{Через формулу трапеции}
 Разностная схема получается из пункта 4) доказанной выше леммы:
 \[y_{k+1}=y_k+h\frac{f(x_k,y_k)+f(x_{k+1},y_{k+1})}{2}+\bigO(h^3)\]
@@ -157,8 +215,32 @@
     y_{k+1}=y_k+h\frac{f(x_k,y_k)+f(x_{k+1},y_{k+1}^*)}{2}+\bigO(h^3) \\
     y_0=y(x_0)
   \end{cases}\]
+
+\begin{figure}[h]
+  \centering
+  \tikzsetnextfilename{13/ImplicitAdamsTrapezoid}
+  \begin{tikzpicture}[scale=2]
+    \def\StartX {0.3};
+    \draw [dashed] (\StartX,0) node[below]{$x_k$} -- (\StartX,{exp(\StartX*\StartX-1)});
+    \draw [domain=0:2, range=0:2,color=red] plot function{exp(x*x-1)} node[anchor=north west]{$y{(x)}$};
+
+    \def\EndX {1.1};
+    \draw [dashed] (\EndX,0) node[below]{$x_{k+1}$} -- (\EndX,{+exp(\EndX*\EndX-1)});
+    \draw [domain=0:1.3, color=teal,thick] plot function{exp(\StartX*\StartX-1)+(exp(-1 + \StartX*\StartX)*\StartX+exp(-1 + \EndX*\EndX)*\EndX)*(x-\StartX)} node[above]{$y(x_k)+(x-x_k)\frac{f(x_k)+f(x_{k+1})}{2}$};
+    \draw [domain=0:1.3, range=0:2, color=darkgray, dashed] plot function{exp(\StartX*\StartX-1)+(2*exp(-1 + \StartX*\StartX)*\StartX)*(x-\StartX)} node[right]{$y(x_k)+(x-x_k)f(x_k)$};
+    \draw [domain=0:1.3, range=0:2, color=darkgray, dashed] plot function{exp(\EndX*\EndX-1)+(2*exp(-1 + \EndX*\EndX)*\EndX)*(x-\EndX)} node[right]{$y(x_{k+1})+(x-x_{k+1})f(x_{k+1})$};
+    \draw [<->] (\EndX,{exp(\StartX*\StartX-1)+(exp(-1 + \StartX*\StartX)*\StartX+exp(-1 + \EndX*\EndX)*\EndX)*(\EndX-\StartX)}) -- node[anchor=north west]{$\bigO(h^2)$} (\EndX, {exp(\EndX*\EndX-1)});
+    \draw [<->] (\StartX, 0) --node[below]{$h$} (\EndX, 0);
+  \end{tikzpicture}
+  \caption{Пример неявного метода Адамса через формулу трапеции}
+\end{figure}
+
+Через точку $x_k$ проводится касательная с углом наклона,
+равным среднему арифметическому коэффициентов
+касательных, построенных по явному и неявному методам Эйлера.
+
 \begin{remark}
   Предложенные варианты с заменой на явные методы Эйлера облегчают
-  подсчет итоговой расчетной формулы, но при этом отрицательно влияют на Устойчивость
+  подсчет итоговой расчетной формулы, но при этом отрицательно влияют на устойчивость
   задачи.
 \end{remark}
