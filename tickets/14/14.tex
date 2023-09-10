@@ -1,1 +1,114 @@
 \section{Методы Рунге–Кутта для решения задачи Коши.}
+
+Решая задачу $y'(x)=f(x,y(x)),\ y(x_0)=y_0$, хотим
+иметь возможность точно перейти от $y(x)\rightarrow y(x+h)$
+с наибольшим порядком точности $\bigO(h^{s+1})$.
+
+Основная идея заключается в том, что в отличие от явного
+метода Эйлера, который использует значение производной
+только в одной точке, мы возьмем несколько значений
+и с помощью весов добьемся более высокого порядка
+аппроксимации.
+
+Зафиксируем некоторые числа
+\[\alpha_2,\ldots,\alpha_q,\ p_1,\ldots,p_q,\ \beta_{ij},\ 0<j<i\leq q\]
+
+Последовательно вычислим
+\begin{align*}
+   & k_1(h) = hf(x,y(x))                                             \\
+   & k_2(h) = hf(x+\alpha_2h,y(x)+\beta_{21}k_1(h))                  \\
+   & k_3(h) = hf(x+\alpha_3h,y(x)+\beta_{32}k_2(h)+\beta_{31}k_1(h)) \\
+   & \vdots                                                          \\
+   & k_q(h) = hf(x+\alpha_qh,y(x)+\sum_{i=1}^{q-1}\beta_{qi}k_i(h))
+\end{align*}
+
+Тогда расчетная формула будем иметь вид:
+\[y(x+h)\simeq z(x+h)=y(x)+\sum_{i=1}^{q}p_ik_i(h)\]
+
+Обозначим погрешность метода на шаге как $\varphi(h)=y(x+h)-z(x+h)$.
+Если у $f(x,y)$ существует $s$ производных, то верна формула Тейлора,
+запишем ее с остаточным членом в форме Лагранжа
+\[\varphi(h)=\sum_{i=0}^{s}\frac{\varphi^{(i)}(0)}{i!}h^i+\frac{\varphi^{(s+1)}(\theta h)}{(s+1)!}h^{s+1},\ 0\leq\theta\leq 1\]
+
+Осталось подобрать $\alpha_i$, $p_i$, $\beta_{ij}$ так, чтобы $\varphi^{(i)}(0)=0,\ i=0,\ldots,s$.
+Если нам удастся это сделать, то локальная погрешность метода составляет $\bigO(h^{s+1})$,
+и величина $s$ называется \textit{порядком} метода.
+
+\begin{example}
+  Выпишем формулы расчета методом Рунге-Кутта с $q=1$.
+  \[\varphi(h)=y(x+h)-y(x)-p_1k_1(h)=y(x+h)-y(x)-p_1hf(x,y)\]
+  Хотим занулить как можно больше слагаемых, то есть производных в $0$. За счет выбора $\varphi$
+  сразу известно, что $\varphi(0)=0$. Посмотрим на следующие слагаемые подробнее:
+  \[\varphi'(0)=\left.(y(x+h)-y(x)-p_1hf(x,y))'\right|_{h=0}=\left.(y'(x+h)-p_1f(x,y))\right|_{h=0}=y'(x)-p_1f(x,y)=(1-p_1)f(x,y)\]
+  \[\varphi''(0)=\left.(y(x+h)-y(x)-p_1hf(x,y))''\right|_{h=0}=y''(x)\]
+  Чтобы достигнуть локальной погрешности $\bigO(h^2)$ возможно
+  взять только $p_1=1$. Погрешность в таком случае равна $\varphi(h)=\frac{h^2}{2}y''(x+\theta h)$.
+
+  Итоговая расчетная формула имеет вид
+  \[y(x+h)\simeq y(x)+hf(x,y)\]
+  То есть формула Рунге-Кутта с $q=1$ совпадает с явной формулой Эйлера.
+\end{example}
+
+\begin{example}
+  Посчитаем все формулы Рунге-Кутта для $q=2$.
+  \[\varphi(h)=y(x+h)-y(x)-p_1k_1(h)-p_2k_2(h)=y(x+h)-y(x)-p_1k_1(h)-p_2hf(\hat{x}, \hat{y})\]
+  где $\hat{x}=x+\alpha_2h,\ \hat{y}=y(x)+\beta_{21}k_1(h)$.
+  \begin{multline*}
+    \varphi(0)=0;\ \varphi'(0)=\left(y(x+h)-y(x)-p_1k_1(h)-p_2k_2(h)\right)'_{h=0}= \\
+    \left|\begin{array}{c}
+      (p_1k_1(h))'=p_1f(x,y) \\
+      (p_2k_2(h))'=p_2f(\hat{x}, \hat{y})+p_2h\underbrace{(\alpha_2f_x(\hat{x}, \hat{y})+\beta_{21}f(x,y)f_y(\hat{x}, \hat{y}))}_{q(h)}
+    \end{array}\right|\\
+    =\left(y'(x+h)-p_1f(x,y)-p_2f(\hat{x}, \hat{y})+p_2hq(h)\right)_{h=0}= \\
+    =y'(x)-p_1f(x,y)-p_2f(x, y)=f(x, y)(1-p_1-p_2)
+  \end{multline*}
+  \begin{equation}\label{eq:runge:first_deriv}
+    \Rightarrow\varphi'(0)=0\Leftrightarrow1-p_1-p_2=0
+  \end{equation}
+  \begin{multline*}
+    \varphi''(0)=\left(y(x+h)-y(x)-p_1k_1(h)-p_2k_2(h)\right)''_{h=0}= \\
+    \left|\begin{array}{c}
+      (p_1k_1(h))''=0 \\
+      \begin{array}{c}
+        (p_2k_2(h))''=(p_2f(\hat{x}, \hat{y})+p_2hq(h))'=2p_2q(h)+p_2hq'(h) = \\
+        =2p_2q(h)+p_2h(\alpha_2^2f_{xx}(\hat{x},\hat{y})+2\alpha_2\beta_{21}f(x,y)f_{xy}(\hat{x},\hat{y})+\beta_2^2f^2(x,y)f_{yy}(\hat{x},\hat{y}))
+      \end{array}
+    \end{array}\right| \\
+    =\left(y''(x+h)-2p_2q(h)-p_2h(\alpha_2^2f_{xx}(\hat{x},\hat{y})+2\alpha_2\beta_{21}f_{xy}(\hat{x},\hat{y})+\beta_2^2f^2(x,y)f_{yy}(\hat{x},\hat{y}))\right)_{h=0}= \\
+    \left|\begin{array}{c}y''_{hh}=(y'_h)'_h=(f)'=f_x+f_yy'_h=f_x+f_yf\end{array}\right| \\
+    =(1-2p_2\alpha_2)f_x(x,y)+(1-2p_2\beta_{21})f_y(x,y)f(x,y)
+  \end{multline*}
+  \begin{equation}\label{eq:runge:second_deriv}
+    \Rightarrow\varphi''(0)=0\Leftrightarrow\begin{cases}
+      1-2p_2\alpha_2 = 0 \\
+      1-2p_2\beta_{21} = 0
+    \end{cases}
+  \end{equation}
+  \begin{multline*}
+    \varphi'''(0)=\left(y(x+h)-y(x)-p_1k_1(h)-p_2k_2(h)\right)'''_{h=0}= \\
+    \left|\begin{array}{c}
+      (p_1k_1(h))'''=0 \\
+      \begin{array}{c}
+        (p_2k_2(h))'''=(2p_2q(h)+p_2hq'(h))'=3p_2q'(h)+\bigO(h) \\
+      \end{array}
+    \end{array}\right| \\
+    =\left(y'''(x+h)-3p_2(\alpha_2^2f_{xx}(\hat{x},\hat{y})+2\alpha_2\beta_{21}f_{xy}(\hat{x},\hat{y})+\beta_2^2f^2(x,y)f_{yy}(\hat{x},\hat{y}))+\bigO(h)\right)_{h=0}= \\
+    \left|\begin{array}{c}y'''_{hhh}=(y''_h)'_h=(f_x+f_yf)'=f_{xx}+f_{xy}f+(f_{yx}+f_{yy}f)f+f_y(f_x+f_yf)=f_{xx}+2f_{xy}f+f_{yy}f^2+f_yy''\end{array}\right| \\
+    =(1-3p_2\alpha_2^2)f_{xx}+(2-6\alpha_2\beta_{21})f_{xy}f+(1-3p_2\beta_2^2)f_{yy}f^2+f_yy''
+  \end{multline*}
+  Если в исходной задаче будет дано $y$ такое, что $y''\neq0$, то это соотношение
+  никогда не обратится в $0$. Отсюда следует, что в общем случае нельзя построить
+  формулу Рунге-Кутта со значениями $s=3$, $q=2$.
+
+  Рассмотрим конкретные примеры, удовлетворяющие соотношениям \eqref{eq:runge:first_deriv} и \eqref{eq:runge:second_deriv}:
+  \begin{enumerate}
+    \item $p_1=0,\ p_2=1,\ \alpha_1=\beta_{21}=1/2$.
+          Итоговая расчетная формула имеет вид
+          \[y(x+h)\simeq y(x)+hf(x+\frac{h}{2},y(x)+\frac{h}{2}f(x,y)))\]
+          Получили неявный метод Адамса второго порядка через формулу прямоугольника по средней точке.
+    \item $p_1=p_2=1/2,\ \alpha_2=\beta_{21}=1$.
+          Итоговая расчетная формула имеет вид
+          \[y(x+h)\simeq y(x)+\frac{h}{2}(f(x,y)+f(x+h,y(x)+hf(x,y)))\]
+          Получили неявный метод Адамса второго порядка через формулу трапеции.
+  \end{enumerate}
+\end{example}
