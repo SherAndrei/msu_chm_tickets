@@ -1,2 +1,25 @@
 \begin{task}
+
+  Для задачи
+  \[y'=f(x,y),\ f(x,y)=7y+\sin(2x),\ y(0)=1\]
+  предлагается выбрать неявную схему Адамса через формулу трапеции
+  \[\frac{y_{k+1}-y_k}{h}=\frac{f(x, y(x))+f(x+h, y(x)+hf(x,y))}{2}\]
+
+  \begin{enumerate}
+    \item Покажем аппроксимацию второго порядка
+          \[\abs{\frac{y(x+h)-y(x)}{2}-\frac{f(x,y(x))+f(x+h, y(x)+hf(x,y))}{2}}=\]
+          \[\abs{y'(x)+\frac{h}{2}y''(x)+\bigO(h^2)-\frac{f(x,y)+f(x,y)+hf_x(x,y)+hf_y(x,y)f(x,y)+\bigO(h^2)}{2}}=\]
+          \[y'=f(x,y),\ y'' = f_x + f_yf\]
+          \[\abs{y'(x)+\frac{h}{2}y''(x)+\bigO(h^2)-y'(x)-\frac{h}{2}y''(x)+\bigO(h^2)}=\bigO(h^2)\]
+    \item Проверим $\alpha$-устойчивость
+          \[\frac{y_{k+1}-y_k}{h}=0\Rightarrow P(\mu)=\mu-1=0\Rightarrow\mu=1\]
+  \end{enumerate}
+  Схема имеет второй порядок сходимости и является $\alpha$-устойчивой.
+  Получим явную расчетную формулу
+  \[\frac{y_{k+1}-y_k}{h}=\frac{7y_k + \sin(2x_k) + 7(y_k+h(7y_k + \sin(2x_k)))+\sin(2(x_k+h))}{2}\]
+  \[\frac{y_{k+1}-y_k}{h}=7y_k+\frac{\sin(2x_k)+49hy_k + 7h\sin(2x_k)+\sin(2(x_k+h))}{2}\]
+  \[\begin{cases}
+      y_{k+1}=y_k\left(1+7h+\frac{49h^2}{2}\right)+h\frac{\sin(2x_k) + 7h\sin(2x_k)+\sin(2(x_k+h))}{2} \\
+      y_0=1
+    \end{cases}\]
 \end{task}
