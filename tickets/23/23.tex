@@ -29,28 +29,19 @@
 \begin{example}
   Найдём константы эквивалентности, связывающие нормы $\norminf{x}, \norml{x}{1}, \norml{x}{2}$, а также векторы, на которых они достигаются (для которых выполняется равенство)
   \begin{proof}
-
-    Из неравенств $\max\limits_{1 \le i \le n} \abs{x_i} \le \sum\limits_{i=1}^{n} \abs{x_i} \le n \max\limits_{1 \le i \le n} \abs{x_i}$ следует
-    $$
-      \norminf{x} \le \norml{x}{1} \le n \norminf{x}
-    $$
-
-    Так как $\sum\limits_{i=1}^{n} x_i^2 \le \left( \sum\limits_{i=1}^{n} \abs{x_i} \right)^2$, то $\norml{x}{2}  \le \norml{x}{1}$. Из неравенства Коши-Буняковского ($\abs{(\mathbf{x}, \mathbf{y})} \le \norm{\mathbf{x}} \norm{\mathbf{y}}$) имеем
-    $$
-      \sum_{i=1}^{n} \abs{x_i} \le \sqrt{\sum_{i=1}^{n} 1} \sqrt{\sum_{i=1}^{n} x_i^2} = \sqrt{n} \sqrt{\sum_{i=1}^{n} x_i^2}
-    $$
-
-    (Перемножили вектор из одних единиц с $\mathbf{x}$, после чего из всего неравенства извлекли квадратный корень)
-
-    Следовательно,
-    $$
-      \frac{1}{\sqrt{n}} \norml{x}{1} \le \norml{x}{2} \le \norml{x}{1}
-    $$
-
-    Из неравенств $\max\limits_{1 \le i \le n} x_i^2 \le \sum\limits_{i=1}^{n} x_i^2 \le n \max\limits_{1 \le i \le n} x_i^2$ имеем
-    $$
-      \norminf{x} \le \norml{x}{2} \le \sqrt{n}\norminf{x}
-    $$
+    \begin{equation}
+      \max\limits_{1 \le i \le n} \abs{x_i} \le \sum\limits_{i=1}^{n} \abs{x_i} \le n \max\limits_{1 \le i \le n} \abs{x_i} \Rightarrow \norminf{x} \le \norml{x}{1} \le n \norminf{x}
+    \end{equation}
+    \begin{equation}
+      \begin{array}{l}
+        \sum\limits_{i=1}^{n} x_i^2 \le \left( \sum\limits_{i=1}^{n} \abs{x_i} \right)^2 \\
+        \frac{\sum\limits_{i=1}^n\abs{x_i}}{n}\leq\sqrt{\frac{\sum\limits_{i=1}^nx_i^2}{n}}
+      \end{array}
+      \Rightarrow \frac{1}{\sqrt{n}} \norml{x}{1} \le \norml{x}{2} \le \norml{x}{1}
+    \end{equation}
+    \begin{equation}
+      \max\limits_{1 \le i \le n} x_i^2 \le \sum\limits_{i=1}^{n} x_i^2 \le n \max\limits_{1 \le i \le n} x_i^2 \Rightarrow \norminf{x} \le \norml{x}{2} \le \sqrt{n}\norminf{x}
+    \end{equation}
 
     В полученных неравенствах константы эквивалентности достигаются на векторах либо с равными компонентами, либо с единственной ненулевой компонентой.
   \end{proof}
@@ -123,7 +114,7 @@
 \end{definition}
 
 \begin{example}
-  Функционал $\norm{A}_{F} = \sqrt{\sum\limits_{i,j = 1}^{n}} a_{ij}^2$ является матричной нормой и называется нормой Фробениуса.
+  Функционал $\norm{A}_{F} = \sqrt{\sum\limits_{i,j = 1}^{n} a_{ij}^2}$ является матричной нормой и называется нормой Фробениуса.
 \end{example}
 
 \begin{example}
@@ -140,8 +131,8 @@
     \norm{A}_v = \sup_{\norml{x}{v} \neq 0} \frac{\norm{A \mathbf{x}}_v}{\norml{x}{v}} = \sup_{\norml{x}{v} = 1} \norm{A \mathbf{x}}_v
   $$
   \begin{proof}
-    `Сводится к проверке свойств матричной нормы'
-    Тем не менее, для доказательства данного факта используется соотношение $\norm{A\mathbf{x}} \le \norm{A}\norm{\mathbf{x}}$. Докажем его от противного. Пусть $\norm{\mathbf{x}} \neq 0$ (иначе в следующем неравенстве сразу противоречие), предположим, что $\norm{A\mathbf{x}} > \norm{A}\norm{\mathbf{x}}$, тогда из этого следует $\frac{1}{\norm{\mathbf{x}}} \norm{A\mathbf{x}} > \norm{A}$. Заметим, что $\frac{1}{\norm{\mathbf{x}}}$ является скаляром, внесём его под норму (вектора). $\norm{A \frac{\mathbf{x}}{\norm{\mathbf{x}}}} > \norm{A} = \sup\limits_{\norm{\mathbf{y}} = 1} \norm{A \mathbf{y}} $. Но $\frac{\mathbf{x}}{\norm{\mathbf{x}}} $ это вектор единичной длины, а значит имеем противоречие, т.к. получили что-то большее чем точная верхняя грань (справа по определению)
+    Доказательство сводится к проверке свойств матричной нормы.
+    Для доказательства данного факта используется соотношение $\norm{A\mathbf{x}} \le \norm{A}\norm{\mathbf{x}}$. Докажем его от противного. Пусть $\norm{\mathbf{x}} \neq 0$ (иначе в следующем неравенстве сразу противоречие), предположим, что $\norm{A\mathbf{x}} > \norm{A}\norm{\mathbf{x}}$, тогда из этого следует $\frac{1}{\norm{\mathbf{x}}} \norm{A\mathbf{x}} > \norm{A}$. Заметим, что $\frac{1}{\norm{\mathbf{x}}}$ является скаляром, внесём его под норму (вектора). $\norm{A \frac{\mathbf{x}}{\norm{\mathbf{x}}}} > \norm{A} = \sup\limits_{\norm{\mathbf{y}} = 1} \norm{A \mathbf{y}} $. Но $\frac{\mathbf{x}}{\norm{\mathbf{x}}} $ это вектор единичной длины, а значит имеем противоречие, т.к. получили что-то большее чем точная верхняя грань (справа по определению)
 
     Теперь можно доказать последнее свойство матричной нормы. В соответствии с доказанным свойством имеем
     $$
@@ -261,7 +252,7 @@ $$
 \end{example}
 
 \begin{lemma}
-  $\forall A \;\; \cnd(\alpha A) = \cnd(A), \cnd(A) \ge 1$. Если матрица $Q$ ортогональная, то $\cnd_2(Q) = 1$
+  $\forall A \ \cnd(\alpha A) = \cnd(A), \cnd(A) \ge 1$. Если матрица $Q$ ортогональная ($Q^T=Q^{-1}$), то $\cnd_2(Q) = 1$
   \begin{proof}
     $\alpha$ при обращении матрицы сократится, тем самым первое будет доказано. Второе получается из оценки
     $$
@@ -279,11 +270,11 @@ $$
   \end{proof}
 \end{lemma}
 
-Также обусловленность не связана с определителем матрицы, приведем примеры
+Так же обусловленность не связана с определителем матрицы, приведем примеры
 \begin{example}
   Покажем, что если определитель матрицы мал, то матрица не обязательно плохо обусловлена, а определитель плохо обусловленной матрицы может равняться 1.
 
-  Пусть дана диагональная матрица $A = \varepsilon I$, где $\varepsilon > 0 -$ малое число и $I -$ единичная матрица. Определитель $\det(A) = \varepsilon n$ весьма мал, тогда как матрица $A$ хорошо обусловлена, поскольку
+  Пусть дана диагональная матрица $A = \varepsilon I$, где $\varepsilon > 0 -$ малое число и $I -$ единичная матрица. Определитель $\det(A) = \varepsilon^n$ весьма мал, тогда как матрица $A$ хорошо обусловлена, поскольку
   $$
     \cnd_\infty(A) = \norm{A}_\infty \norm{A^{-1}}_\infty = \varepsilon \norm{I}_\infty \varepsilon^{-1} \norm{A^{-1}}_\infty = 1
   $$
