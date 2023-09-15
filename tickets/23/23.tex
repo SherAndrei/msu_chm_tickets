@@ -159,7 +159,7 @@
   \begin{flalign*}
     & \norm{A}_\infty = \max_i \sum_{j=1}^{n} \abs{a_{ij}} - \text{максимум сумм строкам}                          \\
     & \norm{A}_1 = \max_j \sum_{i=1}^{n} \abs{a_{ij}} - \text{максимум сумм по столбцам}                           \\
-    & \norm{A}_2 = \max_i \lambda_i (A^\intercal A) - \text{максимальное собственное число матрицы } A^\intercal A
+    & \norm{A}_2 = \sqrt{\max_i \lambda_i (A^\intercal A)} - \text{корень из максимального собственного числа матрицы } A^\intercal A
   \end{flalign*}
 
   \begin{proof}
@@ -252,15 +252,18 @@ $$
 \end{example}
 
 \begin{lemma}
-  $\forall A \ \cnd(\alpha A) = \cnd(A), \cnd(A) \ge 1$. Если матрица $Q$ ортогональная ($Q^T=Q^{-1}$), то $\cnd_2(Q) = 1$
+  \begin{equation}\label{eq:stable_cond} \forall A \ \cnd(\alpha A) = \cnd(A)                                     \end{equation}
+  \begin{equation}\label{eq:positive_cond} \cnd(A) \ge 1                                                            \end{equation}
+  \begin{equation}\label{eq:cond_two} \forall A=A^T \ \cnd_2(A)=\frac{\max_i\lambda_i(A)}{\min_i\lambda_i(A)} \end{equation}
+  \begin{equation}\label{eq:orthogonal_cond} \forall Q:\ Q^T=Q^{-1} \Rightarrow \cnd_2(Q) = 1                      \end{equation}
   \begin{proof}
-    $\alpha$ при обращении матрицы сократится, тем самым первое будет доказано. Второе получается из оценки
-    $$
-      \cnd(A) = \norm{A}\norm{A^{-1}} \ge \norm{A A^{-1}} = \norm{I} \ge 1
-    $$
-    И для третьего
+    \begin{flalign*}
+      \eqref{eq:stable_cond}\quad & \cnd(\alpha A) = \norm{\alpha A} \norm{\alpha^{-1} A^{-1}} = \frac{\abs{\alpha}}{\abs{\alpha}}\cnd(A) \\
+      \eqref{eq:positive_cond}\quad & \cnd(A) = \norm{A}\norm{A^{-1}} \ge \norm{A A^{-1}} = \norm{I} \ge 1 \\
+      \eqref{eq:cond_two}\quad & \cnd_2(A)=\norm{A}\norm{A^{-1}}=\max_i\lambda_i(A)\cdot\max_i\lambda^{-1}_i(A)=\frac{\max_i\lambda_i(A)}{\min_i\lambda_i(A)}
+    \end{flalign*}
     \begin{multline*}
-      \norm{Q}_2 = \sup_{\norml{x}{2} \neq 0} \frac{\sqrt{(Q\mathbf{x}, Q\mathbf{x})}}{\norml{x}{2}} =
+      \eqref{eq:orthogonal_cond}\quad \norm{Q}_2 = \sup_{\norml{x}{2} \neq 0} \frac{\sqrt{(Q\mathbf{x}, Q\mathbf{x})}}{\norml{x}{2}} =
       \sup_{\norml{x}{2} \neq 0} \frac{\sqrt{(Q^\intercal Q\mathbf{x}, \mathbf{x})}}{\norml{x}{2}} = 1 = \\
       \sup_{\norml{x}{2} \neq 0} \frac{\sqrt{(Q Q^\intercal \mathbf{x}, \mathbf{x})}}{\norml{x}{2}} =
       \sup_{\norml{x}{2} \neq 0} \frac{\sqrt{( Q^\intercal \mathbf{x},Q^\intercal \mathbf{x})}}{\norml{x}{2}} =
