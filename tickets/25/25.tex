@@ -1,1 +1,178 @@
 \section{Метод отражений.}
+
+Среди точных методов, требующих для реализации порядка $\bigO(n^3)$ действий,
+одним из наиболее устойчивых к вычислительной погрешности является \textit{метод отражений}.
+
+\subsection*{Матрица Хаусхолдера}
+
+Пусть имеется некоторый единичный вектор $\mathbf{w}\in\R^n$, $\norml{w}{2}=1$.
+Построим по нему следующую матрицу $U_\mathbf{w} = I-2\mathbf{w}\mathbf{w}^T$, называемую матрицей
+Хаусхолдера. Здесь $I$ - единичный оператор, $\mathbf{w}\mathbf{w}^T=:\Omega$ - матрица
+с элементами $w_{ij}=\mathbf{w}_i\mathbf{w}_j$, являющаяся результатом произведения вектор-столбца
+$\mathbf{w}$ на вектор-строку $\mathbf{w}^T$.
+
+\begin{theorem}
+  Матрица Хаусхолдера обладает следующими свойствами
+  \begin{enumerate}
+    \item  $U_\mathbf{w}$ является симметричной и ортогональной, то есть $U_\mathbf{w}=U_\mathbf{w}^T$, $U_\mathbf{w}=U_\mathbf{w}^{-1}$, $\lambda_i(U_\mathbf{w})=\pm1$
+    \item  $U_\mathbf{w}\mathbf{w}=-\mathbf{w}$
+    \item  $\mathbf{v}\bot \mathbf{w}\Rightarrow U_\mathbf{w}\mathbf{v}=\mathbf{v}$
+    \item  Образ оператора $U_\mathbf{w}$ на вектор из $\R^n$ является
+          зеркальным отражением относительно гиперплоскости, перпендикулярной $\mathbf{w}$.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+
+  \begin{enumerate}
+    \item Симметричность матрицы $U_\mathbf{w}$ следует из явного вида $U_\mathbf{w}$.
+          Так как $(\mathbf{w}, \mathbf{w})_2=1$, то
+          \[(\Omega\Omega)_{ij}=\left(\sum_{k=1}^{n}(\Omega)_{ik}(\Omega)_{kj}\right)_{ij}=\left(\sum_{k=1}^{n}w_iw_kw_kw_j\right)_{ij}=\left(w_iw_j\sum_{k=1}^{n}w_k^2\right)_{ij}=\left(w_iw_j\right)_{ij}=(\Omega)_{ij}\]
+          Рассмотрим следующее произведение
+          \[U_\mathbf{w}^TU_\mathbf{w}=U_\mathbf{w}U_\mathbf{w}=(I-2\Omega)(I-2\Omega)=I-4\Omega+4\Omega\Omega=I\]
+          Из ортогональности матрицы следует, что она сохраняет скалярное произведение.
+          Зафиксируем собственный вектор $\mathbf{e}$:
+          \[(U_{\mathbf{w}}\mathbf{e},U_{\mathbf{w}}\mathbf{e})_2=(\lambda\mathbf{e},\lambda\mathbf{e})_2=\lambda^2(\mathbf{e},\mathbf{e})\Rightarrow1=\lambda^2\]
+    \item $\displaystyle (\Omega\mathbf{w})_i=\left(\sum_{k=1}^nw_iw_kw_k\right)_i=\left(w_i\sum_{k=1}^nw_k^2\right)_i=w_i\Rightarrow (1-2\Omega)\mathbf{w}=\mathbf{w}-2\mathbf{w}=-\mathbf{w}$
+    \item $\displaystyle (\Omega\mathbf{v})_i=\left(\sum_{k=1}^nw_iw_kv_k\right)_i=\left(w_i(\mathbf{w},\mathbf{v})_2\right)_i=0\Rightarrow (1-2\Omega)\mathbf{v}=\mathbf{v}-0=\mathbf{v}$
+
+          \begin{minipage}{0.4\linewidth}
+            \item $\displaystyle \forall\ \mathbf{y}\in\R^n: \mathbf{y}=\alpha \mathbf{v}+\beta \mathbf{w},\ \mathbf{w}\bot\mathbf{v}\Rightarrow$
+            \[\Rightarrow U_\mathbf{w}\mathbf{y}=\alpha U_\mathbf{w}\mathbf{v}+\beta U_\mathbf{w}\mathbf{w}=\alpha \mathbf{v}-\beta \mathbf{w}\]
+          \end{minipage}\hfill
+          \begin{minipage}{0.6\linewidth}
+            \centering
+            \tikzsetnextfilename{25/HouseholderTransformation}
+            \begin{tikzpicture}[scale=0.5]
+              \coordinate (O) at (0,0);
+              \coordinate (S) at (-1,0);
+              \coordinate (Y) at (1,2);
+              \draw[color=black] (O) ellipse (3cm and 0.5cm);
+              \draw[color=black,->] let \p1 = (Y) in (S) -- (\x1,\y1) node[right]{$\mathbf{y}$};
+              \draw[color=black,->] let \p1 = (Y) in (S) -- (\x1,0) node[right]{$\mathbf{v}$};
+              \draw[color=black,->] let \p1 = (Y) in (S) -- (\x1,-\y1) node[right]{$U_\mathbf{w}\mathbf{y}$};
+              \draw[color=black,->] let \p1 = (S) in (S) -- (\x1,1) node[left]{$\mathbf{w}$};
+              \draw[color=black,->] let \p1 = (S) in (S) -- (\x1,-1) node[left]{$-\mathbf{w}$};
+            \end{tikzpicture}
+          \end{minipage}
+  \end{enumerate}
+\end{proof}
+
+\subsection*{Преобразование Хаусхолдера}
+
+Ставится следующая задача: заданы два вектора $\mathbf{y}$ и $\mathbf{e}$
+единичной длины. Требуется найти единичный вектор $\mathbf{w}$ такой, что
+$U_\mathbf{w}\mathbf{y}=\mathbf{e}$.
+
+Для решения требуется воспользоваться тем, что образ оператора $U_\mathbf{w}\mathbf{y}$, $\mathbf{y}\in R^n$,
+является зеркальным отображением относительно гиперплоскости, перпендикулярной
+$\mathbf{w}$. Тогда искомый вектор можно представить как
+$\mathbf{w}=\pm(\mathbf{y}-\mathbf{e})/\norml{\mathbf{y}-\mathbf{e}}{2}$.
+Действительно,
+\[(U_\mathbf{w}\mathbf{y})_i=((I-2\Omega)\mathbf{y})_i=(\mathbf{y}-2\mathbf{w}\mathbf{w}^T\mathbf{y})_i=y_i-2\xi_i\]
+\[\xi_i=\frac{\sum_{k=1}^n(\mathbf{y}-\mathbf{e})_i(\mathbf{y}-\mathbf{e})_ky_k}{(\mathbf{y}-\mathbf{e},\mathbf{y}-\mathbf{e})}=\frac{(y_i-e_i)\sum_{k=1}^n(y_k-e_k)y_k}{(\mathbf{y}, \mathbf{y})-2(\mathbf{y}, \mathbf{e})+(\mathbf{e}, \mathbf{e})}=\frac{(y_i-e_i)\left(\sum_{k=1}^ny_k^2-\sum_{k=1}^ne_ky_k\right)}{2-2(\mathbf{y}, \mathbf{e})}=\]
+\[=\frac{(y_i-e_i)\left(1-(\mathbf{y}, \mathbf{e})\right)}{2(1-(\mathbf{y}, \mathbf{e}))}=\frac{y_i-e_i}{2}\Rightarrow
+  (U_\mathbf{w}\mathbf{y})_i=y_i-2\xi_i=y_i-2\frac{y_i-e_i}{2}=y_i-y_i+e_i=e_i\]
+
+Отметим, что преобразование $U_\mathbf{w}$ не мееняет длины вектора (т.к. матрица ортогональна),
+следовательно, для неединичного вектора $\mathbf{y}$ имеем:
+\[U_\mathbf{w}\mathbf{y}=\alpha\mathbf{e},\ \norm{\mathbf{y}}_2=\alpha\Rightarrow\mathbf{w}=\pm\frac{(\alpha^{-1}\mathbf{y}-\mathbf{e})}{\norml{\alpha^{-1}\mathbf{y}-\mathbf{e}}{2}}=\pm\frac{(\mathbf{y}-\alpha\mathbf{e})}{\norml{\mathbf{y}-\alpha\mathbf{e}}{2}}\]
+
+\subsection*{Метод отражений}
+
+Произвольная квадратная матрица $A$ может быть
+приведена к верхнетреугольному виду в результате последовательного умножения
+слева на ортогональные матрицы отражений. Действительно, по векторам
+$\mathbf{y}_1=(a_{11},\ldots,a_{n1})^T$ и $\mathbf{e}_1=(1,0\ldots,0)^T$ можно построить вектор
+$\mathbf{w}_1$ и матрицу $U_{\mathbf{w}_1}$ так, чтобы первый столбец матрицы
+$A^{(1)}=U_{\mathbf{w}_1}A$ был пропорционален вектору $\mathbf{e}_1\in\R^n$, то есть
+$U_{\mathbf{w}_1}\mathbf{y}_1=\pm\alpha_1\mathbf{e}_1$.
+\[\mathbf{w}_1=\left(\frac{a_{11}}{\alpha_1} + \sgn{(a_{11})}, \frac{a_{21}}{\alpha_1},\ldots,\frac{a_{n1}}{\alpha_1}\right)^T,\ \alpha_1 =\sqrt{\sum_{i=1}^na_{i1}^2};\ \mathbf{w}_1 := \frac{\mathbf{w}_1}{\norml{\mathbf{w}_1}{2}}\]
+Такой выбор знака и предварительная нормировка на $\alpha_1$ гарантируют малость
+вычислительной погрешности и устойчивость алгоритма.
+
+Далее в пространстве $\R^{n-1}$ по вектору $\mathbf{y}_2=(a^{(1)}_{22},\ldots,a^{(1)}_{n2})^T$ строится матрица
+$U_{\mathbf{w}_2}$, отображающая его в вектор, коллинеарный $\mathbf{e}=(1,0,\ldots,0)\in \R^{n-1}$.
+Затем определяется $U_{\mathbf{w}_2}=\left(\begin{array}{cc}1 & 0 \\ 0 & U'_{\mathbf{w}_2}\end{array}\right)$
+и рассматривается матрица $A^{(2)}=U_{\mathbf{w}_2}U_{\mathbf{w}_1}A$,
+и так далее. На $k$-м шаге имеем $U_{\mathbf{w}_k}=\left(\begin{array}{cc}
+      I_{k-1} & 0                 \\
+      0       & U'_{\mathbf{w}_k}
+    \end{array}\right)$. Таким образом, матрица отражений $U_{\mathbf{w}_k}$ строится
+по вектору $\mathbf{w}_k\in\R^n$, заданному следующим образом
+\[\mathbf{w}_k=\left(0,\ldots,0,\frac{a^{(k-1)}_{kk}}{\alpha_k} + \sgn{(a^{(k-1)}_{kk})}, \frac{a^{(k-1)}_{k+1,k}}{\alpha_k},\ldots,\frac{a^{(k-1)}_{nk}}{\alpha_k}\right)^T,\ \alpha_k =\sqrt{\sum_{i=k}^n(a^{(k-1)}_{ik})^2};\ \mathbf{w}_k = \frac{\mathbf{w}_k}{\norml{\mathbf{w}_k}{2}}\]
+
+В результате преобразований получится верхняя треугольная матрица $R=UA$.
+При практической реализации явное вычисление
+$U_{\mathbf{w}_k}$ не требуется, так как $U_{\mathbf{w}_k}A^{(k-1)}=A^{(k-1)}-2\mathbf{w}_k(\mathbf{w}_k^TA^{(k-1)})$.
+При этом изменяются только элементы $a^{(k-1)}_{ij}, k \leq i,j \leq n$ матрицы $A^{(k-1)}$.
+
+Из условия $UU=I$ имеем $A=UR$. Таким образом, произвольная квадратная
+матрица $A$ может быть представлена в виде произведения симметричной
+ортогональной матрицы $U$ и верхней треугольной матрицы $R$.
+
+Рассмотренный алгоритм позволяет свести СЛАУ
+$A\mathbf{x} = \mathbf{b}$ к виду $R\mathbf{x} = U_{\mathbf{w}_{n-1}}\ldots U_{\mathbf{w}_1}\mathbf{b}$,
+а затем найти ее решение обратным ходом метода Гаусса.
+Пусть решается задача с возмущенной правой частью
+$A\mathbf{x}=\mathbf{b}+\delta,\ \norml{\delta}{2}\ll \norm{\mathbf{b}}$. Так как ортогональные
+преобразования не меняют евклидову норму
+векторов, то для приведенной системы $R\mathbf{x} = U\mathbf{b}+U\delta$
+имеем $\norml{U\delta}{2} = \norml{\delta}{2} \ll \norml{\mathbf{b}}{2} = \norml{U\mathbf{b}}{2}$,
+и относительная погрешность правой части не увеличилась. В методе
+Гаусса матрица преобразования $C$ не ортогональна,
+и в общем случае может оказаться, что $\norml{C\delta}{2}$ станет сравнимым с
+$\norml{C\mathbf{b}}{2}$. То есть малая начальная погрешность может существенно исказить
+ответ.
+
+\begin{example}
+  \[A^{(0)}=\left(\begin{array}{ccc}
+        1.00 & 2.00 & 3.00 \\
+        3.00 & 1.00 & 2.00 \\
+        2.00 & 3.00 & 1.00 \\
+      \end{array}\right);\
+    \mathbf{b}_0=\left(\begin{array}{c} 3.00 \\ 6.00 \\ 9.00   \end{array}\right);\
+    \mathbf{w}_0=\left(\begin{array}{c} 0.80 \\ 0.50 \\ 0.34   \end{array}\right);\
+    U_{\mathbf{w}_0}=\left(\begin{array}{ccc}
+        -0.27 & -0.80 & -0.53 \\
+        -0.80 & 0.49  & -0.34 \\
+        -0.53 & -0.34 & 0.77  \\
+      \end{array}\right)\]
+  \[A^{(1)}=\left(\begin{array}{ccc}
+        -3.74 & -2.94 & -2.94 \\
+        0.00  & -2.13 & -1.76 \\
+        0.00  & 0.92  & -1.51 \\
+      \end{array}\right);\
+    \mathbf{b}_1=\left(\begin{array}{c} -10.42 \\ -2.49 \\ 3.34   \end{array}\right);\
+    \mathbf{w}_1=\left(\begin{array}{c} 0.00 \\ -0.98 \\ 0.20   \end{array}\right);\
+    U_{\mathbf{w}_1}=\left(\begin{array}{ccc}
+        1.00 & 0.00  & 0.00 \\
+        0.00 & -0.92 & 0.40 \\
+        0.00 & 0.40  & 0.92 \\
+      \end{array}\right)\]
+  \[A^{(2)}=\left(\begin{array}{ccc}
+        -3.74 & -2.94 & -2.94 \\
+        0.00  & 2.31  & 1.02  \\
+        0.00  & 0.00  & -2.08 \\
+      \end{array}\right);\
+    \mathbf{b}_2=\left(\begin{array}{c} -10.42 \\ 3.61 \\ 2.08   \end{array}\right);\
+    \mathbf{w}_2=\left(\begin{array}{c} 0.00 \\ 0.00 \\ -1.00   \end{array}\right);\
+    U_{\mathbf{w}_2}=\left(\begin{array}{ccc}
+        1.00 & 0.00 & 0.00  \\
+        0.00 & 1.00 & 0.00  \\
+        0.00 & 0.00 & -1.00 \\
+      \end{array}\right)\]
+  После окончания метода отражений входные матрица и вектор имеют следующий вид:
+  \[A^{(3)}=\left(\begin{array}{ccc}
+        -3.74 & -2.94 & -2.94 \\
+        0.00  & 2.31  & 1.02  \\
+        0.00  & 0.00  & 2.08  \\
+      \end{array}\right);\
+    \mathbf{b}_3=\left(\begin{array}{c} -10.42 \\ 3.61 \\ -2.08   \end{array}\right)\]
+  После применения обратного хода Гаусса получили итоговый ответ
+  \[A=\left(\begin{array}{ccc}
+        1.00 & 0.00 & 0.00 \\
+        0.00 & 1.00 & 0.00 \\
+        0.00 & 0.00 & 1.00 \\
+      \end{array}\right);\
+    \mathbf{x}=\left(\begin{array}{c} 2.00 \\ 2.00 \\ -1.00   \end{array}\right)\]
+\end{example}
