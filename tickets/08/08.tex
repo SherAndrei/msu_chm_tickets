@@ -62,8 +62,9 @@
     \item Посчитаем норму $\hat{T}_n(x)$ при $0<a<b$:
           \[\max_{x\in[a,b]}|\hat{T}_n(x)|=\max_{x\in[a,b]}\left|\frac{T_n\overbrace{\left(\frac{2x-(a+b)}{b-a}\right)}^{t\in[-1,1]}}{T_n\left(\frac{-(a+b)}{b-a}\right)}\right|=\frac{1}{\left|T_n\left(\frac{-(a+b)}{b-a}\right)\right|}\]
           \[T_n\left(\frac{-(a+b)}{b-a}\right)=\frac{\left(\frac{-(a+b)}{b-a}+\sqrt{\left(\frac{-(a+b)}{b-a}\right)^2-1}\right)^n+\left(\frac{-(a+b)}{b-a}-\sqrt{\left(\frac{-(a+b)}{b-a}\right)^2-1}\right)^n}{2}=(\star)\]
-          \[\sqrt{\left(\frac{-(a+b)}{b-a}\right)^2-1}=\sqrt{\left(\frac{a+b}{a-b}\right)^2-1}=\sqrt{\frac{(a+b)^2-(a-b)^2}{(a-b)^2}}=\sqrt{\frac{4ab}{(a-b)^2}}=\frac{2\sqrt{ab}}{a-b}\]
-          \[(\star)=\frac{\left(\frac{a+b}{a-b}+\frac{2\sqrt{ab}}{a-b}\right)^n+\left(\frac{a+b}{a-b}-\frac{2\sqrt{ab}}{a-b}\right)^n}{2}=\frac{\left(\frac{\sqrt{a}+\sqrt{b}}{\sqrt{a}-\sqrt{b}}\right)^n+\left(\frac{\sqrt{a}-\sqrt{b}}{\sqrt{a}+\sqrt{b}}\right)^n}{2}=\frac{q^n+q^{-n}}{2},\ q=\frac{\sqrt{b}-\sqrt{a}}{\sqrt{b}+\sqrt{a}}\]
+          \[\sqrt{\left(\frac{-(a+b)}{b-a}\right)^2-1}=\sqrt{\left(\frac{a+b}{a-b}\right)^2-1}=\sqrt{\frac{(a+b)^2-(a-b)^2}{(a-b)^2}}=\sqrt{\frac{4ab}{(a-b)^2}}=\frac{2\sqrt{ab}}{b-a}\]
+          \[(\star)=\frac{\left(\frac{a+b}{a-b}+\frac{2\sqrt{ab}}{b-a}\right)^n+\left(\frac{a+b}{a-b}-\frac{2\sqrt{ab}}{b-a}\right)^n}{2}=\frac{\left(\frac{a+b}{a-b}-\frac{2\sqrt{ab}}{a-b}\right)^n+\left(\frac{a+b}{a-b}+\frac{2\sqrt{ab}}{a-b}\right)^n}{2}=\]
+          \[=\frac{\left(\frac{\sqrt{a}+\sqrt{b}}{\sqrt{a}-\sqrt{b}}\right)^n+\left(\frac{\sqrt{a}-\sqrt{b}}{\sqrt{a}+\sqrt{b}}\right)^n}{2}=\frac{(-q)^n+(-q)^{-n}}{2},\ q=\frac{\sqrt{b}-\sqrt{a}}{\sqrt{b}+\sqrt{a}}\]
   \end{enumerate}
 \end{proof}
 
