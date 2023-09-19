@@ -1,1 +1,177 @@
 \section{Задача наименьших квадратов неполного ранга: методы QR-разложения и QR-разложения с выбором главного столбца}
+
+\subsection*{Методы QR-разложения}
+
+ЗНК называется вырожденной, если $\text{rk}(A)<n$, $\det(A^TA)=0$. При численном решении
+вырожденных и почти вырожденных систем требуется изменить постановку задачи
+и соответственно применять иные методы.
+
+\begin{remark}
+  Рассмотрим следующий пример
+  \[\left(\begin{array}{cc}
+        1 & 1 \\
+        0 & 0
+      \end{array}\right)\left(\begin{array}{c}
+        x_1 \\
+        x_2
+      \end{array}\right)=\left(\begin{array}{c}
+        1 \\
+        1
+      \end{array}\right)\]
+
+  В данном уравнении $m=n=2$ и задача вырождена, можно выбрать семейство решений
+  $\mathbf{x}=(1-x_2,x_2)^T,\ \mathbf{r}=\mathbf{b}-A\mathbf{x}=(0,1)^T$.
+  Можно выбрать решения как с нормами порядка единицы, так и со сколь угодно большими.
+  Однако, для возмущенной задачи
+
+  \[\left(\begin{array}{cc}
+        1 & 1           \\
+        0 & \varepsilon
+      \end{array}\right)\left(\begin{array}{c}
+        x_1 \\
+        x_2
+      \end{array}\right)=\left(\begin{array}{c}
+        1 \\
+        1
+      \end{array}\right)\]
+
+  формально близкой к исходной при $\varepsilon\approx 0$, имеется
+  единственное решение $(1-\varepsilon^{-1},\varepsilon^{-1})^T$ с большой
+  нормой порядка $\varepsilon^{-1}$ и нулевой невязкой. Это
+  означает, что сколь угодно малое возмущение элементов матрицы может
+  существенно изменить структуру и норму решения.
+\end{remark}
+
+\begin{theorem}
+  Пусть дана $A\in\R^{m\times n}$, $\text{rk}(A)=k<n\leq m$.
+  Тогда множество векторов - решений ЗНК - образует
+  линейное подпространство размерности $n-k$.
+\end{theorem}
+\begin{proof}
+  Так как $\text{rk}(A)=k<n$, то $\dim(\ker(A))=n-k$.
+  Рассмотрим $\mathbf{y}\in\ker(A)$. Утвержается, если $\mathbf{x}$ - решение ЗНК,
+  то есть $\inf_{\mathbf{z}}\norm{\mathbf{b}-A\mathbf{z}}_2=\norm{\mathbf{b}-A\mathbf{x}}$,
+  то $\mathbf{x}+\mathbf{y}$ является решением ЗНК. Действительно
+  \[\norm{\mathbf{b}-A(\mathbf{x}+\mathbf{y})}_2=\norm{\mathbf{b}-A\mathbf{x}-A\mathbf{y}}_2=\norm{\mathbf{b}-A\mathbf{x}}_2\]
+\end{proof}
+
+\begin{theorem}
+  Пусть дана $A\in\R^{m\times n}$, $\text{rk}(A)=k<n\leq m$.
+  Тогда матрицу можно привести к следующему виду
+  \[A=QR=\left(\begin{array}{cc|c}
+        Q_1       &  & Q_2           \\
+        m\times k &  & m\times (m-k)
+      \end{array}\right)
+    \left(\begin{array}{c|c}
+        R_1              & R_2                  \\
+        k\times k        & k\times (n-k)        \\
+        \hline
+        0                & 0                    \\
+        (m - k) \times k & (m - k) \times (n-k)
+      \end{array}\right)\]
+  $Q\in\R^{m\times m}$, $Q^TQ=I$, $R_1$ - верхнетреугольная, $\det(R_1)\neq0$.
+  Для ЗНК с матрицей $A$ имеется семейство решений
+  \[\mathbf{x}=(R_{11}^{-1}(Q_1\mathbf{b}-R_{12}\mathbf{x_2}), \mathbf{x}_2)^T,\ \mathbf{x}_1\in\R^{k},\ \mathbf{x}_2\in\R^{n-k}\]
+\end{theorem}
+\begin{proof}
+  Для того, чтобы понять почему матрицы имеют такой вид,
+  построим матрицу $Q$ размера $m\times m$ как ортонормальные вектора из $\R^m$
+  с помощью алгоритма Грама-Шмидта. Посмотрим на произведение следующих матриц
+  \[Q^TA=\left(\begin{array}{c}
+        \mathbf{q}_1     \\
+        \vdots           \\
+        \mathbf{q}_k     \\
+        \mathbf{q}_{k+1} \\
+        \vdots           \\
+        \mathbf{q}_m
+      \end{array}\right)\Bigl(\mathbf{a}_1,\ldots,\mathbf{a}_k,\mathbf{a}_{k+1},\ldots,\mathbf{a}_n\Bigr)
+    =\left(\begin{array}{c|c}
+        R_{11}        & R_{12}              \\
+        k \times k    & k \times (n - k)    \\
+        \hline
+        R_{21}        & R_{22}              \\
+        (m-k)\times k & (m-k)\times (n - k)
+      \end{array}\right)
+  \]
+
+  \begin{enumerate}
+    \item $R_{11}=\left(\begin{array}{ccc}
+                (\mathbf{q}_1,\mathbf{a}_1) &        & (\mathbf{q}_1,\mathbf{a}_k) \\
+                                            & \ddots &                             \\
+                (\mathbf{q}_k,\mathbf{a}_1) &        & (\mathbf{q}_k,\mathbf{a}_k)
+              \end{array}\right) = \left(\begin{array}{ccc}
+                (\mathbf{q}_1,\mathbf{a}_1) &        & (\mathbf{q}_1,\mathbf{a}_k) \\
+                                            & \ddots &                             \\
+                0                           &        & (\mathbf{q}_k,\mathbf{a}_k)
+              \end{array}\right)$ и $R_{21}=0$ так как $(\mathbf{q}_i,\mathbf{a}_j)=0,\ i > j$
+    \item Рассмотрим произвольный элемент матрицы $R_{12}$: $(\mathbf{q}_i,\mathbf{a}_j)$,
+          $1 \leq i \leq k$, $k < j \leq n$. Так как $\text{rk}(A)=k$, то $\mathbf{a}_j$
+          можно выразить через $\mathbf{q}_t,\ 1 \leq t \leq k$: $\left(\mathbf{q}_i,\sum_{t=1}^{k}c_{t}\mathbf{q}_t\right)=c_i$.
+          То есть матрица $R_{12}$ состоит из компонент векторов разложенных по $\mathbf{q}_i$, $1 \leq i \leq k$.
+          И так как в разложении этих векторов не участвуют $\mathbf{q}_j$, $k < j \leq n$,
+          то соответствующие коэффициенты в разложении равны $0$, а значит $R_{22}=0$.
+  \end{enumerate}
+  Решим задачу наименьших квадратов. Исходную задачу домножим на $Q^T$. Итоговая норма
+  не изменится, так как $Q^T$ является ортогональной матрицей, то есть сохраняет длину.
+  \[\inf_{\tilde{\mathbf{x}}}\norm{\mathbf{b}-A\tilde{\mathbf{x}}}_2^2
+    =\inf_{\tilde{\mathbf{x}}}\norm{Q^T\mathbf{b}-R\tilde{\mathbf{x}}}_2^2
+    =\inf_{\tilde{\mathbf{x}}}\norm{\left(\begin{array}{c} Q_1^T \\ Q_2^T \end{array}\right)\mathbf{b}-\left(\begin{array}{cc} R_{11} & R_{12} \\ 0 & 0 \end{array}\right)\left(\begin{array}{c}\tilde{\mathbf{x}}_1 \\ \tilde{\mathbf{x}}_2\end{array}\right)}_2^2\]
+  \[=\inf_{\tilde{\mathbf{x}}}\norm{\begin{array}{c} Q_1^T\mathbf{b}- R_{11}\tilde{\mathbf{x}}_1-R_{12}\tilde{\mathbf{x}}_2 \\ Q_2^T\mathbf{b} \end{array}}_2^2
+    =\inf_{\tilde{\mathbf{x}}}\left(\norm{Q_1^T\mathbf{b}- R_{11}\tilde{\mathbf{x}}_1-R_{12}\tilde{\mathbf{x}}_2}_2^2 + \norm{Q_2^T\mathbf{b}}^2_2\right)\]
+  Минимум будет достигаться только если нам удастся занулить первое слагаемое.
+  Тогда решение можно молучить из равенства
+  \[\norm{Q_1^T\mathbf{b}- R_{11}\mathbf{x}_1-R_{12}\mathbf{x}_2}_2^2=0\Leftrightarrow \mathbf{x}_1=R^{-1}_{11}(Q_1^T\mathbf{b}+R_{12}\mathbf{x}_2),\ \forall\ \mathbf{x}_2\in\R^{n-k}\]
+  Таким образом, пространство решений имеет размер $n-k$.
+\end{proof}
+\begin{remark}
+  Научились решать задачу $\inf_{\tilde{\mathbf{x}}}\norm{\mathbf{b}-A\tilde{\mathbf{x}}}_2$,
+  но что если от нас требуется найти $\tilde{\mathbf{x}}_2$: $\norm{\mathbf{x}}\rightarrow\inf$?
+  Обычно выбор $\tilde{\mathbf{x}_2}\equiv0$ может давать неплохое приближение, но
+  в общем случае бывают задачи, где такой ответ не подходит.
+\end{remark}
+
+\subsection*{$QR$-разложение с выбором главного столбца}
+
+Преобразуем исходную задачу так, чтобы первые $k$
+столбцов полученной матрицы $A$ были линейно независимы.
+Перестановки столбцов в матрице $A$ удобно проводить
+в процессе вычислений. Цель соответствующих перестановок - получить в
+матрице $R=\left(\begin{array}{cc}
+      R_{11} & R_{12} \\
+      0      & R_{22} \\
+      0      & 0
+    \end{array}\right)$ как можно лучше обусловленный блок $R_{11}$ и
+как можно меньшие элементы в $R_{22}$. В машинной арифметике
+принято считать, что блок $R_{22}$ обнулился, если все вектора в нем
+размера меньше фиксированного машинного $\varepsilon$.
+
+Соответствующие вычисления проводятся на основе стандартного $QR$-
+разложения, и так как удобнее проводить алгоритм итеративно,
+то чаще используется метод отражений.
+На $k$-м шаге, $1\leq k \leq n-1$, в матрице $A$ выбирают столбец
+с номером $j_k$, $k\leq j_k\leq n$, с наибольшей величиной $\max_{k\leq j\leq n}\norm{\mathbf{a}^{(k)}_{j}}_2$:
+Если таких столбцов несколько, то берут произвольный из них. В матрице
+$A$ найденный столбец $j$ переставляют с $k$-м столбцом.
+Далее реализуют очередной шаг $QR$-разложения.
+
+В конце алгоритма переставляют компоненты решения $x_i$ в соотвествии
+с соответствии с перестановками столбцов.
+
+\begin{remark}
+  Для невырожденной задачи $A\mathbf{x}=\mathbf{b}$ с матрицей $A\in\R^{n\times n}$ вида
+  \[A=\left(\begin{array}{ccccc}
+        1 & -1 & \ldots &   & -1     \\
+        0 & 1  &        &   &        \\
+          &    & \ddots &   & \vdots \\
+          &    &        & 1 & -1     \\
+        0 &    &        &   & 1      \\
+      \end{array}\right)\]
+  $QR$-алгоритм с выбором максимального элемента даст результат
+  намного хуже, чем стандартный. При стандартном $QR$ ответ
+  записывается сразу: $Q\equiv I$, $R\equiv A$.
+  Тогда как при выборе максимального последний элемент $R_{nn}$
+  будет иметь порядок $\bigO(2^{-n})$. То есть, если мы возьмем $n=50$,
+  то последний элемент будет сравним с машинным нулем, и алгоритм
+  вполне может посчитать получившуюся матрицу вырожденной,
+  хотя задача очевидно таковой не является.
+\end{remark}
