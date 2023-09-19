@@ -1,1 +1,174 @@
-\section{Невырожденная задача наименьших квадратов: метод нормального уравнения, метод QR-разложения.}
+\section{Невырожденная ЗНК: метод нормального уравнения, метод QR-разложения.}
+
+Пусть требуется решить СЛАУ $A\mathbf{x}=\mathbf{b}$ с матрицей $A$
+размерности $m\times n$, правой частью $\mathbf{b}\in\R^m$ и вектором
+неизвестных $x\in\R^n$. Рассмотрим три случая:
+\begin{enumerate}
+  \item $m = n$, $\det(A)\neq0$.
+        Задача невырождена и вектор $\mathbf{x}=A^{-1}\mathbf{b}$ является точным решением.
+        Для вектора невязки $\mathbf{r}=\mathbf{b}-A\mathbf{x}$ имеем $\norm{\mathbf{r}}=0$.
+        \[n\underset{n}{\left(\begin{array}{ccc}
+               &   & \\
+               & A & \\
+               &   & \\
+            \end{array}\right)}\underset{n}{\left(\begin{array}{c}
+              \\ \mathbf{x} \\ \\
+            \end{array}\right)}=\underset{n}{\left(\begin{array}{c}
+              \\ \mathbf{b} \\ \\
+            \end{array}\right)}\]
+  \item $m < n$, $\text{rk}(A)=m$.
+        Задача недоопределена. Исходная система имеет подпространство решений размерности $n-m$.
+        \[m\underset{n}{\left(\begin{array}{ccc}
+               & A & \\
+               &   & \\
+            \end{array}\right)}\underset{n}{\left(\begin{array}{c}
+              \\ \mathbf{x} \\ \\
+            \end{array}\right)}=\underset{m}{\left(\begin{array}{c}
+              \mathbf{b} \\  \\
+            \end{array}\right)}\]
+  \item $m > n$, $\text{rk}(A)=n$.
+        Система переопределена и, если она несовместна, то точного решения не
+        существует, т.е. для произвольного $\mathbf{x}\in\R^n$ имеем $\norm{\mathbf{b}-A\mathbf{x}}=\norm{r}>0$.
+        \[m\underset{n}{\left(\begin{array}{ccc}
+               &   & \\
+               & A & \\
+               &   & \\
+               &   & \\
+            \end{array}\right)}\underset{n}{\left(\begin{array}{c}
+              \\ \mathbf{x} \\ \\
+            \end{array}\right)}=\underset{m}{\left(\begin{array}{c}
+              \\ \mathbf{b} \\ \\ \\
+            \end{array}\right)}\]
+\end{enumerate}
+
+Представляют интерес методы решения переопределенных задач,
+поэтому далее, если не оговаривается иное, считаем, что $m > n$, $\text{rk}(A)=n$.
+Для задач такого рода Гаусс предложил считать решением вектор $\mathbf{x}$,
+минимизирующий евклидову норму вектора невязки $\inf{\mathbf{y}}\norm{\mathbf{b}-A\mathbf{y}}_2=\norm{\mathbf{b}-A\mathbf{x}}_2$.
+
+Рассмотрим некоторые методы решения данной минимизационной задачи,
+называемой задачей наименьших квадратов (ЗНК).
+
+\subsection*{Метод нормального уравнения}
+Рассмотрим следующую, называемую нормальной, систему уравнений
+$A^TA\mathbf{x}=A^T\mathbf{b}$ с квадратной матрицей $A^TA\in\R^{n\times n}$.
+Отсюда найдем вектор $\mathbf{x}$.
+
+\begin{theorem}[Гаусс К.Ф.]
+  Пусть $m\geq n$, $\text{rk}(A)=n$. Тогда нормальное уравнение имеет единственное решение.
+\end{theorem}
+\begin{proof}
+  Рассмотрим $B=A^TA$, тогда $B=B^T$, так как $B^T=(A^TA)^T=A^TA=B$ и
+  \[(B\mathbf{x}, \mathbf{x})=(A^TA\mathbf{x}, \mathbf{x})=(A\mathbf{x}, A\mathbf{x})>0,\ \forall \mathbf{x}\neq0\]
+  Значит, $B$ является положительно определенной, значит невырожденной, значит $\exists!$
+  решение задачи.
+\end{proof}
+Покажем, что решение нормального уравнения является решением исходной задачи
+\begin{theorem}
+  Пусть $m\geq n$, $\text{rk}(A)=n$. Вектор $\mathbf{x}$ является решением
+  ЗНК $\inf_\mathbf{y}\norm{\mathbf{b}-A\mathbf{y}}_{2}$ тогда
+  и только тогда, когда $\mathbf{x}$ является решением нормального уравнения $A^TA\mathbf{x}=A^T\mathbf{b}$.
+\end{theorem}
+\begin{proof}
+  Из предыдущей теоремы известно, что $\exists!\ \mathbf{x}$ - решение нормального уравнения, тогда
+  \[A^TA\mathbf{x}-A^T\mathbf{b}=0\Leftrightarrow A^T(A\mathbf{x}-\mathbf{b})=0\]
+  Возьмем $\mathbf{y}=\mathbf{x}+\mathbf{\Delta}$, тогда
+  \[\norm{A\mathbf{y}-\mathbf{b}}^2_2=(A\mathbf{x}-\mathbf{b}+A\mathbf{\Delta},A\mathbf{x}-\mathbf{b}+A\mathbf{\Delta})_2=\norm{A\mathbf{x}-\mathbf{b}}_2^2+2(\Delta,\underbrace{A^T(A\mathbf{x}-\mathbf{b})}_{=0})_2+\norm{\mathbf{\Delta}}_2^2\]
+  Следовательно, минимум достигается при $\mathbf{\Delta}=0$, то есть на векторе $\mathbf{y}=\mathbf{x}$.
+\end{proof}
+
+Метод нормального уравнения прост в реализации, однако в приближенной
+арифметике для почти вырожденных задач большой размерности может давать
+плохой результат. Например, в случае квадратной матрицы $A^T=A$ имеем
+$\cnd_2(A^TA)=\cnd_2(A)^2$. Таким образом, обусловленность исходной задачи
+возводится в квадрат, поэтому полученное численно решение может сильно отличаться от точного,
+если $\cnd(A)\gg1$. Рассмотрим более устойчивый метод.
+
+\subsection*{$QR$-разложение}
+
+\begin{theorem}
+  Пусть $A$ - $m\times n$ матрица, $m\geq n$, $\text{rk}(A)=n$.
+  Тогда $\exists!$ матрица $Q\in\R^{m\times n}$, $Q^TQ=I_n$, и $R\in\R^{n\times n}$, $R_{ii}>0$ -
+  верхнетреугольная такие, что $A=QR$.
+\end{theorem}
+\begin{proof}
+  С помощью алгоритма ортогонализации Грама-Шмидта по набору $<\mathbf{a}_1,\ldots,\mathbf{a}_n>$
+  из столбцов матрицы $A$ построим ортонормальный базис $<\mathbf{q}_1,\ldots,\mathbf{q}_n>$.
+  По найденным векторам построим матрицу $Q=(\mathbf{q}_1,\ldots,\mathbf{q}_n)$ и рассмотрим $R=Q^TA$.
+  \[Q^TA=
+    \left(\begin{array}{c}
+        \mathbf{q}_1^T \\
+        \vdots         \\
+        \mathbf{q}_n^T
+      \end{array}\right)
+    \left(\mathbf{a}_1,\ldots,\mathbf{a}_n\right)=
+    \left(\begin{array}{cccc}
+        (\mathbf{q}_1,\mathbf{a}_1) & (\mathbf{q}_1,\mathbf{a}_2) &        & (\mathbf{q}_1,\mathbf{q}_n) \\
+        0                           & (\mathbf{q}_2,\mathbf{a}_2) &        & (\mathbf{q}_2,\mathbf{q}_n) \\
+        \ldots                      & \ldots                      & \ddots & \ldots                      \\
+        0                           & 0                           &        & (\mathbf{q}_n,\mathbf{q}_n) \\
+      \end{array}\right)=R\]
+  Обратим внимание, что $(\mathbf{q}_i,\mathbf{a}_j)=0$ при $i>j$ по построению
+  базиса через алгоритм Грама-Шмидта. Так же построенная матрица $Q$
+  является ортогональной, так как $(\mathbf{q}_i,\mathbf{q}_j)=\delta_{ij}$.
+  Отсюда и из $Q^TA=R$ имеем $A=QR$.
+
+  Единственность в данном случае следует из факта, что построить
+  соответствующее линейное подпространство натянутое на $\{\mathbf{q}_i\}_i$
+  можно единственным образом, если договориться, что элементы
+  на диагонали матрицы $R$ положительны. Тогда каждый следующий вектор
+  из базиса будет иметь направление совпадающее с направлением,
+  полученным по правилу правой руки.
+\end{proof}
+
+\begin{remark}
+  Если модифицированный алгоритм Грама–Шмидта необходимо применить для
+  решения задачи $A\mathbf{x} = \mathbf{b}$, то
+  задачу сводят к системе $R\mathbf{x}=\mathbf{d}$.
+  При этом матрица $R$ находится указанным способом, а компоненты вектора
+  $\mathbf{d}$ для сохранения вычислительной устойчивости определяются по
+  следующему алгоритму: $\mathbf{r} = \mathbf{b},\ d_i=(\mathbf{r}_{i-1}, \mathbf{q}_i),\ \mathbf{r}_{i}=\mathbf{r}_{i-1}-d_i\mathbf{q}_i,\ i=1,\ldots,n$.     i   i
+\end{remark}
+
+\begin{remark}
+  Отметим, что если приближенное решение $\mathbf{x}$ системы $A\mathbf{x}=\mathbf{b}$
+  получено каким-либо методом, основанном на $QR$-разложении, то можно выполнить
+  следующий процесс уточнения. Найдем вектор невязки $\mathbf{r}=\mathbf{b}-A\tilde{\mathbf{x}}$
+  с удвоенным количеством значащих цифр и решим систему $A\mathbf{z}=\mathbf{r}/\norm{\mathbf{r}}$.
+  Положим $\tilde{\mathbf{x}}=\tilde{\mathbf{x}}+\norm{\mathbf{r}}\mathbf{z}$.
+  Процесс уточнения значительно экономичнее, чем решение
+  исходного уравнения, так как разложение матрицы $A$ уже имеется. Уточнение
+  можно повторять до тех пор, пока убывает норма вектора невязки.
+\end{remark}
+
+Подобное разложение $A=QR$ можно построить и с квадратной матрицей $Q\in\R^{m\times m}$.
+\begin{theorem}
+  Пусть $m>n$, $\text{rk}(A)=n$. Тогда матрицу $A\in\R^{m\times n}$
+  можно привести к виду
+  \[A=QR=\left(\begin{array}{cc|c}
+        Q_1       &  & Q_2           \\
+        m\times n &  & m\times (m-n)
+      \end{array}\right)
+    \left(\begin{array}{c}
+        R_1       \\
+        n\times n \\
+        \hline
+        0         \\
+        (m - n) \times n
+      \end{array}\right)=Q_1R_1\]
+  \[Q\in\R^{m\times m},\ Q^TQ=I,\ R\in\R^{m\times n},\ \det R_1\neq0\]
+  $R_1\in\R^{n\times n}$ - верхнетреугольная. В этом
+  случае решение $\mathbf{x}$ задачи $R_1\mathbf{x}=Q_1^T\mathbf{b}$ является решением ЗНК.
+\end{theorem}
+\begin{proof}
+  Матрицу $Q_1\in\R^{m\times n}$ мы строим аналогично предыдущей теореме.
+  Можем для этого использовать или алгоритм Грама-Шмидта,
+  или метод отражений, или метод вращений.
+  Для выполнения требования $Q^TQ=I$ в $Q_2$ мы поставим
+  дополнительный базис к $Q_1$ из пространства $\R^m$,
+  то есть $(m-n)$ векторов, ортонормальные векторам из $Q_1$.
+
+  Покажем, что решение $R_1\mathbf{x}=Q_1^T\mathbf{b}$ является решением ЗНК.
+  Действительно, так как решение нормального уравнения является решением ЗНК, то
+  \[A^TA\mathbf{x}=A^T\mathbf{b}\Leftrightarrow (QR)^T(QR)\mathbf{x}=(QR)^T\mathbf{b}\Leftrightarrow R^TR\mathbf{x}=R^TQ^T\mathbf{b}\Leftrightarrow R\mathbf{x}=Q^T\mathbf{b}\Leftrightarrow R_1\mathbf{x}=Q_1^T\mathbf{b}\]
+\end{proof}
