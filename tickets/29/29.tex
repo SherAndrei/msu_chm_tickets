@@ -1,1 +1,77 @@
 \section{Решение задачи наименьших квадратов полного и неполного рангов методом сингулярного разложения.}
+
+\begin{definition}
+  Пусть $A\in\R^{m\times n}$, $m\geq n$. Тогда справедливо \textit{сингулярное} разложение
+  \[A=U\Sigma V^T=(U_1U_2)\left(\begin{array}{c}
+        \Sigma_n \\ 0
+      \end{array}\right)V^T\]
+  \begin{itemize}
+    \item $U\in\R^{m\times m}=(\mathbf{u}_1,\ldots,\mathbf{u}_m)$ - ортогональная матрица \textit{левых сингулярных векторов}, $U_1\in\R^{m\times n}$, $U_2\in\R^{m\times (m-n)}$
+    \item $V\in\R^{n\times n}=(\mathbf{v}_1,\ldots,\mathbf{v}_n)$ - ортогональная матрица \textit{правых сингулярных векторов}.
+    \item $\Sigma_n\in\R^{n\times n}$ - диагональная матрица,
+          на диагонали которой расположены упорядоченные \textit{сингулярные числа} $\sigma_1\geq\sigma_2\geq\ldots\sigma_n\geq0$.
+  \end{itemize}
+\end{definition}
+
+\begin{theorem}
+  Пусть $A=U\Sigma V^T$, $\text{rk}(A)=n$. Тогда решением ЗНК является вектор
+  \[\mathbf{x}=V\Sigma_n^{-1}U_1^T\mathbf{b}\]
+\end{theorem}
+\begin{proof}
+  Так как искомый вектор является решением нормального уравнения, то
+  \[A^TA\mathbf{x}=A^T\mathbf{b}\Leftrightarrow \mathbf{x}=(A^TA)^{-1}A^T\mathbf{b}\Leftrightarrow \mathbf{x}=(V\Sigma_n^2V^T)^{-1}V^T\Sigma^T U\mathbf{b}=V\Sigma_n^{-2}\Sigma_n^T U_1\mathbf{b}=V\Sigma_n^{-1}U_1\mathbf{b}\]
+\end{proof}
+
+\begin{theorem}
+  Пусть
+  \[A=(U_1U_2)\left(\begin{array}{cc}
+        \Sigma_k & 0 \\
+        0        & 0
+      \end{array}\right)
+    \left(\begin{array}{c}
+        V_1^T \\
+        V_2^T
+      \end{array}\right),\ \text{rk}(A)=k<n<m\]
+  Здесь $U_1\in\R^{m\times k}$, $\Sigma_k\in\R^{k\times k}$, $V_1\in\R^{n\times k}$.
+  Тогда решением ЗНК является пространство решений размерности $n-k$ вида
+  \[\mathbf{x}=V_1\Sigma_k^{-1}U_1^T\mathbf{b}+V_2\mathbf{z},\ \mathbf{z}\in\R^{n-k}\]
+\end{theorem}
+\begin{proof}
+  Исходную задачу домножим на $U^T$. Итоговая норма
+  не изменится, так как $U^T$ является ортогональной матрицей, то есть сохраняет длину.
+  \[\inf_{\tilde{\mathbf{x}}}\norm{\mathbf{b}-A\tilde{\mathbf{x}}}_2^2
+    =\inf_{\tilde{\mathbf{x}}}\norm{U^T\mathbf{b}-\Sigma V^T\tilde{\mathbf{x}}}_2^2
+    =\inf_{\tilde{\mathbf{x}}}\norm{
+      \left(\begin{array}{c}
+          U_1^T \\
+          U_2^T\end{array}\right)
+      \mathbf{b}-\left(\begin{array}{cc}
+          \Sigma_{k} & 0 \\
+          0          & 0\end{array}\right)
+      \left(\begin{array}{c}
+          V_1^T \\
+          V_2^T
+        \end{array}\right)
+      \left(\begin{array}{c}
+          \tilde{\mathbf{x}}_1 \\
+          \tilde{\mathbf{x}}_2\end{array}\right)
+    }_2^2\]
+  \[=\inf_{\tilde{\mathbf{x}}}\norm{
+      \begin{array}{c}
+        U_1^T\mathbf{b}-\Sigma_k V_1^T\tilde{\mathbf{x}}_1 \\
+        U_2^T\mathbf{b}\end{array}
+    }_2^2
+    =\inf_{\tilde{\mathbf{x}}}\left(\norm{U_1^T\mathbf{b}-\Sigma_k V_1^T\tilde{\mathbf{x}}_1}_2^2 + \norm{U_2^T\mathbf{b}}^2_2\right)\]
+  Таким образом, минимум достигается только при
+  \[U_1^T\mathbf{b}-\Sigma_k V_1^T\mathbf{x}_1=0\Leftrightarrow\mathbf{x}_1=V_1\Sigma_k^{-1}U_1^T\mathbf{b}\]
+  Найдем общий вид решения. Так как $\dim\ker(A)=n-k$ и $V_1^TV_2=0$ вследствие ортогональности $\mathbf{v}_i$,
+  то $U_1^T\mathbf{b}-\Sigma_k V_1^T(\mathbf{x}_1+V_2\mathbf{z})=0$. Значит общее решение имеет вид
+  \[\mathbf{x}=V_1\Sigma_k^{-1}U_1^T\mathbf{b}+V_2\mathbf{z},\ \mathbf{z}\in\R^{n-k}\]
+\end{proof}
+\begin{remark}
+  $SVD$-разложение в отличие от $QR$-разложения отвечает на вопрос
+  какой вектор в пространстве решений $\R^{n-k}$ имеет минимальную
+  норму. Действительно,
+  \[(\mathbf{x},\mathbf{x})=(\mathbf{x}_1,\mathbf{x}_1)+2(\mathbf{x}_1,V_2\mathbf{z})+(V_2\mathbf{z},V_2\mathbf{z})=(\mathbf{x}_1,\mathbf{x}_1)+(\mathbf{z},\mathbf{z})\]
+  при $\mathbf{z}=0$ достигается минимум.
+\end{remark}
