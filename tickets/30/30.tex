@@ -1,1 +1,164 @@
-\section{Задача наименьших квадратов с линейными ограничениями–равенствами: методы исключения, обобщенного сингулярного разложения, взвешиванием}
+\section{ЗНК с линейными ограничениями–равенствами: методы исключения, обобщенного SVD, взвешиванием}
+
+Ставится задача
+\[\left\{\begin{array}{cc}
+    A\mathbf{x}=\mathbf{b},\ A\in\R^{m\times n} & \text{ в смысле ЗНК} \\
+    B\mathbf{x}=\mathbf{d},\ B\in\R^{p\times n} & \text{ как СЛАУ}
+  \end{array}\right.\]
+То есть среди всех решений, удовлетворяющих $B\mathbf{x}=\mathbf{d}$,
+ищем такие $\mathbf{x}$, что $\inf_{\tilde{\mathbf{x}}}\norm{\mathbf{b}-A\tilde{\mathbf{x}}}_2=\norm{\mathbf{b}-A\mathbf{x}}_2$.
+Другая запись имеет вид
+\[\inf_{\tilde{\mathbf{x}}:B\mathbf{x}=\mathbf{d}}\norm{\mathbf{b}-A\tilde{\mathbf{x}}}_2\Leftrightarrow \inf_{\tilde{\mathbf{x}}:\norm{\mathbf{d}-B\mathbf{x}}=0}\norm{\mathbf{b}-A\tilde{\mathbf{x}}}_2\]
+
+Если $\text{rk}(B)=n=p$, то решение $\mathbf{x}=B^{-1}\mathbf{d}$ является
+решением исходной задачи.
+
+\subsection*{Методы исключения}
+Пусть $\text{rk}(B)=p<n$, то есть матрица $B\in\R^{p\times n}$ имеет полный строчный ранг.
+Мы умеем работать с полным столбцовым рангом, поэтому транспонируем
+эту матрицу. Для матрицы $B^T$, $\text{rk}(B^T)=p$ построим $QR$-разложение.
+\[B^T=QR=Q\left(\begin{array}{c}
+      R_1 \\
+      0
+    \end{array}\right),\ R_1\in\R^{p\times p},\ Q\in\R^{n\times n}\]
+Тогда исходную задачу можно преобразовать с помощью замены переменных $Q^T\mathbf{x}=\mathbf{y}$,
+обоснованную тем, что исходя из знания $Q$ мы всегда найдем $\mathbf{x}$.
+\[\norm{\mathbf{d}-R^TQ^T\mathbf{x}}_2=\norm{\mathbf{d}-R^T\mathbf{y}}_2
+  =\norm{\mathbf{d}-\left(\begin{array}{cc} R_1^T & 0 \end{array}\right)
+    \left(\begin{array}{c}\mathbf{y}_1 \\ \mathbf{y}_2 \end{array}\right)}_2\]
+Но $R_1$ мы знаем точно, поэтому $\mathbf{y}_1 = R_1^{-1}\mathbf{d}$.
+В итоге, с учетом $AQQ^T\mathbf{x}=(A_1A_2)\mathbf{y}$, $A_1\in\R^{m\times p}$, $A_2\in\R^{m\times (n-p)}$, исходная задача принимает вид
+\[\inf_{\tilde{\mathbf{x}}:B\mathbf{x}=\mathbf{d}}\norm{\mathbf{b}-A\tilde{\mathbf{x}}}_2
+  =\inf_{\tilde{\mathbf{x}}:B\mathbf{x}=\mathbf{d}}\norm{\mathbf{b}-AQQ^T\tilde{\mathbf{x}}}_2
+  =\inf_{\substack{\tilde{\mathbf{y}}_1=R_1^{-1}\mathbf{d} \\ \tilde{\mathbf{y}}_2}}\norm{\mathbf{b}-AQ\left(\begin{array}{c}\tilde{\mathbf{y}}_1 \\ \tilde{\mathbf{y}}_2 \end{array}\right)}_2
+  =\inf_{\tilde{\mathbf{y}}_2}\norm{(\mathbf{b}-A_1\mathbf{y}_1) - A_2\tilde{\mathbf{y}}_2}_2\]
+Таким образом, нам получилось свести исходную задачу к задаче наименьших квадратов,
+решив которую мы сможем восстановить искомый $\mathbf{x}$.
+
+\begin{remark}
+  $\text{rk}(B)=r<p<n$, и первые $r$ столбцов линейно независимы. Тогда
+  \[B^T=
+    Q\left(\begin{array}{cc}
+        R_{11} & R_{12} \\
+        0      & 0
+      \end{array}\right);\
+    B\times\mathbf{x}=\left(\begin{array}{cc}
+        R_{11}^T & 0 \\
+        R_{12}^T & 0 \\
+      \end{array}\right)\left(\begin{array}{c}
+        \mathbf{y}_1 \\
+        \mathbf{y}_2
+      \end{array}\right)=\left(\begin{array}{c}
+        \mathbf{d}_1 \\
+        \mathbf{d}_2
+      \end{array}\right)\]
+
+  где $\mathbf{y}_1\in\R^{r},\ \mathbf{y}_2\in\R^{n-r}$ переменные, полученные после замены.
+  Если полученная система окажется несовместной, то решение исходной задачи не существует.
+  Иначе исходная задача с ограничениями сводится к стандартной ЗНК относительно $\tilde{\mathbf{y}}_2$
+  при вычисленном из системы $R_{11}^T\mathbf{y}_1=\mathbf{d}_1$ векторе $\mathbf{y}_1$
+\end{remark}
+
+\subsection*{Метод обобщенного сингулярного разложения}
+
+\begin{statement}
+  Пусть $A\in\R^{m\times n}$, $m\geq n$, $B\in\R^{p\times n}$, $p\leq n$.
+  Тогда справедливо разложение
+  \[A=UD_AX^{-1};\ B=VD_BX^{-1}\]
+  \begin{itemize}
+    \item $U\in\R^{m\times m}$ - ортогональная матрица
+    \item $V\in\R^{p\times p}$ - ортогональная матрица
+    \item $X\in\R^{n\times n}$ - обратимая матрица
+    \item \[\begin{array}{cc}
+              D_A=\left(\begin{array}{ccc}
+                  \alpha_1 &        & 0        \\
+                           & \ddots &          \\
+                           &        & \alpha_n \\
+                           & \cdots &          \\
+                  0        & \ldots & 0
+                \end{array}\right)\in\R^{m\times n} & D_B=\left(\begin{array}{ccccc}
+                  \beta_1 &        & 0       &        & 0 \\
+                          & \ddots &         & \cdots &   \\
+                          &        & \beta_p &        & 0 \\
+                \end{array}\right)\in\R^{p\times n} \\
+              \alpha_1\geq\alpha_2\geq\ldots\geq\alpha_n\geq0              &
+              \beta_1\geq\beta_2\geq\ldots\geq\beta_p\geq0
+            \end{array}\]
+  \end{itemize}
+\end{statement}
+Пусть нам известно сингулярное разложение, то есть известны $\mathbf{u}_i$, $i=1,\ldots,m$,
+$\mathbf{v}_j$, $j=1,\ldots,p$ и $\mathbf{x}_k$, $k=1,\ldots,n$.
+Положим $\mathbf{y}=X^{-1}\mathbf{x}$. Тогда исходная задача принимает вид
+\[\left\{\begin{array}{c}
+    D_B\mathbf{y}=V^T\mathbf{d}                                                   \\
+    \arg{\inf_{\tilde{\mathbf{y}}}\norm{D_A\tilde{\mathbf{y}}-U^T\mathbf{b}}^2_2} \\
+  \end{array}\right.\]
+Из первого уравнения находим первые $p$ координат $\mathbf{y}$, затем
+подставим точные значения во второе уравнение и получим
+точные значения, на которых достигается $\inf$:
+\[y_j=\frac{(\mathbf{v}_i,\mathbf{d})}{\beta_j},\ j=1,\ldots,p;\quad y_i=\frac{(\mathbf{u}_i,\mathbf{b})}{\alpha_i},\ i=p+1\ldots,n\]
+Итоговый ответ будет иметь вид
+\[\mathbf{x}=X\mathbf{y}=\sum_{j=1}^{p}\frac{(\mathbf{v}_j,\mathbf{d})}{\beta_j}\mathbf{x}_j+\sum_{i=p+1}^{n}\frac{(\mathbf{u}_i,\mathbf{b})}{\alpha_i}\mathbf{x}_i\]
+
+\begin{remark}
+  При $\text{rk}(B)=r<p$ в матрице $D_B$ занулится $p-r$ строк, и
+  тогда соотвествующее разложение мы можем написать по $j$ от $1$ до $r$
+  и по $i$ от $r$ до $n$.
+
+  Если $\text{rk}(A)=l<n$, то в матрице $D_A$ занулится $n-l$ столбцов,
+  разложение при этом мы сможем выписать только до $l$-ой координаты.
+\end{remark}
+
+Обратим внимание, что построить $GSVD$-разложение - трудоемкая и дорогостоящая задача.
+
+\subsection*{Метод взвешиванием}
+
+Проводят следующие действия с исходной задачей
+\[\left\{\begin{array}{cc}
+    A\mathbf{x}=\mathbf{b} & \text{ в смысле ЗНК} \\
+    B\mathbf{x}=\mathbf{d} & \text{ как СЛАУ}
+  \end{array}\right.\Leftrightarrow
+  \left\{\begin{array}{c}
+    A\mathbf{x}=\mathbf{b} \\
+    \lambda B\mathbf{x}=\lambda \mathbf{d}
+  \end{array}\right.\rightarrow
+  \left\{\begin{array}{cc}
+    A\mathbf{x}=\mathbf{b}                 & \text{ЗНК} \\
+    \lambda B\mathbf{x}=\lambda \mathbf{d} & \text{ЗНК}
+  \end{array}\right.\Leftrightarrow
+  \left(\begin{array}{c}
+      A \\
+      \lambda B
+    \end{array}\right) \mathbf{x} = \left(\begin{array}{c}
+      \mathbf{b} \\
+      \lambda \mathbf{d}
+    \end{array}\right) \text{ ЗНК}\]
+То есть пытаются найти следующее
+\begin{equation}\label{eq:weight_method}
+  \inf_{\tilde{\mathbf{x}}}\left(\norm{A\tilde{\mathbf{x}}-b}_2+\norm{\lambda B\tilde{\mathbf{x}}-\lambda\mathbf{d}}_2\right)
+\end{equation}
+Утверждается, что при $\lambda\gg1$ такой алгоритм сходится к решению
+исходной задачи.
+
+Пусть имеется $GSVD$-разложение для этих матриц. Тогда выражение \eqref{eq:weight_method}
+можно переписать следующим образом
+\[\inf_{\tilde{\mathbf{x}}}\left(\norm{UD_AX^{-1}\tilde{\mathbf{x}}-b}^2_2+\norm{\lambda VD_BX^{-1}\tilde{\mathbf{x}}-\lambda\mathbf{d}}^2_2\right)\underset{\tilde{\mathbf{y}}=X^{-1}\tilde{\mathbf{x}}}{=}\inf_{\tilde{\mathbf{y}}}\left(\norm{D_A\tilde{\mathbf{y}}-U^T\mathbf{b}}^2_2+\norm{\lambda D_B\tilde{\mathbf{y}}-\lambda V^T\mathbf{d}}^2_2\right)\]
+Перепишем полученное равенство выражение покоординатно, пользуясь определением нормы
+\[\sum_{i=1}^{n}(\alpha_iy_i-(\mathbf{u}_i, \mathbf{b}))^2+\sum_{i=n+1}^{m}(\mathbf{u}_i,\mathbf{b})^2+\lambda^2\sum_{i=1}^p(\beta_iy_i-(\mathbf{v}_i,\mathbf{b}))^2\rightarrow\inf\]
+Найдем $y_i$, на которых достигается $\inf$. Продифференцируем $i=1,\ldots,p$
+\[2\alpha_i(\alpha_iy_i-(\mathbf{u}_i, \mathbf{b}))+2\lambda^2\beta_i(\beta_iy_i-(\mathbf{v}_i,\mathbf{b}))=2\alpha_i^2y_i-2\alpha_i(\mathbf{u}_i, \mathbf{b})+2\lambda^2\beta_i^2y_i-2\lambda^2\beta_i(\mathbf{v}_i,\mathbf{b})=0\]
+\[y_i(\alpha_i^2+\lambda^2\beta^2_i)=\alpha_i(\mathbf{u}_i, \mathbf{b})+\lambda^2\beta_i(\mathbf{v}_i,\mathbf{b})\Rightarrow y_i=\frac{\alpha_i(\mathbf{u}_i, \mathbf{b})+\lambda^2\beta_i(\mathbf{v}_i,\mathbf{b})}{\alpha_i^2+\lambda^2\beta^2_i},\ i=1,\ldots,p\]
+Продифференцируем $i=p+1,\ldots,n$:
+\[2\alpha_i(\alpha_iy_i-(\mathbf{u}_i, \mathbf{b}))=0\Rightarrow y_i=\frac{(\mathbf{u}_i, \mathbf{b})}{\alpha_i},\ i=p+1,\ldots,n\]
+Получаем итоговый ответ
+\[\mathbf{x}=X\mathbf{y}=\sum_{j=1}^p\frac{\alpha_j(\mathbf{u}_j, \mathbf{b})+\lambda^2\beta_j(\mathbf{v}_j,\mathbf{b})}{\alpha_j^2+\lambda^2\beta^2_j}\mathbf{x}_j+\sum_{i=p+1}^n\frac{(\mathbf{u}_i, \mathbf{b})}{\alpha_i}\mathbf{x}_i\]
+Отсюда подтверждается сходимость
+\[\frac{\frac{\alpha_j(\mathbf{u}_j, \mathbf{b})}{\lambda^2}+\beta_j(\mathbf{v}_j,\mathbf{b})}{\frac{\alpha_j^2}{\lambda^2}+\beta^2_j}\mathbf{x}_j\underset{\lambda\rightarrow\infty}{\rightarrow}\frac{(\mathbf{v}_j,\mathbf{b})}{\beta_j}\mathbf{x}_j,\ j=1,\ldots,p\]
+\begin{remark}
+  При $\text{rk}(B)=r<p$ в матрице $D_B$ занулится $p-r$ строк, и
+  тогда соотвествующее разложение мы можем написать по $j$ от $1$ до $r$
+  и по $i$ от $r$ до $n$.
+
+  Если $\text{rk}(A)=l<n$, то в матрице $D_A$ занулится $n-l$ столбцов,
+  разложение при этом мы сможем выписать только до $l$-ой координаты.
+\end{remark}
