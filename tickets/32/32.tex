@@ -1,1 +1,54 @@
-\section{Метод простой итерации xk+1 = Bxk + c для решения систем линейных алгебраических уравнений.}
+\section[Метод простой итерации]{Метод простой итерации $x_{k+1}=Bx_k+c$ для решения СЛАУ}
+
+Дано $A\*x=\*b$, $\det{A}\neq0$, $A\in\R^{n\times n}$. Рассмотрим класс итерационных
+методов решения СЛАУ, основанный на сжимающем свойстве оператора перехода.
+Сделаем эквивалентную замену в исходной задаче
+\begin{equation}\label{eq:sle_transform}
+  A\*x=\*b \Leftrightarrow \*x-\*x+DA\*x=D\*b\Leftrightarrow \*x=(I-DA)\*x+D\*b\Leftrightarrow \*x=B\*x+\*c,\ B=(I-DA)\neq0
+\end{equation}
+\begin{definition}
+  Если решение \eqref{eq:sle_transform} находится как предел последовательности
+  \begin{equation}\label{eq:sle_iter}
+    \*x_{k+1}=B\*x_{k}+\*c
+  \end{equation}
+  то такой процесс называют \textit{двухслойным итерационным процессом}, или
+  методом простой итерации. При этом оператор оператор $B$ называется
+  \textit{оператором перехода}.
+\end{definition}
+
+\begin{theorem}
+  Пусть $\norm{B}=q<1$. Тогда система уравнений \eqref{eq:sle_transform}
+  имеет единственное решение, и итерационный процесс сходится с любого
+  начального приближения $x_0$ с геометрической прогрессией
+  \[\norm{\*x-\*x_n}\leq q^n\norm{\*x-\*x_0}\]
+\end{theorem}
+\begin{proof}
+  \begin{enumerate}
+    \item По следствию из теоремы Кронекера-Капелли, если $\exists!$ решение $\*x=0$ однородной задачи $A\*x=0$,
+          то $\exists!$ неоднородной задачи $A\*x=\*b$. Покажем, что при соблюдении
+          $\norm{B}=q<1$ $\exists!$ решение. Действительно,
+          \[\*x=B\*x+\*c\Rightarrow\norm{\*x}\leq\norm{B}\norm{\*x}+\norm{\*c}\Leftrightarrow (1-q)\norm{\*x}\leq\norm{\*c}\Rightarrow \norm{\*x}\leq\frac{\norm{\*c}}{1-q},\ q<1\]
+          Таким образом, получили оценку сверху на $\*x$. Тогда при $\*c=0$
+          получим однородную задачу $(I-B)\*x=0$, решение $\*x=0$ которой
+          существует так как верна полученная оценка, значит и $\exists!$
+          решение исходной задачи.
+    \item Запишем итерационный процесс
+          \[\begin{cases}
+              \*x_{n}=B\*x_{n-1}+\*c \\
+              \*x=B\*x+\*c
+            \end{cases}\Rightarrow
+            \*x-\*x_{n}=B(\*x-\*x_{n-1})\Rightarrow
+          \]
+          \[\norm{\*x-\*x_{n}}\leq q\norm{\*x-\*x_{n-1}}\leq q^2\norm{\*x-\*x_{n-2}}\leq\ldots\leq q^n\norm{\*x-\*x_0}\]
+  \end{enumerate}
+\end{proof}
+
+\begin{example}
+  Рассмотрим матрицу
+  \[\begin{array}{ccccc}
+      -2^3 & -2^2 & 0    &      &  & 0 \\
+      -2^2 & -2^3 & -2^2 &      &  &   \\
+      0    & -2^2 & -2^3 & -2^2 &  &   \\
+    \end{array}\]
+\end{example}
+
